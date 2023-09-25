@@ -1,6 +1,6 @@
 import axios from "axios"
 // import {APIDOMAIN} from  '@env';
-import {APIDOMAIN} from 'dotenv/config'
+// import {APIDOMAIN} from 'dotenv/config'
 
 const logIn=async({employeeId,password})=>{
     
