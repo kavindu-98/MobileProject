@@ -13,10 +13,8 @@ import * as Animatable from 'react-native-animatable';
 import { COLORS, FONTS, SIZES, icons } from '../constants';
 import { TextIconButton} from "../components"
  
-import Feather from 'react-native-vector-icons/Feather'
 
-
-
+// this screen select the role of Driver or Employee
 
 
 const RoleSelect = ({navigation}) => {
@@ -25,14 +23,17 @@ const RoleSelect = ({navigation}) => {
       <View style={styles.header} >
 
        <ImageBackground source={require('../assets/images/background.png')} style={styles.ImageBackground}>
-
-           <Animatable.Image
+        <View style={styles.header1} >
+        <Animatable.Image
             animation="bounceIn"
             // duration="1500"
             source={require('../assets/images/logo.png')}
             style={styles.logo}
             resizeMode="contain"
            />
+        </View>
+
+        
            </ImageBackground>
         </View>
        <View style={styles.footer}
@@ -57,7 +58,7 @@ const RoleSelect = ({navigation}) => {
                             
                         }}
                        
-                        onPress={() => {navigation.navigate('Login')}}
+                        onPress={() => {navigation.navigate('DSL')}}
                     /> 
                     
             </View>
@@ -79,7 +80,7 @@ const RoleSelect = ({navigation}) => {
                             marginLeft: -15
                             
                         }}
-                        onPress={() => {navigation.navigate('Login')}}
+                        onPress={() => {navigation.navigate('SL')}}
                     /> 
                     
             </View>
@@ -112,10 +113,17 @@ const styles = StyleSheet.create({
       width: '100%',
       height:'87%',
      
-    //   justifyContent: 'center',
-    //   alignItems: 'center'
+      // justifyContent: 'center',
+      // alignItems: 'center'
      
   },
+  header1: {
+ 
+   
+    // justifyContent: 'center',
+    alignItems: 'center'
+   
+},
   footer: {
     width: '100%',
     height:'13%',
@@ -126,7 +134,8 @@ const styles = StyleSheet.create({
       width: height_logo,
       height: height_logo,
       marginBottom: 480,
-      marginLeft: 133
+      
+      // marginLeft: 133
     
   },
   title: {

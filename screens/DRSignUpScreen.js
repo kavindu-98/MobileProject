@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { LoginComponent, SignupComponent } from "../components";
@@ -24,6 +25,7 @@ import * as Animatable from "react-native-animatable";
 import SelectBox from 'react-native-multiple-select';
 import {Picker} from '@react-native-picker/picker';
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import { resetUserLoginStatus } from "../reducers/driverSlice";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -40,11 +42,63 @@ const DRSignUpScreen = ({ navigation }) => {
   const [Name2, setName2] = useState();
   const [Phone, setPhone] = useState();
   const [Did, setDid] = useState();
+  const [DLN, setDLN] = useState();
   const [NIC, setNIC] = useState();
   const [password1, setPassword1] = useState();
   const [password2, setPassword2] = useState();
    const [selectedItem, setSelectedItem] = useState({});
    const [selectedGender, setSelectedGender] = useState({});
+   const [success,setSuccess] = useState({successMsg:''})
+  const [error, setError] = useState({
+    errorMsg:''
+  });
+
+  const {isError,isSuccess,isLoading,message,action}=useSelector((state)=>state.userLogIn)
+
+
+    // Validate the employee data in the front end
+    const validate = () => {
+      if (( Name1 === '')||(Name2 === '')||(password1 === '')||(password2 === '')||(Did === '')||(NIC === '')) {
+        setError({...error, errorMsg:'All Fields are required!'});
+        setSuccess({...success,successMsg:''})
+        return false;
+      }
+      if (password1.length < 8) {
+        setError({...error, errorMsg:'Password must be at least 8 characters long!'});
+        setSuccess({...success,successMsg:''})
+        return false;
+      }
+      if (Phone.length <= 10) {
+        setError({...error, errorMsg:'Phone number is wrong!'});
+        setSuccess({...success,successMsg:''})
+        return false;
+      }
+      if (password1 !== password2) {
+        setError({...error, errorMsg:'Passwords does not match!'});
+        setSuccess({...success,successMsg:''})
+        return false;
+      }
+      else{
+        setError({...error, errorMsg:''});
+        setSuccess({...success,successMsg:'Successfully Account Created.'})
+        return true;
+     }
+    
+    };
+  const dispatch=useDispatch()
+    const handleSignup = () => {
+      
+      if (validate()) {
+        dispatch(signUpDriver({Name1,Name2,Did,email,NIC,Phone,DLN,password1,gender:'Female'}))
+        navigation.navigate('VehicleDt1Screen')
+      }
+    };
+    if(action==='signUpDriver' && isSuccess){
+      console.log(message)
+      navigation.navigate('DLogin');
+      dispatch(resetUserLoginStatus())
+  
+    }
 
 
    const Options ={
@@ -158,7 +212,7 @@ const DRSignUpScreen = ({ navigation }) => {
                         customIconStyle={{
                             height: 30
                         }}
-                        onPress={() => {navigation.navigate('SL')}}
+                        onPress={() => {navigation.navigate('DSL')}}
                     /> 
                     
             
@@ -315,16 +369,8 @@ const DRSignUpScreen = ({ navigation }) => {
                             <Picker.Item label="Male" value="Male" />
                             <Picker.Item label="Female" value="Female" />
                             <Picker.Item label="nonbinary" value="nonbinary" />
-                        
-                          
-
-                          </Picker> 
-                         
-                          
+                          </Picker>    
                       </View>
-                      
-                       
-                      
                   </View> 
 
 
@@ -333,8 +379,8 @@ const DRSignUpScreen = ({ navigation }) => {
                     style={styles.input}
                     placeholder="Enter your Driver ID"
                     // secureTextEntry
-                    value={Did}
-                    onChangeText={text => setDid(text)}
+                    value={DLN}
+                    onChangeText={text => setDLN(text)}
                   />
 
 <Text style={styles.inputTitle1}>Please Upload Driving license</Text>
@@ -390,6 +436,8 @@ const DRSignUpScreen = ({ navigation }) => {
                     onChangeText={text => setPassword2(text)}
                   />  
                 </View>
+                {error.errorMsg !== '' && <Text style={styles.error}>{error.errorMsg}</Text>}
+      {success.successMsg !== '' && <Text style={styles.success}>{success.successMsg}</Text>}
 
                     <TextIconButton
                       label="CONTINUE"
@@ -406,7 +454,7 @@ const DRSignUpScreen = ({ navigation }) => {
                       ...FONTS.h2,
                       
                       }}
-                      onPress={() => {navigation.navigate('VehicleDt1Screen')}}
+                      onPress={handleSignup}
                    />
   
 

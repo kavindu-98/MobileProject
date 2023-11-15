@@ -318,46 +318,46 @@ const VehicleDt2Screen = ({ navigation }) => {
                 <View style={{ 
               justifyContent: "space-between" }}>
                 <CheckBox
-              isChecked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
+              isChecked={isChecked.wifi}
+              onClick={() => setIsChecked({...isChecked, wifi: !isChecked.wifi})}
               rightText="Wifi"
-              rightTextStyle={{fontSize: 15, color: 'black'}}
+              rightTextStyle={{fontSize: 15, color: isChecked.wifi ?'red' : 'black'}}
               checkedCheckBoxColor="red"
               uncheckedCheckBoxColor="grey"
               style={{marginTop:10}}
               ></CheckBox>
                <CheckBox
-              isChecked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
+              isChecked={isChecked.dvd}
+              onClick={() => setIsChecked({...isChecked, dvd: !isChecked.dvd})}
               rightText="DVD"
-              rightTextStyle={{fontSize: 15, color: 'black'}}
+              rightTextStyle={{fontSize: 15,color: isChecked.dvd ?'red' :'black'}}
               checkedCheckBoxColor="red"
               uncheckedCheckBoxColor="grey"
               style={{marginTop:10}}
               ></CheckBox>
                 <CheckBox
-              isChecked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
+              isChecked={isChecked.mp3}
+              onClick={() => setIsChecked({...isChecked, mp3: !isChecked.mp3})}
               rightText="MP3"
-              rightTextStyle={{fontSize: 15, color: 'black'}}
+              rightTextStyle={{fontSize: 15, color:isChecked.mp3 ?'red' : 'black'}}
               checkedCheckBoxColor="red"
               uncheckedCheckBoxColor="grey"
               style={{marginTop:10}}
               ></CheckBox>
                      <CheckBox
-              isChecked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
+              isChecked={isChecked.tv}
+              onClick={() => setIsChecked({...isChecked, tv: !isChecked.tv})}
               rightText="TV"
-              rightTextStyle={{fontSize: 15, color: 'black'}}
+              rightTextStyle={{fontSize: 15, color:isChecked.tv ?'red' : 'black'}}
               checkedCheckBoxColor="red"
               uncheckedCheckBoxColor="grey"
               style={{marginTop:10}}
               ></CheckBox>
                      <CheckBox
-              isChecked={isChecked}
-              onClick={() => setIsChecked(!isChecked)}
+              isChecked={isChecked.usb}
+              onClick={() => setIsChecked({...isChecked, usb: !isChecked.usb})}
               rightText="USB"
-              rightTextStyle={{fontSize: 15, color: 'black'}}
+              rightTextStyle={{fontSize: 15,color: isChecked.usb ?'red' :'black'}}
               checkedCheckBoxColor="red"
               uncheckedCheckBoxColor="grey"
               style={{marginTop:10}}

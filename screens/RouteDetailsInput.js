@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Animated,
+  FlatList
   
 } from "react-native";
 import { Button, Icon, Input } from "react-native-elements";
@@ -22,7 +23,7 @@ import { TextIconButton, PasswordIcon } from "../components";
 import * as Animatable from "react-native-animatable";
 import SelectBox from 'react-native-multiple-select';
 import {Picker} from '@react-native-picker/picker';
-import TagsInput from 'react-tagsinput';
+// import TagInput from 'react-native-tags-input';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -55,7 +56,32 @@ const RouteDetailsInput = ({ navigation }) => {
     });
   
     const updateTags = (state) => setChips({ ...chips, state });
-
+const names = [
+  {
+    index: "1",
+    name: "Yakkala"
+  },
+  {
+    index: "2",
+    name: "Kalagedihena"
+  },
+  {
+    index: "3",
+    name: "Nittambuwa"
+  },
+  {
+    index: "4",
+    name: "Veyangoda"
+  },
+  {
+    index: "5",
+    name: "Dewalapola"
+  },
+  {
+    index: "6",
+    name: "Minuwangoda"
+  },
+]
 
 
  
@@ -199,7 +225,7 @@ const RouteDetailsInput = ({ navigation }) => {
 
 
                 
-                <Text style={styles.inputTitle}>ADD MAIN STOPS</Text>
+                <Text style={styles.inputTitle}>MAIN STOPS</Text>
                   {/* <TextInput
                     style={styles.input}
                     placeholder="Enter your Route Permit Number"
@@ -208,7 +234,7 @@ const RouteDetailsInput = ({ navigation }) => {
                     onChangeText={text => setEmail(text)}
                   /> */}
 
-     <TagsInput style={{
+     {/* <TagInput style={{
                   backgroundColor: COLORS.transparentWhite,
                   borderColor: COLORS.outLine,
                   borderRadius: 8,
@@ -219,7 +245,21 @@ const RouteDetailsInput = ({ navigation }) => {
                   padding: SIZES.padding2
                 
      }} 
-     updateState={() => updateTags} tags={chips} placeholder='Enter main stops' />
+     updateState={() => updateTags} tags={chips} placeholder='Enter main stops' /> */}
+
+     <FlatList
+     style={styles.listStyle}
+     keyExtractor={(key) => {
+      return key.index;
+     }}
+    //  horizontal
+     data={names}
+     renderItem={({ item }) => {
+      console.log(item.name);
+      return<Text style={styles.textStyle}>{item.name}</Text>
+     }}>
+
+     </FlatList>
                  
                 </View>
 
@@ -337,5 +377,19 @@ const styles = StyleSheet.create({
     padding: SIZES.padding2
 
   },
+    textStyle: {
+    fontSize: 15,
+    padding: 30,
+    backgroundColor: COLORS.gray30,
+    margin: 10,
+    color: COLORS.black,
+    borderRadius: 20,
+  },
+  listStyle: {
+    textAlign: 'center',
+    margin: 10,
+    padding:5,
+   
+  }
 
 });

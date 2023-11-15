@@ -4,17 +4,17 @@ import {
   View,
   StatusBar,
   KeyboardAvoidingView,
-} from 'react-native';
+} from "react-native";
 
-import React, {useEffect, useState} from 'react';
-import {Input, Button} from 'react-native-elements';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Input, Button } from "react-native-elements";
+import axios from "axios";
 
-const API_URL = 'http://192.168.1.107:8080/users/';
+const API_URL = "http://192.168.1.107:8080/users/";
 
-const LoginComponent = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginComponent = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const register = async () => {
@@ -25,15 +25,15 @@ const LoginComponent = ({navigation}) => {
 
     try {
       fetch(`${API_URL}/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
-      navigation.navigate('Home');
-      setEmail('');
-      setPassword('');
+      navigation.navigate("Home");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
     }
@@ -53,20 +53,17 @@ const LoginComponent = ({navigation}) => {
           placeholder="Email"
           autoFocus
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
         />
         <Input
           placeholder="Password"
           secureTextEntry
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
         />
       </View>
 
-      <Button 
-        
-      
-      title="Login" onPress={register} />
+      <Button title="Login" onPress={register} />
     </KeyboardAvoidingView>
   );
 };

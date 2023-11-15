@@ -35,7 +35,7 @@ const {user,isSuccess,isError,isLoading,message,action}=useSelector((state)=>sta
     // navigation.navigate('OTP');
   };
   useEffect(()=>{if(action==='logInUser'&&isSuccess){
-navigation.navigate('OTP');
+navigation.navigate('GetStartScreen');
   }},[user])
 
 

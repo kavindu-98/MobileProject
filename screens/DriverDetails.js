@@ -240,7 +240,7 @@ const DriverDetails = ({ route }) => {
           Time can be changed due to traffic
         </Text>
         <View style={styles.Star2}>
-          <MapComponentRoute style={styles.map}></MapComponentRoute>
+          {/* <MapComponentRoute style={styles.map}></MapComponentRoute> */}
 
         </View>
         {/* <Image

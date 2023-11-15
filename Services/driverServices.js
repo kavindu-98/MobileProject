@@ -1,8 +1,8 @@
 import axios from "axios"
-
-const logIn=async({employeeId,password})=>{
+ 
+const logIn=async({Did,password1})=>{
     const config={headers:{'Content-Type':'application/json'}}
-const response=await axios.post(`http://10.0.2.2:5000/api/driver/login`,{employeeId,password},config)
+const response=await axios.post(`http://10.0.2.2:5000/api/driver/login`,{Did,password1},config)
 console.log(response)
 return response.data
 }

@@ -1092,7 +1092,7 @@
   resolved "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.20.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.22.15"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.15.tgz"
   integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
@@ -1666,12 +1666,7 @@
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
   integrity sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ==
 
-"@react-native/normalize-color@*":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-2.1.0.tgz"
-  integrity sha512-Z1jQI2NpdFJCVgpY+8Dq/Bt3d+YUi1928Q+/CZm/oh66fzM0RUl54vvuXlPJKybH4pdCZey1eDTPaLHkMPNgWA==
-
-"@react-native/normalize-color@2.0.0":
+"@react-native/normalize-color@*", "@react-native/normalize-color@2.0.0":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-2.0.0.tgz"
   integrity sha512-Wip/xsc5lw8vsBlmY2MO/gFLp3MvuZ2baBZjDeTjjndMgM0h5sxz7AZR62RDPGgstp8Np7JzjvVqVT7tpFZqsw==
@@ -1715,10 +1710,10 @@
     color "^4.2.3"
     warn-once "^0.1.0"
 
-"@react-navigation/native@^6.0.0":
-  version "6.1.7"
-  resolved "https://registry.npmjs.org/@react-navigation/native/-/native-6.1.7.tgz"
-  integrity sha512-W6E3+AtTombMucCRo6q7vPmluq8hSjS+IxfazJ/SokOe7ChJX7eLvvralIsJkjFj3iWV1KgOSnHxa6hdiFasBw==
+"@react-navigation/native@^6.0.0", "@react-navigation/native@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.npmjs.org/@react-navigation/native/-/native-6.1.8.tgz"
+  integrity sha512-0alti852nV+8oCVm9H80G6kZvrHoy51+rXBvVCRUs2rNDDozC/xPZs8tyeCJkqdw3cpxZDK8ndXF22uWq28+0Q==
   dependencies:
     "@react-navigation/core" "^6.4.9"
     escape-string-regexp "^4.0.0"
@@ -3214,7 +3209,16 @@ depd@2.0.0:
   resolved "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
   integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
 
-deprecated-react-native-prop-types@^2.3.0, deprecated-react-native-prop-types@>2.0.0:
+deprecated-react-native-prop-types@^2.2.0, deprecated-react-native-prop-types@>2.0.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-2.2.0.tgz"
+  integrity sha512-SiessglRbgelU8sHCrGRImdlNKfVGSp0n6+K304d0rCdHGU8wladJkPmufxE2AkjN2jy71sgekNd9IvdZp9jZg==
+  dependencies:
+    "@react-native/normalize-color" "*"
+    invariant "*"
+    prop-types "*"
+
+deprecated-react-native-prop-types@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-2.3.0.tgz"
   integrity sha512-pWD0voFtNYxrVqvBMYf5gq3NA2GCpfodS1yNynTPc93AYA/KEMGeWDqqeUB6R2Z9ZofVhks2aeJXiuQqKNpesA==
@@ -6635,7 +6639,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@*, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -6782,6 +6786,13 @@ react-native-codegen@^0.0.13:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-dotenv@^3.4.9:
+  version "3.4.9"
+  resolved "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.4.9.tgz"
+  integrity sha512-dbyd+mcy7SUzxEgmt33TRf1FGcNe6swJhXmB0unKkI49F7+pidog9kPtjxMLTAfmKA8gcN2XHQSKltGfGbGCLQ==
+  dependencies:
+    dotenv "^16.3.1"
+
 react-native-elements@^3.4.3:
   version "3.4.3"
   resolved "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.3.tgz"
@@ -6812,10 +6823,10 @@ react-native-gesture-handler@^2.13.1, "react-native-gesture-handler@>= 1.0.0", r
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-google-places-autocomplete@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.npmjs.org/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.5.2.tgz"
-  integrity sha512-T39wvOQ3bZa9UoQrhM7ex9O3APAoPVTqaark1TGIm0gaLu9/FPpOe93ybnZ4b92vAs6JnPO+jB2+FAypd4z6Gw==
+react-native-google-places-autocomplete@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.npmjs.org/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.5.6.tgz"
+  integrity sha512-Dy7mFKyEoiNeWPLd7HUkrI/SzJYe7GST55FGtiXzXDoPs05LYHIOCPrT9qFE51COh5X8kgDKm+f7D5aMY/aMbg==
   dependencies:
     lodash.debounce "^4.0.8"
     prop-types "^15.7.2"
@@ -6833,7 +6844,15 @@ react-native-image-picker@^7.0.0:
   resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.0.0.tgz"
   integrity sha512-eiDj0mJUPivranQJX/pwkGf/Ar9QrQ+BF3y0D8frHU3S7U86IGOnOzHN7Wh6ofXEnafRij0TpmRCdrSebBMV+Q==
 
-react-native-maps@^1.7.1:
+react-native-maps-directions@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.npmjs.org/react-native-maps-directions/-/react-native-maps-directions-1.9.0.tgz"
+  integrity sha512-68SrMOUg4WQ5PmpS9sNOTZaYtdyVYJnnjQOOhABrgiKnb5BXCZRU2gDoS11gYf23hjUBjq8JXzgfn37WcINLwA==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    prop-types "^15.6.0"
+
+react-native-maps@^1.7.1, react-native-maps@>=1.0.0:
   version "1.7.1"
   resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.7.1.tgz"
   integrity sha512-CHVLzL+Q2jiUGgbt4/vosxVI1SukWyaLGjD62VLgR/wZpnH4Umi9ql1bmKDPWcfj2C1QZwMU0Yc7rXTbvZUIiw==
@@ -6869,12 +6888,12 @@ react-native-reanimated@^3.5.4, react-native-reanimated@>=2.2.0:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
-"react-native-safe-area-context@>= 3.0.0":
+react-native-safe-area-context@^4.7.2, "react-native-safe-area-context@>= 3.0.0":
   version "4.7.2"
   resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.7.2.tgz"
   integrity sha512-5fy/hRNJ7bI/U2SliOeKf0D80J4lXPc1NsRiNS7Xaz8YTnqlzWib1ViItkwKPfufe54YKzVBMmM32RpdzvO2gg==
 
-"react-native-screens@>= 3.0.0":
+react-native-screens@^3.25.0, "react-native-screens@>= 3.0.0":
   version "3.25.0"
   resolved "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.25.0.tgz"
   integrity sha512-TSC2Ad0hh763I8QT6XxMsPXAagQ+RawDSdFtKRvIz9fCYr96AjRwwaqmYivbqlDywOgcRBkIVynkFtp0ThmlYw==
@@ -6909,6 +6928,13 @@ react-native-tag-input@^0.0.21:
   dependencies:
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+react-native-tags-input@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.npmjs.org/react-native-tags-input/-/react-native-tags-input-1.0.10.tgz"
+  integrity sha512-0uaHZXGZssBpdkYgW/eakk0sa6elVuYAPQePAc617MugoHj3uJtKchMEXe4rf20sKbLKvOnbWV8ku95yyQwkMw==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-vector-icons@^10.0.0, react-native-vector-icons@>6.0.0, react-native-vector-icons@>7.0.0:
   version "10.0.0"

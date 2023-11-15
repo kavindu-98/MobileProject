@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { logInUser, signUpUser } from "../Actions/userActions"
+import { logInDriver, signUpDriver } from "../Actions/driverActions"
 import CookieManager from '@react-native-cookies/cookies';
 
 
@@ -40,47 +40,47 @@ state.data=action.payload
     },
     extraReducers:(builder)=>{
         builder
-        .addCase(logInUser.pending,(state)=>{
+        .addCase(logInDriver.pending,(state)=>{
             state.isLoading=true
             state.isError=false
             state.isSuccess=false
-            state.action='logInUser'
+            state.action='logInDriver'
             state.message=''
         })
-        .addCase(logInUser.fulfilled,(state,action)=>{
+        .addCase(logInDriver.fulfilled,(state,action)=>{
             state.isLoading=false
             state.isError=false
             state.isSuccess=true
             state.user=action.payload
-            state.action='logInUser'
+            state.action='logInDriver'
             state.message=''
         })
-        .addCase(logInUser.rejected,(state,action)=>{
+        .addCase(logInDriver.rejected,(state,action)=>{
             state.isLoading=false
             state.isError=true
             state.isSuccess=false
-            state.action='logInUser'
+            state.action='logInDriver'
             state.message=action.payload
         })
-        .addCase(signUpUser.pending,(state)=>{
+        .addCase(signUpDriver.pending,(state)=>{
             state.isLoading=true
             state.isError=false
             state.isSuccess=false
-            state.action='signUpUser'
+            state.action='signUpDriver'
             state.message=''
         })
-        .addCase(signUpUser.fulfilled,(state,action)=>{
+        .addCase(signUpDriver.fulfilled,(state,action)=>{
             state.isLoading=false
             state.isError=false
             state.isSuccess=true
-            state.action='signUpUser'
+            state.action='signUpDriver'
             state.message=action.payload
         })
-        .addCase(signUpUser.rejected,(state,action)=>{
+        .addCase(signUpDriver.rejected,(state,action)=>{
             state.isLoading=false
             state.isError=true
             state.isSuccess=false
-            state.action='signUpUser'
+            state.action='signUpDriver'
             state.message=action.payload
         })
     }
