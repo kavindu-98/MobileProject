@@ -1,46 +1,64 @@
-import { StyleSheet, Text, View,  StatusBar, TouchableOpacity, ScrollView, SafeAreaView, Image, Animated, BackHandler, TextInput} from 'react-native';
-import React, { useEffect, useState, useRef, useCallback, useContext} from 'react';
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from '../constants';
-import BottomSheet, {BottomSheetView} from "@gorhom/bottom-sheet";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import Geolocation from "react-native-geolocation-service";
-import { useDispatch, useSelector } from "react-redux";
-import { addOriginDriver } from "../reducers/mapSliceDriver";
-// import { OriginContext } from "../contexts/contexts";
-// const { origin, dispatchOrigin } = useContext(OriginContext);
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  PermissionsAndroid,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  Animated,
+  BackHandler,
+  TextInput,
+} from 'react-native';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import Geolocation from 'react-native-geolocation-service';
+import {MapStyle} from '../styles';
+import {addOriginDriver} from '../reducers/mapSliceDriver';
+import {OriginContext} from '../contexts/contexts';
+import {useDispatch, useSelector} from 'react-redux';
+import {IconButton, MapComponentDriver} from '../components';
+import {Marker} from 'react-native-maps';
 
 import {
-  IconButton,
+  HeaderBar,
+  TextIconButton,
+  Rating,
+  TextButton,
+  MapComponent,
+} from '../components';
 
-} from "../components";
-import { HeaderBar , TextIconButton, Rating, TextButton, MapComponentDriver} from "../components";
-
-
-
-
-
-
-
-const DStartLocation = ({ route}) => {
-
+const DStartLocation = ({route}) => {
+  const data = useSelector(state => state.mapData);
+  console.log(data);
+  const dispatch = useDispatch();
+  const vehicle = route.params;
 
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [location, setLocation] = useState(false);
+  const {origin, dispatchOrigin} = useContext(OriginContext);
 
-  const snapPoints = ['20%',"40%", '70%']; 
+  const snapPoints = ['20%', '40%', '70%'];
   useEffect(() => {
     // dispatch (
     //   addOrigin({latitude: "6.25555"})
     // )
     // setUserOrigin({ latitude: origin.latitude, longitude: origin.longitude });
     getLocation();
-  }, []);
-
-
+  }, [origin]);
 
   const navigation = useNavigation();
   const textInput3 = useRef(4);
@@ -50,19 +68,19 @@ const DStartLocation = ({ route}) => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: "Geolocation Permission",
-          message: "Can we access your location?",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK",
-        }
+          title: 'Geolocation Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
       );
-      console.log("granted", granted);
-      if (granted === "granted") {
-        console.log("You can use Geolocation");
+      console.log('granted', granted);
+      if (granted === 'granted') {
+        console.log('You can use Geolocation');
         return true;
       } else {
-        console.log("You cannot use Geolocation");
+        console.log('You cannot use Geolocation');
         return false;
       }
     } catch (err) {
@@ -71,99 +89,110 @@ const DStartLocation = ({ route}) => {
   };
   const getLocation = () => {
     const result = requestLocationPermission();
-    result.then((res) => {
-      console.log("res is:", res);
+    result.then(res => {
+      console.log('res is:', res);
       if (res) {
         Geolocation.getCurrentPosition(
-          (position) => {
+          position => {
             console.log(position);
             setLocation(position);
           },
-          (error) => {
+          error => {
             // See error code charts below.
             console.log(error.code, error.message);
             setLocation(false);
           },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
         );
       }
     });
     console.log(location);
   };
 
-
-
-
-
-function renderMap() {
+  function renderMap() {
     return (
- 
-            <View
-                style={{
-                 flex: 3,
-                  height : "100%",
-                  backgroundColor: COLORS.background,
-                  // alignItems: 'center',
-                  // justifyContent: 'center',
-                }}
-            >
-                 <MapComponentDriver></MapComponentDriver>
-                 
-                     {/* header */}
-                     <HeaderBar
-                              // title={selectedPlace?.name}
-                              leftOnPressed={() => navigation.goBack()}
-                             
-                              right={false}
-                              icon={icons.left_arrow}
-                              containerStyle={{
-                                  position: 'absolute',
-                                  top: SIZES.padding * 2,
-                                  // height: "20%",
-                                  // width: SIZES.width,
-                                  // backgroundColor: COLORS.red1Font
-                                 
-                              }}
-                            />
+      <View
+        style={{
+          flex: 2,
+          // height : "100%",
+          backgroundColor: COLORS.transparentWhite,
+          // alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <MapView
+          style={{
+            width: '100%',
+            height: '85%',
+          }}
+          // ref ={_map}
+          customMapStyle={MapStyle}
+          provider={PROVIDER_GOOGLE}
+          initialRegion={{
+            // ...BusAround[0],
+            latitudeDelta: 0.2,
+            longitudeDelta: 0.2,
+          }}
+          showsUserLocation={true}
+          followsUserLocation={true}
+          zoomEnabled={true}
+          zoomControlEnabled={true}></MapView>
 
-                 <BottomSheet
-            // ref={sheetRef}
-            snapPoints={snapPoints}
-            // enablePanDownToClose={true}
-            onClose={() => setIsOpen(false)}
-            backgroundStyle={{ borderRadius: 50}}
-          
-            >
-              <BottomSheetView
-                style={{
-                  // borderRadius: 5,
-                  // backgroundColor: COLORS.gray10
-                }}>
-                <Text
-                style={{
-                  color: COLORS.black,
-                  // fontWeight: 1,
-                  ...FONTS.h2,
-                  alignItems: 'center',
-                  fontWeight: 'bold',
-                  marginLeft: 20,
-                  fontSize: 20
-                }}
-                >Choose a Start Location</Text>
-                  <Text
-                style={{
-                  color: COLORS.black,
-                  // fontWeight: 1,
-                  ...FONTS.h5,
-                  alignItems: 'center',
-                  marginLeft: 20,
-                  fontSize: 12
-                }}
-                >Book on demand or pre-scheduled rides</Text>
-                <View style={{
-                  flexDirection: 'row'
-                }}>
-                  <GooglePlacesAutocomplete
+        {/* header */}
+        <HeaderBar
+          // title={selectedPlace?.name}
+          leftOnPressed={() => navigation.goBack()}
+          right={false}
+          icon={icons.left_arrow}
+          containerStyle={{
+            position: 'absolute',
+            top: SIZES.padding * 2,
+            // height: "20%",
+            // width: SIZES.width,
+            // backgroundColor: COLORS.red1Font
+          }}
+        />
+
+        <BottomSheet
+          // ref={sheetRef}
+          snapPoints={snapPoints}
+          // enablePanDownToClose={true}
+          onClose={() => setIsOpen(false)}
+          backgroundStyle={{borderRadius: 50}}>
+          <BottomSheetView
+            style={
+              {
+                // borderRadius: 5,
+                // backgroundColor: COLORS.gray10
+              }
+            }>
+            <Text
+              style={{
+                color: COLORS.black,
+                // fontWeight: 1,
+                ...FONTS.h2,
+                alignItems: 'center',
+                fontWeight: 'bold',
+                marginLeft: 20,
+                fontSize: 20,
+              }}>
+              Choose a Start Location
+            </Text>
+            <Text
+              style={{
+                color: COLORS.black,
+                // fontWeight: 1,
+                ...FONTS.h5,
+                alignItems: 'center',
+                marginLeft: 20,
+                fontSize: 12,
+              }}>
+              Book on demand or pre-scheduled rides
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <GooglePlacesAutocomplete
                 nearbyPlacesAPI="GooglePlacesSearch"
                 placeholder="Enter Start Location"
                 listViewDisplayed="auto"
@@ -181,14 +210,14 @@ function renderMap() {
                       longitude: details.geometry.location.lng,
                       address: details.formatted_address,
                       name: details.name,
-                    })
+                    }),
                   );
 
-                  navigation.navigate("DestinationDriver", details);
+                  navigation.navigate('DestinationDriver', details);
                 }}
                 query={{
-                  key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-                  language: "en",
+                  key: 'AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk',
+                  language: 'en',
                 }}
                 styles={{
                   textInputContainer: {
@@ -196,7 +225,7 @@ function renderMap() {
                     borderColor: COLORS.outLine,
                     borderRadius: 8,
                     borderWidth: 1,
-                    width: "88%",
+                    width: '88%',
                     height: 50,
                     marginLeft: 17,
                     marginTop: SIZES.padding3,
@@ -210,48 +239,38 @@ function renderMap() {
                     // maxWidth: "70%"
                   },
                   predefinedPlacesDescription: {
-                    color: "#343a40",
+                    color: '#343a40',
                   },
                 }}
               />
 
-                            <IconButton
-                                    icon={icons.Search}
-                                    onPress={() => {navigation.navigate('DSetStartOnMap')}}
-                                    iconStyle={{
-                                      width: 25,
-                                      height: 25,
-                                      marginTop: 22,
-                                      marginLeft: 5,
-                                        tintColor: COLORS.black
-                                    }}
-                                ></IconButton>
-                          </View>
-              </BottomSheetView>
-            </BottomSheet>
-          
-                           
+              <IconButton
+                icon={icons.Search}
+                onPress={() => {
+                  navigation.navigate('DSetStartOnMap');
+                }}
+                iconStyle={{
+                  width: 25,
+                  height: 25,
+                  marginTop: 22,
+                  marginLeft: 5,
+                  tintColor: COLORS.black,
+                }}></IconButton>
             </View>
-
-   
-    )
-}
-
-
-
-
+          </BottomSheetView>
+        </BottomSheet>
+      </View>
+    );
+  }
 
   return (
-    <View style={{ flex: 1 }}>
-       <StatusBar
-                        style="auto"
-                        />
-    
-    {renderMap()}
+    <View style={{flex: 1}}>
+      <StatusBar style="auto" />
 
-  </View>
-  )
-}
+      {renderMap()}
+    </View>
+  );
+};
 
 export default DStartLocation;
 
@@ -261,15 +280,10 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
-    padding: SIZES.padding2
-
+    padding: SIZES.padding2,
   },
-
-
-
-
-})
+});

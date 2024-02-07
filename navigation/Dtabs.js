@@ -1,24 +1,25 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
+import {StyleSheet, Text, View, Image} from 'react-native';
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
 
 // screens
 import {
   DHomeScreen,
   DStartLocation,
+  SelectVehicle,
   DMyActivity,
   DProfileScreen,
-} from "../screens";
+} from '../screens';
 
 const Tab = createBottomTabNavigator();
 
 const tabOptions = {
   showLabel: false,
   style: {
-    height: "10%",
+    height: '10%',
   },
 };
 
@@ -26,10 +27,10 @@ const DTabs = () => {
   return (
     <Tab.Navigator
       tabBarOptions={tabOptions}
-      screenOptions={({ route }) => ({
+      screenOptions={({route}) => ({
         tabBarStyle: {
-          backgroundColor: "#ffff",
-          height: "8%",
+          backgroundColor: '#ffff',
+          height: '8%',
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           shadowOffset: {
@@ -41,11 +42,11 @@ const DTabs = () => {
           elevation: 1,
         },
 
-        tabBarIcon: ({ focused }) => {
+        tabBarIcon: ({focused}) => {
           const tintColor = focused ? COLORS.primary : COLORS.primary;
 
           switch (route.name) {
-            case "DHome":
+            case 'DHome':
               return (
                 <Image
                   source={focused ? icons.homeA : icons.homeN}
@@ -57,7 +58,7 @@ const DTabs = () => {
                   }}
                 />
               );
-            case "Location":
+            case 'Location':
               return (
                 <Image
                   source={icons.location}
@@ -69,7 +70,7 @@ const DTabs = () => {
                   }}
                 />
               );
-            case "MyActivity":
+            case 'MyActivity':
               return (
                 <Image
                   source={focused ? icons.ActiviesA : icons.ActiviesN}
@@ -81,7 +82,7 @@ const DTabs = () => {
                   }}
                 />
               );
-            case "Profile":
+            case 'Profile':
               return (
                 <Image
                   source={focused ? icons.profileA : icons.profileN}
@@ -95,17 +96,16 @@ const DTabs = () => {
               );
           }
         },
-      })}
-    >
+      })}>
       <Tab.Screen
         name="DHome"
         component={DHomeScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Location"
         component={DStartLocation}
-        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+        options={{headerShown: false, tabBarStyle: {display: 'none'}}}
 
         // tabBarStyle: {display: 'none'}
       />
@@ -113,12 +113,12 @@ const DTabs = () => {
       <Tab.Screen
         name="MyActivity"
         component={DMyActivity}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Profile"
         component={DProfileScreen}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
     </Tab.Navigator>
   );

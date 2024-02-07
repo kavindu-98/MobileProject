@@ -7,50 +7,78 @@ import {
   ScrollView,
   SafeAreaView,
   Image,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { IconButton, TextIconButton } from "../components";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import {IconButton, TextIconButton} from '../components';
+import {useDispatch, useSelector} from 'react-redux';
+import {resetDriverLogIn} from '../reducers/driverSlice';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const DProfileScreen = () => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [DriverImg, setDriverImg] = useState();
 
-  const snapPoints = ["50%"];
+  const snapPoints = ['50%'];
+  const dispatch = useDispatch();
+  const {driver} = useSelector(state => state.driverLogIn);
+
+  const Options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      maxHeight: 200,
+      maxWidth: 200,
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: true,
+    },
+  };
+  const openGallery = async name => {
+    const images = await launchImageLibrary(Options);
+
+    console.log(images.assets[0].base64);
+    const object = {
+      uri: images.assets[0].uri,
+      type: images.assets[0].type,
+      name: images.assets[0].fileName,
+    };
+    if (name === 'DriverImg') {
+      setDriverImg(object);
+    }
+  };
 
   const navigation = useNavigation();
   function renderHeader() {
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginTop: 40,
           marginBottom: 10,
           paddingHorizontal: SIZES.padding,
-          alignItems: "center",
-        }}
-      >
+          alignItems: 'center',
+        }}>
         {/* Greeting  */}
         <View
           style={{
             flex: 1,
-          }}
-        >
+          }}>
           <Text
             style={{
               color: COLORS.black,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginLeft: 130,
-              fontWeight: "bold",
+              fontWeight: 'bold',
 
               ...FONTS.h5,
-            }}
-          >
+            }}>
             Driver Profile
           </Text>
         </View>
@@ -61,8 +89,7 @@ const DProfileScreen = () => {
           icon={icons.notifications}
           iconStyle={{
             tintColor: COLORS.black,
-          }}
-        ></IconButton>
+          }}></IconButton>
       </View>
     );
   }
@@ -74,21 +101,19 @@ const DProfileScreen = () => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
-          }}
-        >
+          }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   // justifyContent: 'center',
-                  width: "100%",
-                  justifyContent: "space-between",
+                  width: '100%',
+                  justifyContent: 'space-between',
                   marginTop: 20,
-                }}
-              >
+                }}>
                 <IconButton
                   icon={icons.Logout}
                   iconStyle={{
@@ -98,28 +123,26 @@ const DProfileScreen = () => {
                     marginTop: 10,
                     borderRadius: 50,
                     // tintColor: COLORS.transparentWhite
-                  }}
-                ></IconButton>
+                  }}></IconButton>
                 <View>
-                  <Text style={{ ...FONTS.h2 }}>Logout</Text>
-                  <Text style={{ ...FONTS.h3, marginTop: 10 }}>
+                  <Text style={{...FONTS.h2}}>Logout</Text>
+                  <Text style={{...FONTS.h3, marginTop: 10}}>
                     Are you sure want to logout?
                   </Text>
                 </View>
               </View>
               <View
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   // justifyContent: 'center',
-                  width: "100%",
-                  justifyContent: "space-between",
+                  width: '100%',
+                  justifyContent: 'space-between',
                   marginTop: 50,
-                }}
-              >
+                }}>
                 <TextIconButton
                   label="No"
                   customContainerStyle={{
-                    width: "48%",
+                    width: '48%',
                     height: 55,
                     backgroundColor: COLORS.gray40,
                     borderWidth: 1,
@@ -129,7 +152,7 @@ const DProfileScreen = () => {
                   }}
                   customLabelStyle={{
                     color: COLORS.white,
-                    alignItems: "center",
+                    alignItems: 'center',
                     marginLeft: -15,
                     ...FONTS.h3,
                   }}
@@ -138,7 +161,7 @@ const DProfileScreen = () => {
                 <TextIconButton
                   label="Yes"
                   customContainerStyle={{
-                    width: "48%",
+                    width: '48%',
                     height: 55,
                     backgroundColor: COLORS.red1Font,
                     borderWidth: 1,
@@ -148,12 +171,13 @@ const DProfileScreen = () => {
                   }}
                   customLabelStyle={{
                     color: COLORS.white,
-                    alignItems: "center",
+                    alignItems: 'center',
                     marginLeft: -15,
                     ...FONTS.h3,
                   }}
                   onPress={() => {
-                    navigation.navigate("");
+                    dispatch(resetDriverLogIn());
+                    navigation.navigate('Role');
                   }}
                 />
               </View>
@@ -172,37 +196,53 @@ const DProfileScreen = () => {
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.titlebar}></View>
-          <View style={{ alignSelf: "center", marginTop: 5  }}>
+          <View style={{alignSelf: 'center', marginTop: 5}}>
             <View style={styles.profileimage}>
               <Image
-                source={require("../assets/images/Profile2.jpg")}
+                source={
+                  DriverImg
+                    ? {uri: DriverImg.uri}
+                    : require('../assets/images/PhotoInput.png')
+                }
                 style={styles.profileimage}
               />
             </View>
+            <IconButton
+              icon={icons.add}
+              onPress={() => openGallery('DriverImg')}
+              iconStyle={{
+                marginLeft: 10,
+                marginTop: -38,
+                borderRadius: 50,
+                width: 40,
+                height: 40,
+                tintColor: COLORS.white,
+              }}></IconButton>
           </View>
 
           <View style={styles.proname}>
-            <Text style={styles.nameTitle}>Lalith Perera</Text>
+            <Text style={styles.nameTitle}>
+              {driver.FirstName} {driver.LastName}
+            </Text>
           </View>
 
           <View
             style={{
-              alignItems: "center",
+              alignItems: 'center',
               marginTop: 5,
-            }}
-          >
+            }}>
             <TextIconButton
               label="Profile info"
               icon={icons.ProfileE}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -218,21 +258,21 @@ const DProfileScreen = () => {
                 marginLeft: 30,
               }}
               onPress={() => {
-                navigation.navigate("DRProfileInfo");
+                navigation.navigate('DRProfileInfo');
               }}
             />
             <TextIconButton
-              label="Vehicle Info"
+              label="Add Vehicle Info"
               icon={icons.VehicleInfo}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -247,21 +287,23 @@ const DProfileScreen = () => {
                 height: 40,
                 marginLeft: 30,
               }}
-              // onPress={signup}
+              onPress={() => {
+                navigation.navigate('VehicleDt1Screen');
+              }}
             />
 
             <TextIconButton
               label="My Daily Rides"
               icon={icons.DRide}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -277,7 +319,7 @@ const DProfileScreen = () => {
                 marginLeft: 30,
               }}
               onPress={() => {
-                navigation.navigate("DRMyDailyRides");
+                navigation.navigate('DRMyDailyRides');
               }}
             />
 
@@ -285,14 +327,14 @@ const DProfileScreen = () => {
               label="Settings"
               icon={icons.Settings}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -314,14 +356,14 @@ const DProfileScreen = () => {
               label="About us"
               icon={icons.About}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -343,14 +385,14 @@ const DProfileScreen = () => {
               label="Logout"
               icon={icons.Logout}
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 66,
                 backgroundColor: COLORS.white,
                 borderRadius: SIZES.radius_btn3,
                 marginTop: SIZES.padding3,
 
                 // alignItems: 'center',
-                justifyContent: "flex-start",
+                justifyContent: 'flex-start',
               }}
               customLabelStyle={{
                 color: COLORS.black,
@@ -370,11 +412,10 @@ const DProfileScreen = () => {
           </View>
           <View
             style={{
-              justifyContent: "flex-start",
-              flexDirection: "row",
+              justifyContent: 'flex-start',
+              flexDirection: 'row',
               marginLeft: 30,
-            }}
-          >
+            }}>
             <Text style={styles.VersionTitle}>Made in</Text>
 
             <IconButton
@@ -384,8 +425,7 @@ const DProfileScreen = () => {
                 marginTop: 10,
                 borderRadius: 50,
                 // tintColor: COLORS.transparentWhite
-              }}
-            ></IconButton>
+              }}></IconButton>
             <Text style={styles.VersionTitle}> with</Text>
 
             <IconButton
@@ -395,8 +435,7 @@ const DProfileScreen = () => {
                 marginTop: 10,
                 borderRadius: 50,
                 // tintColor: COLORS.transparentWhite
-              }}
-            ></IconButton>
+              }}></IconButton>
           </View>
           <Text style={styles.Version1}>App version 1.0</Text>
         </ScrollView>
@@ -416,27 +455,27 @@ const styles = StyleSheet.create({
 
   container: {
     backgroundColor: COLORS.background,
-    height: "100%",
+    height: '100%',
     flex: 1,
   },
   titlebar: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 
   profileimage: {
     width: 130,
     height: 130,
     borderRadius: 100,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   nameTitle: {
     color: COLORS.black,
     marginTop: 15,
     fontSize: SIZES.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   proname: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   nametag: {
     color: COLORS.dark_grey,
@@ -450,11 +489,11 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body5,
   },
   Version: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   VersionTitle: {
     color: COLORS.black,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 15,
     fontSize: SIZES.h3,
   },
@@ -465,24 +504,24 @@ const styles = StyleSheet.create({
   modelBackground: {
     flex: 1,
     backgroundColor: COLORS.white,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
-    width: "80%",
-    height: "40%",
+    width: '80%',
+    height: '40%',
     margin: 30,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 15,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,

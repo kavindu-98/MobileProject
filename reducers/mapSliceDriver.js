@@ -1,32 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from '@reduxjs/toolkit';
 export const mapSliceDriver = createSlice({
-
   // to save the pickup and destination for driver
-  name: "map",
+  name: 'map',
   initialState: {
-    latitude:'',
-    longitude:'',
-    address:'',
-    name:''
+    origin: {latitude: '', longitude: '', address: '', name: ''},
+    destination: {latitude: '', longitude: '', address: '', name: ''},
   },
 
   reducers: {
     addOriginDriver: (state, action) => {
-      state.latitude = action.payload.latitude;
-      state.longitude = action.payload.longitude;
-      state.address = action.payload.address;
-      state.name = action.payload.name;
-    
-      
+      state.origin = action.payload;
     },
     destinationDriver: (state, action) => {
-        state.latitude = action.payload.latitude;
-        state.longitude = action.payload.longitude;
-        state.address = action.payload.address;
-        state.name = action.payload.name;
-      },
+      state.destination = action.payload;
     },
-  });
-  export const { addOriginDriver, destinationDriver } = mapSliceDriver.actions;
-  
-  export default mapSliceDriver.reducer;
+  },
+});
+export const {addOriginDriver, destinationDriver} = mapSliceDriver.actions;
+
+export default mapSliceDriver.reducer;

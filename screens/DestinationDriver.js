@@ -10,25 +10,25 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
+} from 'react-native';
 import React, {
   useEffect,
   useState,
   useRef,
   useCallback,
   useContext,
-} from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-navigator.geolocation = require("react-native-geolocation-service");
-import { OriginContext, DestinationContext } from "../contexts/contexts";
-import { useDispatch, useSelector } from "react-redux";
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+navigator.geolocation = require('react-native-geolocation-service');
+import {OriginContext, DestinationContext} from '../contexts/contexts';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { IconButton } from "../components";
+import {IconButton} from '../components';
 import {
   HeaderBar,
   TextIconButton,
@@ -36,12 +36,12 @@ import {
   TextButton,
   MapComponent,
   SavedLocation,
-} from "../components";
-import { destination } from "../reducers/mapSlice";
+} from '../components';
+import {destination} from '../reducers/mapSlice';
 
-// this screen for get the destination location of employee 
+// this screen for get the destination location of employee
 
-const DestinationDriver = ({ route }) => {
+const DestinationDriver = ({route}) => {
   const textInput2 = useRef(5);
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
@@ -49,8 +49,8 @@ const DestinationDriver = ({ route }) => {
   const dispatch = useDispatch();
 
   const pickupLocation = route.params;
-  
-  const [dropLocation , setDropLocation] = useState();
+
+  const [dropLocation, setDropLocation] = useState();
   const dispatchOrigin = useContext(OriginContext);
   console.log(pickupLocation);
   console.log(dispatchOrigin.latitude);
@@ -62,7 +62,7 @@ const DestinationDriver = ({ route }) => {
     longitude: destination.longitude,
   });
 
-  const snapPoints = ["100%"];
+  const snapPoints = ['100%'];
 
   useEffect(() => {
     setUserDestination({
@@ -78,7 +78,7 @@ const DestinationDriver = ({ route }) => {
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
     outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const navigation = useNavigation();
@@ -88,12 +88,11 @@ const DestinationDriver = ({ route }) => {
       <View
         style={{
           flex: 1,
-          height: "100%",
+          height: '100%',
           backgroundColor: COLORS.gray10,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
+        }}>
         {/* header */}
         <Animated.View
           style={[
@@ -101,8 +100,7 @@ const DestinationDriver = ({ route }) => {
             {
               height: animateHeaderHeight,
             },
-          ]}
-        >
+          ]}>
           <TextIconButton
             icon={icons.close}
             customContainerStyle={{
@@ -125,15 +123,14 @@ const DestinationDriver = ({ route }) => {
             <IconButton
               icon={icons.map}
               onPress={() => {
-                navigation.navigate("SetDesM");
+                navigation.navigate('SetDesM');
               }}
               iconStyle={{
                 marginLeft: 35,
                 marginTop: 10,
                 borderRadius: 50,
                 // tintColor: COLORS.transparentWhite
-              }}
-            ></IconButton>
+              }}></IconButton>
           </View>
           <View style={styles.searchBox}>
             <GooglePlacesAutocomplete
@@ -147,25 +144,24 @@ const DestinationDriver = ({ route }) => {
               minLength={2}
               enablePoweredByContainer={false}
               fetchDetails={true}
-              onPress={( data, details = null) => {
+              onPress={(data, details = null) => {
                 dispatch(
                   destination({
                     latitude: details.geometry.location.lat,
                     longitude: details.geometry.location.lng,
                     address: details.formatted_address,
                     name: details.name,
-                  })
+                  }),
                 );
                 // console.log(data.description);
                 // console.log(details.formatted_address);
 
-                navigation.navigate("SeleDriver", details);
+                navigation.navigate('SeleDriver', details);
 
                 // console.log(details.geometry.location.lng);
-            
 
                 setDestination(true);
-                setDropLocation(details)
+                setDropLocation(details);
                 // console.log(dropLocation)
                 // // dropLocation = details;
                 // navigation.navigate(
@@ -175,8 +171,8 @@ const DestinationDriver = ({ route }) => {
                 // );
               }}
               query={{
-                key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-                language: "en",
+                key: 'AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk',
+                language: 'en',
               }}
               styles={{
                 textInputContainer: {
@@ -186,10 +182,10 @@ const DestinationDriver = ({ route }) => {
                   height: 38,
                   color: COLORS.gray70,
                   fontSize: 16,
-                  maxWidth: "70%",
+                  maxWidth: '70%',
                 },
                 predefinedPlacesDescription: {
-                  color: "#1faadb",
+                  color: '#1faadb',
                 },
               }}
             />
@@ -197,8 +193,8 @@ const DestinationDriver = ({ route }) => {
         </Animated.View>
 
         <View>
-          <MapComponent
-          />
+          {/* <MapComponent
+          /> */}
         </View>
       </View>
     );
@@ -211,21 +207,18 @@ const DestinationDriver = ({ route }) => {
           flex: 1,
 
           backgroundColor: COLORS.gray10,
-          width: "100%",
-        }}
-      >
+          width: '100%',
+        }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("");
-          }}
-        >
+            navigation.navigate('');
+          }}>
           <SavedLocation></SavedLocation>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("");
-          }}
-        >
+            navigation.navigate('');
+          }}>
           <SavedLocation></SavedLocation>
         </TouchableOpacity>
       </View>
@@ -233,7 +226,7 @@ const DestinationDriver = ({ route }) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderMap()}
@@ -252,7 +245,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
@@ -260,36 +253,36 @@ const styles = StyleSheet.create({
   },
   autoComplete: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    color: '#05375a',
   },
   header: {
     // flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: COLORS.white,
   },
   Title: {
     // justifyContent: 'flex-end',
     color: COLORS.black,
     ...FONTS.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 60,
     marginLeft: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
     // marginLeft: 10,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
 
     marginTop: 35,
   },
   searchBox: {
     top: 100,
-    position: "absolute",
+    position: 'absolute',
     flex: 1,
-    width: "70%",
+    width: '70%',
     marginLeft: 60,
     // justifyContent: 'center',
     borderWidth: 1,

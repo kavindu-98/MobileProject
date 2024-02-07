@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { LoginComponent, SignupComponent } from "../components";
+import React, {useEffect, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {LoginComponent, SignupComponent} from '../components';
 import {
   View,
   Text,
@@ -15,22 +15,20 @@ import {
   ScrollView,
   Animated,
   Image,
-} from "react-native";
-import { Button, Icon } from "react-native-elements";
-import { COLORS, FONTS, SIZES, icons } from "../constants";
-import { TextIconButton, PasswordIcon, IconButton } from "../components";
-import * as Animatable from "react-native-animatable";
-import SelectBox from "react-native-multiple-select";
-import { Picker } from "@react-native-picker/picker";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { Drivercards } from "../Data/Data";
-
+} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
+import {COLORS, FONTS, SIZES, icons} from '../constants';
+import {TextIconButton, PasswordIcon, IconButton} from '../components';
+import * as Animatable from 'react-native-animatable';
+import SelectBox from 'react-native-multiple-select';
+import {Picker} from '@react-native-picker/picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {Drivercards} from '../Data/Data';
+import axios from 'axios';
 
 const Tab = createMaterialTopTabNavigator();
 
-const API_URL = "http://192.168.1.107:8080//api/users/login";
-
-const DRProfileInfo = ({ navigation }) => {
+const DRProfileInfo = ({navigation}) => {
   const [email, setEmail] = useState();
   const [Name1, setName1] = useState();
   const [Name2, setName2] = useState();
@@ -42,14 +40,16 @@ const DRProfileInfo = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
 
+  const [List, setList] = useState({});
+
   const Options = {
-    title: "Select Image",
-    type: "library",
+    title: 'Select Image',
+    type: 'library',
     options: {
       maxHeight: 200,
       maxWidth: 200,
       selectionLimit: 1,
-      mediaType: "photo",
+      mediaType: 'photo',
       includeBase64: false,
     },
   };
@@ -58,69 +58,20 @@ const DRProfileInfo = ({ navigation }) => {
 
     console.log(images.assets[0]);
     const formdata = new FormData();
-    formdata.append("file", {
+    formdata.append('file', {
       uri: images.assets[0].uri,
       type: images.assets[0].type,
       name: images.assets[0].fileName,
     });
     let res = await fetch(URL, {
-      method: "post",
+      method: 'post',
       body: formdata,
       headers: {
-        "Content-type": "multipart/form-data; ",
+        'Content-type': 'multipart/form-data; ',
       },
     });
     let responseJson = await res.json();
-    console.log(responseJson, "responseJson");
-  };
-
-  const K_Option = [
-    {
-      item: "+94",
-      id: "sri",
-    },
-    {
-      item: "+88",
-      id: "india",
-    },
-    {
-      item: "+97",
-      id: "mal",
-    },
-    {
-      item: "+99",
-      id: "ban",
-    },
-    {
-      item: "+70",
-      id: "japan",
-    },
-    {
-      item: "+60",
-      id: "usa",
-    },
-  ];
-
-  const register = async () => {
-    const payload = {
-      email,
-      password,
-    };
-
-    try {
-      fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      navigation.navigate("Home");
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(responseJson, 'responseJson');
   };
 
   let AnimatedHeaderValue = new Animated.Value(0);
@@ -130,43 +81,48 @@ const DRProfileInfo = ({ navigation }) => {
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
     outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
+  const getList = () => {
+    axios({
+      url: '',
+      method: 'GET',
+    }).then(res => {
+      var response = res.data;
+      setList(response.data);
+    });
+  };
   function renderHeader() {
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginTop: 20,
           paddingHorizontal: SIZES.padding,
-          alignItems: "center",
-        }}
-      >
+          alignItems: 'center',
+        }}>
         {/* Greeting  */}
         <View
           style={{
             flex: 1,
-          }}
-        >
+          }}>
           <IconButton
             icon={icons.left_arrow}
             iconStyle={{
               tintColor: COLORS.black,
             }}
-            onPress={() => navigation.goBack()}
-          ></IconButton>
+            onPress={() => navigation.goBack()}></IconButton>
           <Text
             style={{
               color: COLORS.black,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginLeft: 100,
-              fontWeight: "bold",
+              fontWeight: 'bold',
 
               ...FONTS.h5,
-            }}
-          >
+            }}>
             Driver Profile Info
           </Text>
         </View>
@@ -186,15 +142,14 @@ const DRProfileInfo = ({ navigation }) => {
         <ScrollView
           scrollEventThrottle={16}
           onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
-            { useNativeDriver: false }
-          )}
-        >
+            [{nativeEvent: {contentOffset: {y: AnimatedHeaderValue}}}],
+            {useNativeDriver: false},
+          )}>
           <View style={styles.footer}>
-            <View style={{ alignSelf: "center", marginTop: 20 }}>
+            <View style={{alignSelf: 'center', marginTop: 20}}>
               <View style={styles.profileimage}>
                 <Image
-                  source={require("../assets/images/Profile2.jpg")}
+                  source={require('../assets/images/Profile2.jpg')}
                   style={styles.profileimage}
                 />
               </View>
@@ -204,7 +159,7 @@ const DRProfileInfo = ({ navigation }) => {
               <Text style={styles.nameTitle}>Lalith Perera</Text>
             </View>
 
-            <View style={{ marginTop: 10, margin: SIZES.padding4 }}>
+            <View style={{marginTop: 10, margin: SIZES.padding4}}>
               <View>
                 <View style={styles.namecontainer}>
                   <View>
@@ -214,7 +169,7 @@ const DRProfileInfo = ({ navigation }) => {
                       placeholder="Enter your First Name"
                       // autoFocus
                       value={Name1}
-                      onChangeText={(text) => setName1(text)}
+                      onChangeText={text => setName1(text)}
                     />
                   </View>
                   <View>
@@ -224,7 +179,7 @@ const DRProfileInfo = ({ navigation }) => {
                       placeholder="Enter your Last Name"
                       // autoFocus
                       value={Name2}
-                      onChangeText={(text) => setName2(text)}
+                      onChangeText={text => setName2(text)}
                     />
                   </View>
                 </View>
@@ -235,7 +190,7 @@ const DRProfileInfo = ({ navigation }) => {
                   placeholder="Create your Email"
                   // secureTextEntry
                   value={email}
-                  onChangeText={(text) => setEmail(text)}
+                  onChangeText={text => setEmail(text)}
                 />
 
                 <View style={styles.namecontainer}>
@@ -251,8 +206,7 @@ const DRProfileInfo = ({ navigation }) => {
                       }}
                       onValueChange={(itemValue, item) =>
                         setSelectedItem(itemValue)
-                      }
-                    >
+                      }>
                       <Picker.Item label="+94" value="+94" />
                       <Picker.Item label="+88" value="+88" />
                       <Picker.Item label="+97" value="+97" />
@@ -267,7 +221,7 @@ const DRProfileInfo = ({ navigation }) => {
                       placeholder="Enter your Phone Number"
                       // autoFocus
                       value={Phone}
-                      onChangeText={(text) => setPhone(text)}
+                      onChangeText={text => setPhone(text)}
                     />
                   </View>
                 </View>
@@ -277,7 +231,7 @@ const DRProfileInfo = ({ navigation }) => {
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
                   value={Did}
-                  onChangeText={(text) => setDid(text)}
+                  onChangeText={text => setDid(text)}
                 />
 
                 <View style={styles.namecontainer}>
@@ -288,14 +242,13 @@ const DRProfileInfo = ({ navigation }) => {
                       placeholder="Enter your NIC Number"
                       // autoFocus
                       value={NIC}
-                      onChangeText={(text) => setNIC(text)}
+                      onChangeText={text => setNIC(text)}
                     />
                   </View>
                   <View
                     style={{
                       marginRight: 100,
-                    }}
-                  >
+                    }}>
                     <Text style={styles.inputTitle}>GENDER</Text>
 
                     <Picker
@@ -308,8 +261,7 @@ const DRProfileInfo = ({ navigation }) => {
                       }}
                       onValueChange={(itemValue1, item) =>
                         setSelectedGender(itemValue1)
-                      }
-                    >
+                      }>
                       <Picker.Item label="Male" value="Male" />
                       <Picker.Item label="Female" value="Female" />
                       <Picker.Item label="nonbinary" value="nonbinary" />
@@ -323,7 +275,7 @@ const DRProfileInfo = ({ navigation }) => {
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
                   value={Did}
-                  onChangeText={(text) => setDid(text)}
+                  onChangeText={text => setDid(text)}
                 />
 
                 <Text style={styles.inputTitle1}>
@@ -331,15 +283,14 @@ const DRProfileInfo = ({ navigation }) => {
                 </Text>
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     padding: 10,
-                    justifyContent: "space-between",
-                  }}
-                >
+                    justifyContent: 'space-between',
+                  }}>
                   <View style={styles.profileimage}>
                     <TouchableOpacity onPress={openGallery}>
                       <Image
-                        source={require("../assets/images/PhotoInput.png")}
+                        source={require('../assets/images/PhotoInput.png')}
                         style={styles.profileimage}
                       />
                     </TouchableOpacity>
@@ -347,7 +298,7 @@ const DRProfileInfo = ({ navigation }) => {
                   <View style={styles.profileimage}>
                     <TouchableOpacity onPress={openGallery}>
                       <Image
-                        source={require("../assets/images/PhotoInput.png")}
+                        source={require('../assets/images/PhotoInput.png')}
                         style={styles.profileimage}
                       />
                     </TouchableOpacity>
@@ -355,11 +306,10 @@ const DRProfileInfo = ({ navigation }) => {
                 </View>
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     padding: 10,
-                    justifyContent: "space-between",
-                  }}
-                >
+                    justifyContent: 'space-between',
+                  }}>
                   <Text style={styles.inputTitle2}>Front View</Text>
                   <Text style={styles.inputTitle2}>Back View</Text>
                 </View>
@@ -370,7 +320,7 @@ const DRProfileInfo = ({ navigation }) => {
                   placeholder="Create your password"
                   secureTextEntry
                   value={password1}
-                  onChangeText={(text) => setPassword1(text)}
+                  onChangeText={text => setPassword1(text)}
                 />
                 <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
                 <TextInput
@@ -378,26 +328,26 @@ const DRProfileInfo = ({ navigation }) => {
                   placeholder="Re-enter password"
                   secureTextEntry
                   value={password2}
-                  onChangeText={(text) => setPassword2(text)}
+                  onChangeText={text => setPassword2(text)}
                 />
               </View>
 
               <TextIconButton
                 label="SAVE INFORMATION"
                 customContainerStyle={{
-                  width: "100%",
+                  width: '100%',
                   height: 55,
                   borderRadius: SIZES.radius_btn4,
                   marginTop: SIZES.padding1,
                 }}
                 customLabelStyle={{
                   color: COLORS.white,
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
                 onPress={() => {
-                  navigation.navigate("VehicleDt1Screen");
+                  navigation.navigate('VehicleDt1Screen');
                 }}
               />
             </View>
@@ -416,25 +366,25 @@ const styles = StyleSheet.create({
   },
   header: {
     // flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   footer: {
     // flex: 1,
     // height: "70%",
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     // borderTopLeftRadius: 30,
     // borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
   proname: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   Title: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     color: COLORS.black,
     ...FONTS.h1,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 80,
     marginLeft: -40,
   },
@@ -442,18 +392,18 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     marginTop: 15,
     fontSize: SIZES.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   namecontainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
   },
   profileimage: {
     width: 130,
     height: 130,
     borderRadius: 15,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   inputTitle1: {
     ...FONTS.h3,
@@ -467,38 +417,38 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    color: '#05375a',
   },
   errorMsg: {
-    color: "#FF0000",
+    color: '#FF0000',
     fontSize: 14,
   },
   button: {
     // marginLeft: 10,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     marginLeft: 130,
     marginTop: 30,
   },
 
   inputTitle: {
     ...FONTS.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: SIZES.padding3,
   },
   inputSubTitle: {
     ...FONTS.h4,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: SIZES.padding3,
-    textAlign: "center",
+    textAlign: 'center',
   },
   input: {
     backgroundColor: COLORS.transparentWhite,
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "100%",
+    width: '100%',
     height: 50,
     marginTop: SIZES.padding3,
     padding: SIZES.padding2,
@@ -507,6 +457,6 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     borderRadius: 100,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 });

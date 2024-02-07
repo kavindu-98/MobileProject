@@ -19,13 +19,13 @@ import {
   TextIconButton,
   PasswordIcon,
   IconButton,
-  RideCards,
+  VehicleCard,
 } from '../components';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
 // daily rides shortcuts edit screen
 
-const MyDailyRides = ({route}) => {
+const SelectVehicle = ({route}) => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
@@ -50,8 +50,6 @@ const MyDailyRides = ({route}) => {
           flex: 1,
           height: '100%',
           backgroundColor: COLORS.background,
-          // alignItems: 'center',
-          // justifyContent: 'center',
         }}>
         {/* header */}
         <Animated.View
@@ -77,52 +75,30 @@ const MyDailyRides = ({route}) => {
             }}
           />
 
-          <Text style={styles.Title}>My Daily Rides</Text>
+          <Text style={styles.Title}>Select the Vehicle</Text>
         </Animated.View>
         <ScrollView>
           <View
             style={{
               alignItems: 'center',
-              // justifyContent: 'center',
               backgroundColor: COLORS.gray10,
             }}>
-            <RideCards />
-
-            {/* <Cards customContainerStyle={{
-          width: "90%",
-          height: 130,
-          marginLeft: -1,
-          marginTop: 15,
-          marginBottom: -40
-         
-         }} imageUri={require('../assets/images/NightCardLong.png')}>
-
-        </Cards> */}
+            <VehicleCard />
           </View>
         </ScrollView>
       </View>
     );
   }
 
-  // function Rides() {
-  //   return (
-
-  //   )
-  // }
-
   return (
     <View style={{flex: 1}}>
       <StatusBar style="auto" />
-
       {renderMap()}
-      {/* <ScrollView>
-        {Rides()}
-    </ScrollView> */}
     </View>
   );
 };
 
-export default MyDailyRides;
+export default SelectVehicle;
 
 const styles = StyleSheet.create({
   input: {
@@ -145,10 +121,10 @@ const styles = StyleSheet.create({
     // justifyContent: 'flex-end',
     justifyContent: 'flex-end',
     color: COLORS.black,
-    ...FONTS.largeTitle,
+    ...FONTS.h1,
     fontWeight: 'bold',
     marginTop: 80,
-    marginLeft: -34,
+    marginLeft: 20,
   },
   button: {
     // marginLeft: 10,
@@ -156,44 +132,4 @@ const styles = StyleSheet.create({
 
     marginTop: 35,
   },
-
-  //   header: {
-  //     flex: 1,
-  //     // justifyContent: 'center',
-  //     // alignItems: 'center',
-
-  // },
-
-  // container: {
-  //   backgroundColor: COLORS.background,
-  //   height: "100%",
-  //   flex: 1
-  // },
-  // titlebar: {
-  //   flexDirection: 'row',
-
-  // },
-
-  // nameTitle : {
-  //    color: COLORS.black,
-  //    marginTop: 15,
-  //    fontSize: SIZES.h3,
-
-  // },
-  // proname : {
-  //   alignItems: 'center'
-  // },
-  // nametag : {
-  //   color: COLORS.dark_grey,
-  //   marginTop: 3,
-  //   fontSize: SIZES.h3,
-
-  // },
-  // prodes : {
-  //   color: COLORS.grey,
-  //   marginTop: -5,
-  //   padding: 35,
-  //   fontSize: SIZES.body5,
-
-  // },
 });
