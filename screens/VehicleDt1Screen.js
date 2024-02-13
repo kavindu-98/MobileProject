@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {TextIconButton, PasswordIcon} from '../components';
-import {AddVehicle} from '../Actions/VehicleInfo';
+import {AddNewVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Tab = createMaterialTopTabNavigator();
@@ -82,7 +82,7 @@ const VehicleDt1Screen = ({navigation}) => {
     console.log(formData);
     // console.log(errorMsg);
 
-    dispatch(AddVehicle(formData));
+    dispatch(AddNewVehicle(formData));
     navigation.navigate('VehicleDt2Screen', formData);
   };
   if (action === 'AddVehicle' && isSuccess) {

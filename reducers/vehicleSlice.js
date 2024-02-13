@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {AddVehicle} from '../Actions/VehicleInfo';
+import {AddNewVehicle} from '../Actions/VehicleInfo';
 
 //for the redux slices to lgin signup driver
 
@@ -22,25 +22,25 @@ export const vehicleDataSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(AddVehicle.pending, state => {
+      .addCase(AddNewVehicle.pending, state => {
         state.isLoading = true;
         state.isError = false;
         state.isSuccess = false;
-        state.action = 'AddVehicle';
+        state.action = 'AddNewVehicle';
         state.message = '';
       })
-      .addCase(AddVehicle.fulfilled, (state, action) => {
+      .addCase(AddNewVehicle.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.action = 'AddVehicle';
+        state.action = 'AddNewVehicle';
         state.message = action.payload;
       })
-      .addCase(AddVehicle.rejected, (state, action) => {
+      .addCase(AddNewVehicle.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.action = 'AddVehicle';
+        state.action = 'AddNewVehicle';
         state.message = action.payload;
       });
   },

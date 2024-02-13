@@ -19,7 +19,7 @@ import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {TextIconButton, PasswordIcon} from '../components';
 import {Picker} from '@react-native-picker/picker';
-import {AddVehicle} from '../Actions/VehicleInfo';
+import {AddNewVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import CheckBox from 'react-native-check-box';
 
@@ -70,8 +70,8 @@ const VehicleDt2Screen = ({route}) => {
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
 
-    dispatch(AddVehicle(formData));
-    navigation.navigate('DProfileScreen');
+    dispatch(AddNewVehicle(formData));
+    navigation.navigate('DHome');
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

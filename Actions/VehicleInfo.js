@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import vehicleService from '../Services/VehicleServices';
 
-export const AddVehicle = createAsyncThunk(
+export const AddNewVehicle = createAsyncThunk(
   'vehicle/AddVehicle',
   async (object, thunkAPI) => {
     try {

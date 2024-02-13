@@ -21,7 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TextIconButton, PasswordIcon} from '../components';
 import SelectBox from 'react-native-multiple-select';
 import {Picker} from '@react-native-picker/picker';
-import {AddVehicle} from '../Actions/VehicleInfo';
+import {AddNewVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import CheckBox from 'react-native-check-box';
 
@@ -72,7 +72,7 @@ const VehicleDt2ScreenEdit = ({route}) => {
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
     if (validate()) {
-      dispatch(AddVehicle(formData));
+      dispatch(AddNewVehicle(formData));
       navigation.navigate('DProfileScreen');
     }
   };
