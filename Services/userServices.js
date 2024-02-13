@@ -25,11 +25,13 @@ const signUp = async object => {
   return response.data;
 };
 const update = async updateObject => {
-  //   const jwt = getUserCookie(userjwt);
-  //   const config={headers:{
-  //       'Content-Type':'application/json',
-  //       Authorization:Bearer ${jwt}
-  //   }}
+  const jwt = getUserCookie();
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
+    },
+  };
   const response = await axios.post(
     'http://10.0.2.2:5000/api/users/update',
     updateObject,
