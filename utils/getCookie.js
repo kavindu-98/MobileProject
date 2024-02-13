@@ -1,4 +1,4 @@
-export function getUserCookie(cname) {
+export function getUserCookie() {
   let name = 'userjwt=';
   let ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
@@ -26,7 +26,7 @@ export function getCookie(cname) {
   }
   return '';
 }
-export function getDriverCookie(cname) {
+export function getDriverCookie() {
   let name = 'driverjwt=';
   let ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {

@@ -56,7 +56,7 @@ const VehicleDt1Screen = ({navigation}) => {
     }
 
     if (VLNo.length < 10) {
-      setError({...error, errorMsg: 'Vehicle number is wrong!'});
+      setError({...error, errorMsg: 'Vehicle License number is wrong!'});
       setSuccess({...success, successMsg: ''});
       return false;
     } else {
@@ -82,8 +82,10 @@ const VehicleDt1Screen = ({navigation}) => {
     formData.append('backVInsurance', backVInsurance);
 
     console.log(formData);
-    dispatch(AddVehicle(formData));
-    navigation.navigate('VehicleDt2Screen', formData);
+    if (validate()) {
+      dispatch(AddVehicle(formData));
+      navigation.navigate('VehicleDt2Screen', formData);
+    }
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

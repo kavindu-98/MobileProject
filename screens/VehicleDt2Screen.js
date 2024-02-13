@@ -15,11 +15,9 @@ import {
   Animated,
   Image,
 } from 'react-native';
-import {Button, Icon, Input} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {TextIconButton, PasswordIcon} from '../components';
-import SelectBox from 'react-native-multiple-select';
 import {Picker} from '@react-native-picker/picker';
 import {AddVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -71,8 +69,11 @@ const VehicleDt2Screen = ({route}) => {
     formData.append('VehicleP2', VehicleP2);
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
-    dispatch(AddVehicle(formData));
-    navigation.navigate('DHome');
+
+    if (validate()) {
+      dispatch(AddVehicle(formData));
+      navigation.navigate('DProfileScreen');
+    }
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

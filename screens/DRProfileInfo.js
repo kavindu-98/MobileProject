@@ -16,14 +16,10 @@ import {
   Animated,
   Image,
 } from 'react-native';
-import {Button, Icon} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {TextIconButton, PasswordIcon, IconButton} from '../components';
-import * as Animatable from 'react-native-animatable';
-import SelectBox from 'react-native-multiple-select';
 import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {Drivercards} from '../Data/Data';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -46,6 +42,66 @@ const DRProfileInfo = ({navigation}) => {
   const [frontLicence, setFrontLicence] = useState();
   const [backLicence, setBackLicence] = useState();
   const {driver} = useSelector(state => state.driverLogIn);
+
+  // Validate the employee data in the front end
+  const validate = () => {
+    if (
+      Name1 === '' ||
+      Name2 === '' ||
+      password1 === '' ||
+      password2 === '' ||
+      Did === '' ||
+      NIC === ''
+    ) {
+      setError({...error, errorMsg: 'All Fields are required!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (password1.length < 8) {
+      setError({
+        ...error,
+        errorMsg: 'Password must be at least 8 characters long!',
+      });
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (Phone.length <= 10) {
+      setError({...error, errorMsg: 'Phone number is wrong!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (password1 !== password2) {
+      setError({...error, errorMsg: 'Passwords does not match!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    } else {
+      setError({...error, errorMsg: ''});
+      setSuccess({...success, successMsg: 'Successfully Account Created.'});
+      return true;
+    }
+  };
+  const dispatch = useDispatch();
+  const handleUpdate = () => {
+    const formData = new FormData();
+    formData.append('Name1', Name1);
+    formData.append('Name2', Name2);
+    formData.append('Did', Did);
+    formData.append('backLicence', backLicence);
+    formData.append('frontLicence', frontLicence);
+    formData.append('password1', password1);
+    formData.append('DLN', DLN);
+    formData.append('Phone', Phone);
+    formData.append('email', email);
+    formData.append('NIC', NIC);
+    formData.append('gender', 'Male');
+    if (validate()) {
+      dispatch(updateDriver(formData));
+      navigation.navigate('DHome');
+    }
+  };
+  if (action === 'updateDriver' && isSuccess) {
+    console.log(message);
+  }
 
   const Options = {
     title: 'Select Image',
@@ -396,9 +452,7 @@ const DRProfileInfo = ({navigation}) => {
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
-                onPress={() => {
-                  navigation.navigate('VehicleDt1Screen');
-                }}
+                onPress={handleUpdate}
               />
             </View>
           </View>

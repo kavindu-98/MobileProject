@@ -35,3 +35,20 @@ export const signUpDriver = createAsyncThunk(
     }
   },
 );
+export const updateDriver = createAsyncThunk(
+  'driver/update',
+  async (object, thunkAPI) => {
+    try {
+      const data = await driverService.update(object);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);

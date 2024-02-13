@@ -71,8 +71,10 @@ const VehicleDt2ScreenEdit = ({route}) => {
     formData.append('VehicleP2', VehicleP2);
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
-    dispatch(AddVehicle(formData));
-    navigation.navigate('DHome');
+    if (validate()) {
+      dispatch(AddVehicle(formData));
+      navigation.navigate('DProfileScreen');
+    }
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

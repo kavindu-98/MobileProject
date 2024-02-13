@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Icon} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {TextIconButton, PasswordIcon} from '../components';
 import {AddVehicle} from '../Actions/VehicleInfo';
@@ -79,8 +78,10 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
     formData.append('backVInsurance', backVInsurance);
 
     console.log(formData);
-    dispatch(AddVehicle(formData));
-    navigation.navigate('VehicleDt2ScreenEdit', formData);
+    if (validate()) {
+      dispatch(AddVehicle(formData));
+      navigation.navigate('VehicleDt2ScreenEdit', formData);
+    }
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

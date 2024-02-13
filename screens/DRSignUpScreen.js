@@ -28,8 +28,6 @@ import {signUpDriver} from '../Actions/driverActions';
 
 const Tab = createMaterialTopTabNavigator();
 
-// const API_URL = 'http://192.168.1.107:8080//api/users/login';
-
 // screen for driver signup
 
 const DRSignUpScreen = ({navigation}) => {
