@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { LoginComponent, SignupComponent } from "../components";
+import React, {useEffect, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {LoginComponent, SignupComponent} from '../components';
 import {
   View,
   Text,
@@ -15,22 +15,22 @@ import {
   ScrollView,
   Animated,
   Image,
-} from "react-native";
-import { Button, Icon } from "react-native-elements";
-import { COLORS, FONTS, SIZES, icons } from "../constants";
-import { TextIconButton, PasswordIcon, IconButton } from "../components";
-import { Picker } from "@react-native-picker/picker";
-import { Employee } from "../Data/Data";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
+import {COLORS, FONTS, SIZES, icons} from '../constants';
+import {TextIconButton, PasswordIcon, IconButton} from '../components';
+import {Picker} from '@react-native-picker/picker';
+import {Employee} from '../Data/Data';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {signUpUser} from '../Actions/userActions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
-// const API_URL = "http://192.168.1.107:8080//api/users/login";
-
 // this screen for profile data updates and shows
 
-const ProfileInfo = ({ navigation }) => {
- const [email, setEmail] = useState();
+const ProfileInfo = ({navigation}) => {
+  const [email, setEmail] = useState();
   const [FirstName, setFirstName] = useState();
   const [LastName, setLastName] = useState();
   const [phone, setPhone] = useState();
@@ -39,91 +39,104 @@ const ProfileInfo = ({ navigation }) => {
   const [gender, setGender] = useState();
   const [password, setPassword1] = useState();
   const [password2, setPassword2] = useState();
-   const [selectedItem, setSelectedItem] = useState({});
-   const [selectedGender, setSelectedGender] = useState({});
-   const [success,setSuccess] = useState({successMsg:''})
+  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedGender, setSelectedGender] = useState({});
+
+  const [data, setData] = useState([]);
+  const url = '';
+  const [success, setSuccess] = useState({successMsg: ''});
   const [error, setError] = useState({
-    errorMsg:''
+    errorMsg: '',
   });
 
+  const [UserImg, setUserImg] = useState();
+
+  const {user} = useSelector(state => state.userLogIn);
+
+  // Validate the employee data in the front end
+  const validate = () => {
+    if (
+      FirstName === '' ||
+      LastName === '' ||
+      password === '' ||
+      password2 === '' ||
+      employeeId === '' ||
+      NIC === ''
+    ) {
+      setError({...error, errorMsg: 'All Fields are required!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (password.length < 8) {
+      setError({
+        ...error,
+        errorMsg: 'Password must be at least 8 characters long!',
+      });
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (phone.length < 9) {
+      setError({...error, errorMsg: 'Phone number is wrong!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    }
+    if (password !== password2) {
+      setError({...error, errorMsg: 'Passwords does not match!'});
+      setSuccess({...success, successMsg: ''});
+      return false;
+    } else {
+      setError({...error, errorMsg: ''});
+      setSuccess({...success, successMsg: 'Successfully Account Created.'});
+      return true;
+    }
+  };
+  const dispatch = useDispatch();
+  const handleEdit = user => {
+    if (validate()) {
+      dispatch(
+        signUpUser({
+          FirstName,
+          LastName,
+          employeeId,
+          email,
+          NIC,
+          phone,
+          password,
+          gender: 'Male',
+        }),
+      );
+
+      // navigation.navigate('SignIn')
+    }
+  };
+  if (action === 'signUpUser' && isSuccess) {
+    console.log(message);
+    navigation.navigate('Login');
+    dispatch(resetUserLoginStatus());
+  }
+
   const Options = {
-    title: "Select Image",
-    type: "library",
+    title: 'Select Image',
+    type: 'library',
     options: {
       maxHeight: 200,
       maxWidth: 200,
       selectionLimit: 1,
-      mediaType: "photo",
-      includeBase64: false,
+      mediaType: 'photo',
+      includeBase64: true,
     },
   };
-  const openGallery = async () => {
+  const openGallery = async name => {
     const images = await launchImageLibrary(Options);
 
-    console.log(images.assets[0]);
-    const formdata = new FormData();
-    formdata.append("file", {
+    console.log(images.assets[0].base64);
+    const object = {
       uri: images.assets[0].uri,
       type: images.assets[0].type,
       name: images.assets[0].fileName,
-    });
-    let res = await fetch(URL, {
-      method: "post",
-      body: formdata,
-      headers: {
-        "Content-type": "multipart/form-data; ",
-      },
-    });
-    let responseJson = await res.json();
-    console.log(responseJson, "responseJson");
-  };
-
-  const K_Option = [
-    {
-      item: "+94",
-      id: "sri",
-    },
-    {
-      item: "+88",
-      id: "india",
-    },
-    {
-      item: "+97",
-      id: "mal",
-    },
-    {
-      item: "+99",
-      id: "ban",
-    },
-    {
-      item: "+70",
-      id: "japan",
-    },
-    {
-      item: "+60",
-      id: "usa",
-    },
-  ];
-
-  const register = async () => {
-    const payload = {
-      email,
-      password,
     };
-
-    try {
-      fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      navigation.navigate("Home");
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log(error);
+    if (name === 'UserImg') {
+      setUserImg(object);
     }
   };
 
@@ -134,43 +147,39 @@ const ProfileInfo = ({ navigation }) => {
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
     outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   function renderHeader() {
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginTop: 20,
           paddingHorizontal: SIZES.padding,
-          alignItems: "center",
-        }}
-      >
+          alignItems: 'center',
+        }}>
         {/* Greeting  */}
         <View
           style={{
             flex: 1,
-          }}
-        >
+          }}>
           <IconButton
             icon={icons.left_arrow}
             iconStyle={{
               tintColor: COLORS.black,
             }}
-            onPress={()=> navigation.goBack()}
-          ></IconButton>
+            onPress={() => navigation.goBack()}></IconButton>
           <Text
             style={{
               color: COLORS.black,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginLeft: 90,
-              fontWeight: "bold",
+              fontWeight: 'bold',
 
               ...FONTS.h5,
-            }}
-          >
+            }}>
             Employee Profile Info
           </Text>
         </View>
@@ -190,190 +199,193 @@ const ProfileInfo = ({ navigation }) => {
         <ScrollView
           scrollEventThrottle={16}
           onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: AnimatedHeaderValue } } }],
-            { useNativeDriver: false }
-          )}
-        >
+            [{nativeEvent: {contentOffset: {y: AnimatedHeaderValue}}}],
+            {useNativeDriver: false},
+          )}>
           <View style={styles.footer}>
-           <View style={{ alignSelf: "center", marginTop: 20 }}>
-            <View style={styles.profileimage}>
-              <Image
-                source={require("../assets/images/EProfile.jpg")}
-                style={styles.profileimage}
-                resizeMode="center"
-              />
+            <View style={{alignSelf: 'center', marginTop: 20}}>
+              <View style={styles.profileimage}>
+                <Image
+                  source={
+                    UserImg
+                      ? {uri: UserImg.uri}
+                      : require('../assets/images/PhotoInput.png')
+                  }
+                  style={styles.profileimage}
+                />
+              </View>
+              <IconButton
+                icon={icons.add}
+                onPress={() => openGallery('UserImg')}
+                iconStyle={{
+                  marginLeft: 10,
+                  marginTop: -38,
+                  borderRadius: 50,
+                  width: 40,
+                  height: 40,
+                  tintColor: COLORS.white,
+                }}></IconButton>
             </View>
-          </View>
 
-          <View style={styles.proname}>
-            <Text style={styles.nameTitle}>Nishadi Adhikari</Text>
-          </View>
+            <View style={styles.proname}>
+              <Text style={styles.nameTitle}>
+                {user.FirstName} {user.LastName}
+              </Text>
+            </View>
 
-                 <View  style={{ marginTop: 20, margin: SIZES.padding4}}>
-                
-                <View>
-                   <View style={styles.namecontainer}>
-                    <View>
-                        <Text style={styles.inputTitle}>FIRST NAME</Text>
-                          <TextInput
-                            style={styles.input}
-                            placeholder="Enter your First Name"
-                            // autoFocus
-                            value={Employee.Fname}
-                            onChangeText={text => setFirstName(text)}
-                          />
-                    </View>
-                    <View>
-                        <Text style={styles.inputTitle}>LAST NAME</Text>
-                          <TextInput
-                            style={styles.input}
-                            placeholder="Enter your Last Name"
-                            // autoFocus
-                            value={Employee.Lname}
-                            onChangeText={text => setLastName(text)}
-                          />
-                    </View>
-                     
-                   </View>
-                 
-                    <Text style={styles.inputTitle}>EMAIL</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Create your Email"
-                    // secureTextEntry
-                    value={Employee.email}
-                    onChangeText={text => setEmail(text)}
-                  />
+            <View style={{marginTop: 20, margin: SIZES.padding4}}>
+              <View>
+                <View style={styles.namecontainer}>
+                  <View>
+                    <Text style={styles.inputTitle}>FIRST NAME</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your First Name"
+                      // autoFocus
+                      value={user.FirstName}
+                      onChangeText={text => setFirstName(text)}
+                    />
+                  </View>
+                  <View>
+                    <Text style={styles.inputTitle}>LAST NAME</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your Last Name"
+                      // autoFocus
+                      value={user.LastName}
+                      onChangeText={text => setLastName(text)}
+                    />
+                  </View>
+                </View>
+
+                <Text style={styles.inputTitle}>EMAIL</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Create your Email"
+                  // secureTextEntry
+                  value={user.email}
+                  onChangeText={text => setEmail(text)}
+                />
 
                 <View style={styles.namecontainer}>
-                      <View>
-                            <Text style={styles.inputTitle}>COUNTRY CODE</Text>
+                  <View>
+                    <Text style={styles.inputTitle}>COUNTRY CODE</Text>
 
-                            <Picker
-                              selectedValue={selectedItem}
-                              style={{
-                                borderWidth: 1,
-                                // backgroundColor:COLORS.transparentBlack,
-                                marginTop:8
-                              }}
-                              onValueChange={(itemValue, item) =>
-                                setSelectedItem(itemValue)
-                              }>
-                              <Picker.Item label="+94" value="+94" />
-                              <Picker.Item label="+88" value="+88" />
-                              <Picker.Item label="+97" value="+97" />
-                              <Picker.Item label="+11" value="+11" />
-                              <Picker.Item label="+12" value="+12" />
-                            
-
-                            </Picker>
-                            
-                        </View>
-                        <View>
-                            <Text style={styles.inputTitle}>CONTACT NO</Text>
-                              <TextInput
-                                style={styles.input}
-                                placeholder="Enter your Phone Number"
-                                // autoFocus
-                                value={Employee.phone}
-                                onChangeText={text => setPhone(text)}
-                              />
-                        </View>
-                      
-                </View>
-                    <Text style={styles.inputTitle}>EMPLOYEE ID</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Enter your Employee ID"
-                    // secureTextEntry
-                    value={Employee.EmployeeId}
-                    onChangeText={text => setEid(text)}
-                  />
-                  
-               
-                 <View style={styles.namecontainer}>
-                 
-                       <View>
-                          <Text style={styles.inputTitle}>NIC</Text>
-                            <TextInput
-                              style={styles.input}
-                              placeholder="Enter your NIC Number"
-                              // autoFocus
-                              value={Employee.NIC}
-                              onChangeText={text => setNIC(text)}
-                            />
-                      </View> 
-                       <View style={{
-                        marginRight:100
-                       }} >
-                          <Text style={styles.inputTitle}>GENDER</Text>
-
-                          <Picker
-                            selectedValue={selectedGender}
-                            style={{
-                              // borderWidth: 1,
-                              // backgroundColor:COLORS.transparentBlack,
-                              marginTop:8,
-                              marginRight:-100
-                            }}
-                            onValueChange={(itemValue1, item) =>
-                              setSelectedGender(itemValue1)
-                            }>
-                            <Picker.Item label="Male" value="Male" />
-                            <Picker.Item label="Female" value="Female" />
-                            <Picker.Item label="nonbinary" value="nonbinary" />
-                        
-                          
-
-                          </Picker> 
-                         
-                          
-                      </View> 
-                      
-                  </View> 
-
-                    <Text style={styles.inputTitle}>PASSWORD</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Create your password"
-                    secureTextEntry
-                    value={Employee.Password}
-                    onChangeText={text => setPassword1(text)}
-                  />
-                        <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Re-enter password"
-                    secureTextEntry
-                    value={password2}
-                    onChangeText={text => setPassword2(text)}
-                  />
-                  
-                  
-                </View>
-                {error.errorMsg !== '' && <Text style={styles.error}>{error.errorMsg}</Text>}
-      {success.successMsg !== '' && <Text style={styles.success}>{success.successMsg}</Text>}
-
-                    <TextIconButton
-                      label="SAVE INFORMATION"
-                      customContainerStyle={{
-                      width: "100%",
-                      height: 55,
-                      borderRadius: SIZES.radius_btn4,
-                      marginTop: SIZES.padding1
+                    <Picker
+                      selectedValue={selectedItem}
+                      style={{
+                        borderWidth: 1,
+                        // backgroundColor:COLORS.transparentBlack,
+                        marginTop: 8,
                       }}
-                      customLabelStyle={{
-                      color: COLORS.white,
-                      alignItems: 'center',
-                      marginLeft: -15,
-                      ...FONTS.h2,
-                      
-                      }}
-                      onPress={() => {navigation.navigate('')}}
-                   />
-  
+                      onValueChange={(itemValue, item) =>
+                        setSelectedItem(itemValue)
+                      }>
+                      <Picker.Item label="+94" value="+94" />
+                      <Picker.Item label="+88" value="+88" />
+                      <Picker.Item label="+97" value="+97" />
+                      <Picker.Item label="+11" value="+11" />
+                      <Picker.Item label="+12" value="+12" />
+                    </Picker>
+                  </View>
+                  <View>
+                    <Text style={styles.inputTitle}>CONTACT NO</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your Phone Number"
+                      // autoFocus
+                      value={user.phone}
+                      onChangeText={text => setPhone(text)}
+                    />
+                  </View>
+                </View>
+                <Text style={styles.inputTitle}>EMPLOYEE ID</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter your Employee ID"
+                  // secureTextEntry
+                  value={user.employeeId}
+                  onChangeText={text => setEid(text)}
+                />
 
-          </View>
+                <View style={styles.namecontainer}>
+                  <View>
+                    <Text style={styles.inputTitle}>NIC</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your NIC Number"
+                      // autoFocus
+                      value={user.NIC}
+                      onChangeText={text => setNIC(text)}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginRight: 100,
+                    }}>
+                    <Text style={styles.inputTitle}>GENDER</Text>
+
+                    <Picker
+                      selectedValue={selectedGender}
+                      style={{
+                        // borderWidth: 1,
+                        // backgroundColor:COLORS.transparentBlack,
+                        marginTop: 8,
+                        marginRight: -100,
+                      }}
+                      onValueChange={(itemValue1, item) =>
+                        setSelectedGender(itemValue1)
+                      }>
+                      <Picker.Item label="Male" value="Male" />
+                      <Picker.Item label="Female" value="Female" />
+                      <Picker.Item label="nonbinary" value="nonbinary" />
+                    </Picker>
+                  </View>
+                </View>
+
+                <Text style={styles.inputTitle}>PASSWORD</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Create your password"
+                  secureTextEntry
+                  value={Employee.Password}
+                  onChangeText={text => setPassword1(text)}
+                />
+                <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Re-enter password"
+                  secureTextEntry
+                  value={password2}
+                  onChangeText={text => setPassword2(text)}
+                />
+              </View>
+              {error.errorMsg !== '' && (
+                <Text style={styles.error}>{error.errorMsg}</Text>
+              )}
+              {success.successMsg !== '' && (
+                <Text style={styles.success}>{success.successMsg}</Text>
+              )}
+
+              <TextIconButton
+                label="SAVE INFORMATION"
+                customContainerStyle={{
+                  width: '100%',
+                  height: 55,
+                  borderRadius: SIZES.radius_btn4,
+                  marginTop: SIZES.padding1,
+                }}
+                customLabelStyle={{
+                  color: COLORS.white,
+                  alignItems: 'center',
+                  marginLeft: -15,
+                  ...FONTS.h2,
+                }}
+                onPress={() => {
+                  navigation.navigate('');
+                }}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -389,25 +401,25 @@ const styles = StyleSheet.create({
   },
   header: {
     // flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   footer: {
     // flex: 1,
     // height: "70%",
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     // borderTopLeftRadius: 30,
     // borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
   proname: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   Title: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     color: COLORS.black,
     ...FONTS.h1,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 80,
     marginLeft: -40,
   },
@@ -415,18 +427,18 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     marginTop: 15,
     fontSize: SIZES.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   namecontainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
   },
   profileimage: {
     width: 130,
     height: 130,
     borderRadius: 15,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   inputTitle1: {
     ...FONTS.h3,
@@ -440,31 +452,31 @@ const styles = StyleSheet.create({
 
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    color: '#05375a',
   },
   errorMsg: {
-    color: "#FF0000",
+    color: '#FF0000',
     fontSize: 14,
   },
   button: {
     // marginLeft: 10,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     marginLeft: 130,
     marginTop: 30,
   },
 
   inputTitle: {
     ...FONTS.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: SIZES.padding3,
   },
   inputSubTitle: {
     ...FONTS.h4,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: SIZES.padding3,
-    textAlign: "center",
+    textAlign: 'center',
   },
   input: {
     backgroundColor: COLORS.transparentWhite,
@@ -472,7 +484,7 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     borderRadius: 8,
     borderWidth: 1,
-    width: "100%",
+    width: '100%',
     height: 50,
     marginTop: SIZES.padding3,
     padding: SIZES.padding2,
@@ -481,6 +493,6 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     borderRadius: 100,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 });

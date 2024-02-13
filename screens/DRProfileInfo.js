@@ -25,6 +25,7 @@ import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Drivercards} from '../Data/Data';
 import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -41,6 +42,10 @@ const DRProfileInfo = ({navigation}) => {
   const [selectedGender, setSelectedGender] = useState({});
 
   const [List, setList] = useState({});
+  const [DriverImg, setDriverImg] = useState();
+  const [frontLicence, setFrontLicence] = useState();
+  const [backLicence, setBackLicence] = useState();
+  const {driver} = useSelector(state => state.driverLogIn);
 
   const Options = {
     title: 'Select Image',
@@ -50,28 +55,26 @@ const DRProfileInfo = ({navigation}) => {
       maxWidth: 200,
       selectionLimit: 1,
       mediaType: 'photo',
-      includeBase64: false,
+      includeBase64: true,
     },
   };
-  const openGallery = async () => {
+  const openGallery = async name => {
     const images = await launchImageLibrary(Options);
 
-    console.log(images.assets[0]);
-    const formdata = new FormData();
-    formdata.append('file', {
+    console.log(images.assets[0].base64);
+    const object = {
       uri: images.assets[0].uri,
       type: images.assets[0].type,
       name: images.assets[0].fileName,
-    });
-    let res = await fetch(URL, {
-      method: 'post',
-      body: formdata,
-      headers: {
-        'Content-type': 'multipart/form-data; ',
-      },
-    });
-    let responseJson = await res.json();
-    console.log(responseJson, 'responseJson');
+    };
+    if (name === 'DriverImg') {
+      setDriverImg(object);
+    }
+    if (name === 'front') {
+      setFrontLicence(object);
+    } else {
+      setBackLicence(object);
+    }
   };
 
   let AnimatedHeaderValue = new Animated.Value(0);
@@ -149,14 +152,31 @@ const DRProfileInfo = ({navigation}) => {
             <View style={{alignSelf: 'center', marginTop: 20}}>
               <View style={styles.profileimage}>
                 <Image
-                  source={require('../assets/images/Profile2.jpg')}
+                  source={
+                    DriverImg
+                      ? {uri: DriverImg.uri}
+                      : require('../assets/images/PhotoInput.png')
+                  }
                   style={styles.profileimage}
                 />
               </View>
+              <IconButton
+                icon={icons.add}
+                onPress={() => openGallery('DriverImg')}
+                iconStyle={{
+                  marginLeft: 10,
+                  marginTop: -38,
+                  borderRadius: 50,
+                  width: 40,
+                  height: 40,
+                  tintColor: COLORS.white,
+                }}></IconButton>
             </View>
 
             <View style={styles.proname}>
-              <Text style={styles.nameTitle}>Lalith Perera</Text>
+              <Text style={styles.nameTitle}>
+                {driver.FirstName} {driver.LastName}
+              </Text>
             </View>
 
             <View style={{marginTop: 10, margin: SIZES.padding4}}>
@@ -168,7 +188,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your First Name"
                       // autoFocus
-                      value={Name1}
+                      value={driver.FirstName}
                       onChangeText={text => setName1(text)}
                     />
                   </View>
@@ -178,7 +198,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Last Name"
                       // autoFocus
-                      value={Name2}
+                      value={driver.LastName}
                       onChangeText={text => setName2(text)}
                     />
                   </View>
@@ -189,7 +209,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your Email"
                   // secureTextEntry
-                  value={email}
+                  value={driver.email}
                   onChangeText={text => setEmail(text)}
                 />
 
@@ -220,7 +240,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Phone Number"
                       // autoFocus
-                      value={Phone}
+                      value={driver.phone}
                       onChangeText={text => setPhone(text)}
                     />
                   </View>
@@ -230,7 +250,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
-                  value={Did}
+                  value={driver.driverId}
                   onChangeText={text => setDid(text)}
                 />
 
@@ -241,7 +261,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your NIC Number"
                       // autoFocus
-                      value={NIC}
+                      value={driver.NIC}
                       onChangeText={text => setNIC(text)}
                     />
                   </View>
@@ -274,7 +294,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
-                  value={Did}
+                  value={driver.licenceId}
                   onChangeText={text => setDid(text)}
                 />
 
@@ -288,19 +308,49 @@ const DRProfileInfo = ({navigation}) => {
                     justifyContent: 'space-between',
                   }}>
                   <View style={styles.profileimage}>
-                    <TouchableOpacity onPress={openGallery}>
+                    <TouchableOpacity>
                       <Image
-                        source={require('../assets/images/PhotoInput.png')}
+                        source={
+                          frontLicence
+                            ? {uri: frontLicence.uri}
+                            : require('../assets/images/PhotoInput.png')
+                        }
                         style={styles.profileimage}
                       />
+                      <IconButton
+                        icon={icons.add}
+                        onPress={() => openGallery('front')}
+                        iconStyle={{
+                          marginLeft: 10,
+                          marginTop: -38,
+                          borderRadius: 50,
+                          width: 40,
+                          height: 40,
+                          tintColor: COLORS.white,
+                        }}></IconButton>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.profileimage}>
-                    <TouchableOpacity onPress={openGallery}>
+                    <TouchableOpacity>
                       <Image
-                        source={require('../assets/images/PhotoInput.png')}
+                        source={
+                          backLicence
+                            ? {uri: backLicence.uri}
+                            : require('../assets/images/PhotoInput.png')
+                        }
                         style={styles.profileimage}
                       />
+                      <IconButton
+                        icon={icons.add}
+                        onPress={() => openGallery('back')}
+                        iconStyle={{
+                          marginLeft: 10,
+                          marginTop: -38,
+                          borderRadius: 50,
+                          width: 40,
+                          height: 40,
+                          tintColor: COLORS.white,
+                        }}></IconButton>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -405,6 +455,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
   },
+
   inputTitle1: {
     ...FONTS.h3,
     marginTop: SIZES.padding3,

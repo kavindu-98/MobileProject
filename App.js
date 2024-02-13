@@ -43,6 +43,9 @@ import {
   DRMyDailyRides,
   DestinationDriver,
   DStartLocation,
+  AddVehicle,
+  VehicleDt1ScreenEdit,
+  VehicleDt2ScreenEdit,
 } from './screens';
 import Tabs from './navigation/tabs';
 import DTabs from './navigation/Dtabs';
@@ -114,6 +117,15 @@ const App = () => {
                 name="DestinationDriver"
                 component={DestinationDriver}
               />
+              <Stack.Screen
+                name="VehicleDt1ScreenEdit"
+                component={VehicleDt1ScreenEdit}
+              />
+              <Stack.Screen
+                name="VehicleDt2ScreenEdit"
+                component={VehicleDt2ScreenEdit}
+              />
+              <Stack.Screen name="AddVehicle" component={AddVehicle} />
               <Stack.Screen name="DStartLocation" component={DStartLocation} />
               <Stack.Screen name="DSetStartOnMap" component={DSetStartOnMap} />
               <Stack.Screen name="DStartRide" component={DStartRide} />

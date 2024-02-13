@@ -42,6 +42,9 @@ import ProfileInfo from './ProfileInfo';
 import DRMyDailyRides from './DRMyDailyRides';
 import DestinationDriver from './DestinationDriver';
 import SelectVehicle from './SelectVehicle';
+import AddVehicle from './AddVehicle';
+import VehicleDt1ScreenEdit from './VehicleDt1ScreenEdit';
+import VehicleDt2ScreenEdit from './VehicleDt2ScreenEdit';
 
 export {
   WelcomeScreen,
@@ -88,4 +91,7 @@ export {
   DRMyDailyRides,
   DestinationDriver,
   SelectVehicle,
+  AddVehicle,
+  VehicleDt2ScreenEdit,
+  VehicleDt1ScreenEdit,
 };

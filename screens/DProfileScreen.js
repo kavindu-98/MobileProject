@@ -9,7 +9,6 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
@@ -27,31 +26,6 @@ const DProfileScreen = () => {
   const snapPoints = ['50%'];
   const dispatch = useDispatch();
   const {driver} = useSelector(state => state.driverLogIn);
-
-  const Options = {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      maxHeight: 200,
-      maxWidth: 200,
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: true,
-    },
-  };
-  const openGallery = async name => {
-    const images = await launchImageLibrary(Options);
-
-    console.log(images.assets[0].base64);
-    const object = {
-      uri: images.assets[0].uri,
-      type: images.assets[0].type,
-      name: images.assets[0].fileName,
-    };
-    if (name === 'DriverImg') {
-      setDriverImg(object);
-    }
-  };
 
   const navigation = useNavigation();
   function renderHeader() {
@@ -199,25 +173,10 @@ const DProfileScreen = () => {
           <View style={{alignSelf: 'center', marginTop: 5}}>
             <View style={styles.profileimage}>
               <Image
-                source={
-                  DriverImg
-                    ? {uri: DriverImg.uri}
-                    : require('../assets/images/PhotoInput.png')
-                }
+                source={require('../assets/images/Profile2.jpg')}
                 style={styles.profileimage}
               />
             </View>
-            <IconButton
-              icon={icons.add}
-              onPress={() => openGallery('DriverImg')}
-              iconStyle={{
-                marginLeft: 10,
-                marginTop: -38,
-                borderRadius: 50,
-                width: 40,
-                height: 40,
-                tintColor: COLORS.white,
-              }}></IconButton>
           </View>
 
           <View style={styles.proname}>
@@ -288,7 +247,7 @@ const DProfileScreen = () => {
                 marginLeft: 30,
               }}
               onPress={() => {
-                navigation.navigate('VehicleDt1Screen');
+                navigation.navigate('AddVehicle');
               }}
             />
 

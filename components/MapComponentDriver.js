@@ -16,7 +16,7 @@ const MapComponentDriver = ({}) => {
   console.log(origin);
   console.log('destination');
   console.log(destination);
-  const GOOGLE_MAPS_APIKEY = 'AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk';
+  const GOOGLE_MAPS_APIKEY = 'AIzaSyBpPGnre332uNnud4OPqcSpvUSUTuAmWnc';
 
   return (
     <View>
