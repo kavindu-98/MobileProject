@@ -50,8 +50,8 @@ const DRSignUpScreen = ({navigation}) => {
   const [frontLicence, setFrontLicence] = useState();
   const [backLicence, setBackLicence] = useState();
 
-  const {isError, isSuccess, isLoading, message, action} = useSelector(
-    state => state.userLogIn,
+  const {driver, isSuccess, isLoading, message, action} = useSelector(
+    state => state.driverLogIn,
   );
 
   // Validate the employee data in the front end

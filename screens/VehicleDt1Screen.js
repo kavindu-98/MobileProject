@@ -20,9 +20,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Icon} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {TextIconButton, PasswordIcon} from '../components';
-import * as Animatable from 'react-native-animatable';
-import SelectBox from 'react-native-multiple-select';
-import {Picker} from '@react-native-picker/picker';
 import {AddVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
@@ -31,8 +28,8 @@ const Tab = createMaterialTopTabNavigator();
 const VehicleDt1Screen = ({navigation}) => {
   const [VNo, setVNo] = useState();
   const [VType, setVType] = useState();
-  const [VLNo, setVLNo] = useState();
-  const [VINo, setVINo] = useState();
+  const [VLNo, setVLNo] = useState('');
+  const [VINo, setVINo] = useState('');
   const [success, setSuccess] = useState({successMsg: ''});
   const [error, setError] = useState({
     errorMsg: '',
@@ -43,8 +40,8 @@ const VehicleDt1Screen = ({navigation}) => {
   const [frontVInsurance, setFrontVInsurance] = useState();
   const [backVInsurance, setBackVInsurance] = useState();
 
-  const {isError, isSuccess, isLoading, message, action} = useSelector(
-    state => state.userLogIn,
+  const {driver, isError, isSuccess, isLoading, message, action} = useSelector(
+    state => state.driverLogIn,
   );
 
   // Validate the Vehicle information in the frontend
@@ -72,6 +69,7 @@ const VehicleDt1Screen = ({navigation}) => {
   const Handlevehicle = () => {
     console.log('hi');
     const formData = new FormData();
+    formData.append('DId', driver.driverId);
     formData.append('VNo', VNo);
     formData.append('VLNo', VLNo);
     formData.append('VINo', VINo);
@@ -82,10 +80,10 @@ const VehicleDt1Screen = ({navigation}) => {
     formData.append('backVInsurance', backVInsurance);
 
     console.log(formData);
-    if (validate()) {
-      dispatch(AddVehicle(formData));
-      navigation.navigate('VehicleDt2Screen', formData);
-    }
+    // console.log(errorMsg);
+
+    dispatch(AddVehicle(formData));
+    navigation.navigate('VehicleDt2Screen', formData);
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);

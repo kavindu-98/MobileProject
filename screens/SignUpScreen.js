@@ -33,12 +33,12 @@ const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [FirstName, setFirstName] = useState();
   const [LastName, setLastName] = useState();
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState('');
   const [NIC, setNIC] = useState();
   const [employeeId, setEid] = useState();
   const [gender, setGender] = useState();
-  const [password, setPassword1] = useState();
-  const [password2, setPassword2] = useState();
+  const [password, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
   const [success, setSuccess] = useState({successMsg: ''});
@@ -49,33 +49,6 @@ const SignUpScreen = ({navigation}) => {
   const {isError, isSuccess, isLoading, message, action} = useSelector(
     state => state.userLogIn,
   );
-
-  const K_Option = [
-    {
-      item: '+94',
-      id: 'sri',
-    },
-    {
-      item: '+88',
-      id: 'india',
-    },
-    {
-      item: '+97',
-      id: 'mal',
-    },
-    {
-      item: '+99',
-      id: 'ban',
-    },
-    {
-      item: '+70',
-      id: 'japan',
-    },
-    {
-      item: '+60',
-      id: 'usa',
-    },
-  ];
 
   // Validate the employee data in the front end
   const validate = () => {
@@ -99,7 +72,7 @@ const SignUpScreen = ({navigation}) => {
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (phone.length < 9) {
+    if (phone.length < 10) {
       setError({...error, errorMsg: 'Phone number is wrong!'});
       setSuccess({...success, successMsg: ''});
       return false;

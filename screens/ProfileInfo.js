@@ -49,6 +49,9 @@ const ProfileInfo = ({navigation}) => {
     errorMsg: '',
   });
 
+  const {isError, isSuccess, message, action} = useSelector(
+    state => state.userLogIn,
+  );
   const [UserImg, setUserImg] = useState();
 
   const {user} = useSelector(state => state.userLogIn);

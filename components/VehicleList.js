@@ -26,10 +26,7 @@ const VehicleList = ({}) => {
     <ScrollView>
       {VehicleDetails.map((item, index) => {
         return (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('VehicleDt1ScreenEdit', item);
-            }}>
+          <TouchableOpacity>
             <View
               style={{
                 height: 125,
@@ -90,17 +87,22 @@ const VehicleList = ({}) => {
                 </Text>
               </View>
               <View>
-                <Image
-                  source={require('../assets/icons/edit.png')}
-                  resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: 5,
-                    marginTop: 45,
-                    tintColor: COLORS.gray30,
-                  }}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('VehicleDt1ScreenEdit', item);
+                  }}>
+                  <Image
+                    source={require('../assets/icons/edit.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: 30,
+                      height: 30,
+                      marginLeft: 5,
+                      marginTop: 45,
+                      tintColor: COLORS.gray30,
+                    }}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </TouchableOpacity>

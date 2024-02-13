@@ -41,7 +41,9 @@ const DRProfileInfo = ({navigation}) => {
   const [DriverImg, setDriverImg] = useState();
   const [frontLicence, setFrontLicence] = useState();
   const [backLicence, setBackLicence] = useState();
-  const {driver} = useSelector(state => state.driverLogIn);
+  const {driver, isSuccess, isLoading, message, action} = useSelector(
+    state => state.driverLogIn,
+  );
 
   // Validate the employee data in the front end
   const validate = () => {
