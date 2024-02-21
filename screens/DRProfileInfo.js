@@ -31,6 +31,7 @@ const DRProfileInfo = ({navigation}) => {
   const [Name2, setName2] = useState();
   const [Phone, setPhone] = useState();
   const [Did, setDid] = useState();
+  const [DLN, setDLN] = useState();
   const [NIC, setNIC] = useState();
   const [password1, setPassword1] = useState();
   const [password2, setPassword2] = useState();
@@ -41,6 +42,10 @@ const DRProfileInfo = ({navigation}) => {
   const [DriverImg, setDriverImg] = useState();
   const [frontLicence, setFrontLicence] = useState();
   const [backLicence, setBackLicence] = useState();
+  const [success, setSuccess] = useState({successMsg: ''});
+  const [error, setError] = useState({
+    errorMsg: '',
+  });
   const {driver, isSuccess, isLoading, message, action} = useSelector(
     state => state.driverLogIn,
   );
@@ -350,10 +355,10 @@ const DRProfileInfo = ({navigation}) => {
                 <Text style={styles.inputTitle}>DRIVING LICENSE NUMBER</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Enter your Driver ID"
+                  placeholder="Enter your Driver License Number"
                   // secureTextEntry
                   value={driver.licenceId}
-                  onChangeText={text => setDid(text)}
+                  onChangeText={text => setDLN(text)}
                 />
 
                 <Text style={styles.inputTitle1}>

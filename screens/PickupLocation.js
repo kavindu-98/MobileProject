@@ -26,8 +26,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {BusAround} from '../Data/Data';
 import {MapStyle} from '../styles';
-import Geolocation from 'react-native-geolocation-service';
-
+import Geolocation from '@react-native-community/geolocation';
 import {IconButton} from '../components';
 import {HeaderBar, MapComponent} from '../components';
 import {Marker} from 'react-native-maps';
@@ -92,7 +91,7 @@ const PickupLocation = ({route}) => {
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
-            console.log(position);
+            console.log('possition.........', position);
             setLocation(position);
           },
           error => {
@@ -103,8 +102,9 @@ const PickupLocation = ({route}) => {
           {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
         );
       }
+      // Geolocation.getCurrentPosition(info => console.log('info......', info));
     });
-    console.log(location);
+    console.log('Location', location);
   };
 
   const _map = useRef(1);
@@ -213,22 +213,14 @@ const PickupLocation = ({route}) => {
               style={{
                 flexDirection: 'row',
               }}>
-              {/* <TextInput
-                            style={styles.input}
-                            placeholder="Enter Destionation"
-                            // autoFocus
-                            // value={email}
-                            // onChangeText={text => setEmail(text)}
-                          /> */}
-
               {/* google autoplace suggesor */}
               <GooglePlacesAutocomplete
                 nearbyPlacesAPI="GooglePlacesSearch"
                 placeholder="Enter Pickup Location"
                 listViewDisplayed="auto"
                 debounce={400}
-                currentLocation={true}
-                currentLocationLabel="Current Location"
+                // currentLocation={true}
+                // currentLocationLabel="Current Location"
                 ref={textInput1}
                 minLength={2}
                 enablePoweredByContainer={false}

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {getUserCookie} from '../utils/getCookie';
+
 // require('dotenv').config()
 // import {APIDOMAIN} from "@env"
 // import { APIDOMAIN } from 'react-native-dotenv';
@@ -25,7 +26,9 @@ const signUp = async object => {
   return response.data;
 };
 const update = async updateObject => {
+  console.log('before jwt');
   const jwt = getUserCookie();
+  console.log(jwt);
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +36,7 @@ const update = async updateObject => {
     },
   };
   const response = await axios.post(
-    'http://10.0.2.2:5000/api/users/update',
+    `http://10.0.2.2:5000/api/users/update`,
     updateObject,
     config,
   );

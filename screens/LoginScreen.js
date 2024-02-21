@@ -17,10 +17,8 @@ import {Button} from 'react-native-elements';
 import {COLORS, FONTS, SIZES, icons} from '../constants';
 import {TextIconButton} from '../components';
 import {useDispatch, useSelector} from 'react-redux';
-import * as Animatable from 'react-native-animatable';
-import Feather from 'react-native-vector-icons/Feather';
 import {logInUser} from '../Actions/userActions';
-import {ToastAndroid} from 'react-native';
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,6 +32,7 @@ const LoginScreen = ({navigation}) => {
 
   const [employeeId, setEmployeeId] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [userToken, setUserToken] = useState(null);
 
   // check the Employee Id and password is correct
 
@@ -43,6 +42,8 @@ const LoginScreen = ({navigation}) => {
     console.log(password);
     // navigation.navigate('OTP');
   };
+
+  const isLoggedIn = async () => {};
   useEffect(() => {
     if (action === 'logInUser' && isSuccess) {
       navigation.navigate('GetStartScreen');

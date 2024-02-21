@@ -22,7 +22,7 @@ import {TextIconButton, PasswordIcon, IconButton} from '../components';
 import {Picker} from '@react-native-picker/picker';
 import {Employee} from '../Data/Data';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {signUpUser} from '../Actions/userActions';
+import {signUpUser, updateUser} from '../Actions/userActions';
 import {useDispatch, useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
@@ -95,22 +95,21 @@ const ProfileInfo = ({navigation}) => {
   };
   const dispatch = useDispatch();
   const handleEdit = user => {
-    if (validate()) {
-      dispatch(
-        signUpUser({
-          FirstName,
-          LastName,
-          employeeId,
-          email,
-          NIC,
-          phone,
-          password,
-          gender: 'Male',
-        }),
-      );
+    console.log('hi');
+    dispatch(
+      updateUser({
+        FirstName,
+        LastName,
+        employeeId,
+        email,
+        NIC,
+        phone,
+        password,
+        gender: 'Male',
+      }),
+    );
 
-      // navigation.navigate('SignIn')
-    }
+    // navigation.navigate('SignIn')
   };
   if (action === 'signUpUser' && isSuccess) {
     console.log(message);
@@ -384,9 +383,7 @@ const ProfileInfo = ({navigation}) => {
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
-                onPress={() => {
-                  navigation.navigate('');
-                }}
+                onPress={handleEdit}
               />
             </View>
           </View>
