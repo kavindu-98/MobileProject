@@ -10,28 +10,25 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
 import {
   HeaderBar,
-  IconButton,
   TextIconButton,
   Rating,
   TextButton,
   MapComponentRoute,
   DriverCard,
-} from "../components";
+} from '../components';
 
 // this screen for driver details for selected driver
 
-const DriverDetails = ({ route }) => {
-
-
+const DriverDetails = ({route, dropLocation, pickupLocation}) => {
   const navigation = useNavigation();
 
   const driver = route.params;
@@ -41,19 +38,16 @@ const DriverDetails = ({ route }) => {
       <View
         style={{
           flex: 1,
-          height: "100%",
-          flexDirection: "column",
+          height: '100%',
+          flexDirection: 'column',
           backgroundColor: COLORS.white,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         {/* header */}
         <HeaderBar
-       
-
           leftOnPressed={() => {
-            navigation.navigate("SeleDriver");
+            navigation.navigate('SeleDriver');
           }}
           icon={icons.left_arrow}
           iconStyle3={{
@@ -62,7 +56,7 @@ const DriverDetails = ({ route }) => {
           right={false}
           title="Driver Details"
           containerStyle={{
-            position: "absolute",
+            position: 'absolute',
             top: SIZES.padding * 2,
             // height: "20%",
             // width: SIZES.width,
@@ -78,7 +72,7 @@ const DriverDetails = ({ route }) => {
             // width: SIZES.width,
             color: COLORS.black,
             fontSize: 18,
-            fontWeight: "bold",
+            fontWeight: 'bold',
           }}
         />
 
@@ -86,20 +80,18 @@ const DriverDetails = ({ route }) => {
           <View
             style={{
               marginTop: 10,
-              flexDirection: "column",
+              flexDirection: 'column',
 
               // justifyContent: 'center',
-            }}
-          >
+            }}>
             <View
               style={{
                 marginTop: 10,
 
-                flexDirection: "row",
+                flexDirection: 'row',
 
                 // justifyContent: 'center',
-              }}
-            >
+              }}>
               <View style={styles.Circle}>
                 <Image
                   source={driver.Image}
@@ -109,20 +101,18 @@ const DriverDetails = ({ route }) => {
               </View>
               <View
                 style={{
-                  flexDirection: "column",
+                  flexDirection: 'column',
 
                   // justifyContent: 'center',
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     color: COLORS.black,
-                    fontWeight: "bold",
+                    fontWeight: 'bold',
                     ...FONTS.h1,
                     fontSize: 23,
                     marginLeft: 20,
-                  }}
-                >
+                  }}>
                   {driver.name}
                 </Text>
                 <Text
@@ -132,8 +122,7 @@ const DriverDetails = ({ route }) => {
                     ...FONTS.h2,
                     fontSize: 15,
                     marginLeft: 20,
-                  }}
-                >
+                  }}>
                   {driver.vehicleNo}
                 </Text>
                 <Text
@@ -141,12 +130,11 @@ const DriverDetails = ({ route }) => {
                     ...FONTS.h3,
                     marginLeft: 20,
                     marginTop: 5,
-                  }}
-                >
+                  }}>
                   {driver.vehicleType} * {driver.condition}
                 </Text>
                 <Image
-                  source={require("../assets/icons/Seats.png")}
+                  source={require('../assets/icons/Seats.png')}
                   resizeMode="contain"
                   style={{
                     width: 30,
@@ -161,13 +149,12 @@ const DriverDetails = ({ route }) => {
                     ...FONTS.h3,
                     marginLeft: 60,
                     marginTop: -25,
-                  }}
-                >
-                 {driver.sheetcount} Seats Available
+                  }}>
+                  {driver.sheetcount} Seats Available
                 </Text>
 
                 <Image
-                  source={require("../assets/images/Star.png")}
+                  source={require('../assets/images/Star.png')}
                   style={styles.Star}
                   resizeMode="center"
                 />
@@ -176,8 +163,7 @@ const DriverDetails = ({ route }) => {
                     marginTop: -27,
                     marginLeft: -55,
                     ...FONTS.h2,
-                  }}
-                >
+                  }}>
                   {driver.ratings}
                 </Text>
               </View>
@@ -185,37 +171,23 @@ const DriverDetails = ({ route }) => {
 
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginTop: 20,
-              }}
-            >
-              <Image
-                source={driver.vehiclePhoto1}
-                style={styles.Star1}
-              />
-              <Image
-                source={driver.vehiclePhoto2}
-                style={styles.Star1}
-              />
+              }}>
+              <Image source={driver.vehiclePhoto1} style={styles.Star1} />
+              <Image source={driver.vehiclePhoto2} style={styles.Star1} />
             </View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginTop: 20,
-              }}
-            >
-              <Image
-               source={driver.vehiclePhoto3}
-                style={styles.Star1}
-              />
-              <Image
-               source={driver.vehiclePhoto4}
-                style={styles.Star1}
-              />
+              }}>
+              <Image source={driver.vehiclePhoto3} style={styles.Star1} />
+              <Image source={driver.vehiclePhoto4} style={styles.Star1} />
             </View>
           </View>
         </View>
@@ -224,9 +196,8 @@ const DriverDetails = ({ route }) => {
             marginTop: 5,
             marginLeft: -220,
             ...FONTS.h2,
-            fontWeight: "bold",
-          }}
-        >
+            fontWeight: 'bold',
+          }}>
           Route Details
         </Text>
         <Text
@@ -235,23 +206,20 @@ const DriverDetails = ({ route }) => {
             marginLeft: -105,
             ...FONTS.h2,
             fontSize: 16,
-          }}
-        >
+          }}>
           Time can be changed due to traffic
         </Text>
         <View style={styles.Star2}>
-          {/* <MapComponentRoute style={styles.map}></MapComponentRoute> */}
-
+          <MapComponentRoute
+            style={styles.map}
+            pickupLocation={pickupLocation}
+            dropLocation={dropLocation}></MapComponentRoute>
         </View>
-        {/* <Image
-          source={require("../assets/images/map1.png")}
-          style={styles.Star2}
-        /> */}
 
         <TextIconButton
           label="SEND REQUEST"
           customContainerStyle={{
-            width: "90%",
+            width: '90%',
             height: 55,
 
             borderRadius: SIZES.radius_btn4,
@@ -260,12 +228,12 @@ const DriverDetails = ({ route }) => {
           }}
           customLabelStyle={{
             color: COLORS.white,
-            alignItems: "center",
+            alignItems: 'center',
             marginLeft: -15,
             ...FONTS.h2,
           }}
           onPress={() => {
-            navigation.navigate("PendingDriver");
+            navigation.navigate('PendingDriver');
           }}
         />
       </View>
@@ -274,7 +242,7 @@ const DriverDetails = ({ route }) => {
 
   return (
     <ScrollView>
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <StatusBar style="auto" />
 
         {renderMap()}
@@ -292,7 +260,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
@@ -328,7 +296,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
 
     marginTop: 90,
-    alignItems: "center",
+    alignItems: 'center',
     // justifyContent: 'center',
 
     // overflow: "hidden",
@@ -344,7 +312,7 @@ const styles = StyleSheet.create({
     height: 70,
     marginHorizontal: 20,
     borderRadius: 10,
-    resizeMode: "cover"
+    resizeMode: 'cover',
   },
   Star2: {
     width: SIZES.width * 0.8,
@@ -353,9 +321,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
 
-  map:{
-    marginTop: 20
-  }
+  map: {
+    marginTop: 20,
+  },
   //   header: {
   //     flex: 1,
   //     // justifyContent: 'center',

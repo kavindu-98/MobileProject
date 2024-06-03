@@ -11,12 +11,12 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
 import {
   HeaderBar,
@@ -26,23 +26,18 @@ import {
   TextButton,
   MapComponent,
   DriverCard,
-} from "../components";
+} from '../components';
 
-import * as Animatable from "react-native-animatable";
-
-import { ImageBackground } from "react-native";
-import HomeScreen from "./HomeScreen";
-
-const AcceptDriver = ({ route }) => {
+const AcceptDriver = ({route}) => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalCallVisible, setCallModalVisible] = useState(false);
 
-  const snapPoints = ["6%", "40%", "100%"];
+  const snapPoints = ['6%', '40%', '100%'];
 
-const obj={name:'thari',age:5}
-const obj2={...obj,gender:'m',number:'ddvd'}
+  const obj = {name: 'thari', age: 5};
+  const obj2 = {...obj, gender: 'm', number: 'ddvd'};
   const navigation = useNavigation();
 
   function renderMap() {
@@ -50,23 +45,22 @@ const obj2={...obj,gender:'m',number:'ddvd'}
       <View
         style={{
           flex: 1,
-          height: "100%",
+          height: '100%',
           backgroundColor: COLORS.gray10,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
+        }}>
         {/* header */}
         <MapComponent></MapComponent>
         <HeaderBar
           // title={selectedPlace?.name}
           leftOnPressed={() => {
-            navigation.navigate("DriverDetails");
+            navigation.navigate('DriverDetails');
           }}
           right={false}
           icon={icons.left_arrow}
           containerStyle={{
-            position: "absolute",
+            position: 'absolute',
             top: SIZES.padding * 2,
             // height: "20%",
             // width: SIZES.width,
@@ -86,66 +80,59 @@ const obj2={...obj,gender:'m',number:'ddvd'}
           backgroundColor: COLORS.gray10,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
+        }}>
         <BottomSheet
           // ref={sheetRef}
           snapPoints={snapPoints}
           // enablePanDownToClose={true}
           onClose={() => setIsOpen(false)}
-          backgroundStyle={{ borderRadius: 50 }}
-        >
+          backgroundStyle={{borderRadius: 50}}>
           <BottomSheetView
             style={{
               // borderRadius: 5,
               // backgroundColor: COLORS.gray10
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <Text
               style={{
                 color: COLORS.black,
                 // fontWeight: 1,
                 ...FONTS.h1,
                 fontSize: 23,
-              }}
-            >
+              }}>
               Lalith Perera
             </Text>
             <View
               style={{
-                flexDirection: "row",
-              }}
-            >
-               <TouchableOpacity   onPress={() => setCallModalVisible(true)}>
-              <Image
-                source={require("../assets/icons/call.png")}
-                resizeMode="contain"
-                style={{
-                  width: 50,
-                  height: 50,
-                  margin: 35,
-                  marginTop: 50,
-                  // tintColor: COLORS.red1Font,
-                }}
-              />
+                flexDirection: 'row',
+              }}>
+              <TouchableOpacity onPress={() => setCallModalVisible(true)}>
+                <Image
+                  source={require('../assets/icons/call.png')}
+                  resizeMode="contain"
+                  style={{
+                    width: 50,
+                    height: 50,
+                    margin: 35,
+                    marginTop: 50,
+                    // tintColor: COLORS.red1Font,
+                  }}
+                />
               </TouchableOpacity>
 
-              <View style={{ alignSelf: "center", marginTop: 20 }}>
+              <View style={{alignSelf: 'center', marginTop: 20}}>
                 <View style={styles.Circle}>
                   <Image
-                    source={require("../assets/images/Profile2.jpg")}
+                    source={require('../assets/images/Profile2.jpg')}
                     style={styles.profileimage}
                     resizeMode="center"
                   />
                 </View>
               </View>
-              <TouchableOpacity
-               onPress={() => setModalVisible(true)}
-              >
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Image
-                  source={require("../assets/icons/mesg.png")}
+                  source={require('../assets/icons/mesg.png')}
                   resizeMode="contain"
                   style={{
                     width: 50,
@@ -160,34 +147,33 @@ const obj2={...obj,gender:'m',number:'ddvd'}
 
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginTop: 10,
-              }}
-            >
+              }}>
               <Image
-                source={require("../assets/images/Star.png")}
+                source={require('../assets/images/Star.png')}
                 style={styles.Star}
                 resizeMode="center"
               />
               <Image
-                source={require("../assets/images/Star.png")}
+                source={require('../assets/images/Star.png')}
                 style={styles.Star}
                 resizeMode="center"
               />
               <Image
-                source={require("../assets/images/Star.png")}
+                source={require('../assets/images/Star.png')}
                 style={styles.Star}
                 resizeMode="center"
               />
               <Image
-                source={require("../assets/images/Star.png")}
+                source={require('../assets/images/Star.png')}
                 style={styles.Star}
                 resizeMode="center"
               />
               <Image
-                source={require("../assets/images/Star.png")}
+                source={require('../assets/images/Star.png')}
                 style={styles.Star}
                 resizeMode="center"
               />
@@ -198,15 +184,14 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                 // fontWeight: 1,
                 ...FONTS.h2,
                 fontSize: 15,
-              }}
-            >
+              }}>
               NB3742 - Dehiwala
             </Text>
 
             <TextIconButton
               label="ACCEPTED"
               customContainerStyle={{
-                width: "60%",
+                width: '60%',
                 height: 55,
                 backgroundColor: COLORS.white,
                 borderWidth: 1,
@@ -216,12 +201,12 @@ const obj2={...obj,gender:'m',number:'ddvd'}
               }}
               customLabelStyle={{
                 color: COLORS.green,
-                alignItems: "center",
+                alignItems: 'center',
                 marginLeft: -15,
                 ...FONTS.h2,
               }}
               onPress={() => {
-                navigation.navigate("Finish");
+                navigation.navigate('Finish');
               }}
             />
           </BottomSheetView>
@@ -237,10 +222,9 @@ const obj2={...obj,gender:'m',number:'ddvd'}
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
-          }}
-        >
+          }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text
@@ -249,8 +233,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   // fontWeight: 1,
                   ...FONTS.h1,
                   fontSize: 23,
-                }}
-              >
+                }}>
                 Note to driver
               </Text>
               <Text
@@ -259,8 +242,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   // fontWeight: 1,
                   ...FONTS.h3,
                   fontSize: 15,
-                }}
-              >
+                }}>
                 Let the driver know if you are coming or not
               </Text>
 
@@ -270,7 +252,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   <TextIconButton
                     label="Coming"
                     customContainerStyle={{
-                      width: "43%",
+                      width: '43%',
                       height: 55,
                       backgroundColor: COLORS.gray20,
                       borderColor: COLORS.gray20,
@@ -281,7 +263,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                     }}
                     customLabelStyle={{
                       color: COLORS.gray30,
-                      alignItems: "center",
+                      alignItems: 'center',
                       marginLeft: -15,
                       ...FONTS.h3,
                     }}
@@ -290,7 +272,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   <TextIconButton
                     label="Not Coming"
                     customContainerStyle={{
-                      width: "43%",
+                      width: '43%',
                       height: 55,
                       backgroundColor: COLORS.gray20,
                       borderColor: COLORS.gray20,
@@ -301,7 +283,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                     }}
                     customLabelStyle={{
                       color: COLORS.gray30,
-                      alignItems: "center",
+                      alignItems: 'center',
                       marginLeft: -15,
                       ...FONTS.h3,
                     }}
@@ -315,7 +297,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   <TextIconButton
                     label="Coming"
                     customContainerStyle={{
-                      width: "43%",
+                      width: '43%',
                       height: 55,
                       backgroundColor: COLORS.gray20,
                       borderColor: COLORS.gray20,
@@ -326,7 +308,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                     }}
                     customLabelStyle={{
                       color: COLORS.gray30,
-                      alignItems: "center",
+                      alignItems: 'center',
                       marginLeft: -15,
                       ...FONTS.h3,
                     }}
@@ -335,7 +317,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   <TextIconButton
                     label="Not Coming"
                     customContainerStyle={{
-                      width: "43%",
+                      width: '43%',
                       height: 55,
                       backgroundColor: COLORS.gray20,
                       borderColor: COLORS.gray20,
@@ -346,7 +328,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                     }}
                     customLabelStyle={{
                       color: COLORS.gray30,
-                      alignItems: "center",
+                      alignItems: 'center',
                       marginLeft: -15,
                       ...FONTS.h3,
                     }}
@@ -358,12 +340,11 @@ const obj2={...obj,gender:'m',number:'ddvd'}
               <View style={styles.Buttoncontainer}>
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
 
                     // alignItems: 'center',
                     // justifyContent: 'center',
-                  }}
-                >
+                  }}>
                   <Text style={styles.inputTitle}>Note</Text>
                   <Text style={styles.inputTitle1}>(Optional)</Text>
                 </View>
@@ -380,7 +361,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
               <TextIconButton
                 label="SEND"
                 customContainerStyle={{
-                  width: "90%",
+                  width: '90%',
                   height: 55,
 
                   borderRadius: SIZES.radius_btn4,
@@ -388,19 +369,19 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                 }}
                 customLabelStyle={{
                   color: COLORS.white,
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
                 onPress={() => {
-                  navigation.navigate("SL");
+                  navigation.navigate('SL');
                 }}
               />
 
               <TextIconButton
                 label="CANCEL"
                 customContainerStyle={{
-                  width: "90%",
+                  width: '90%',
                   height: 55,
                   backgroundColor: COLORS.white,
                   borderColor: COLORS.gray30,
@@ -410,7 +391,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                 }}
                 customLabelStyle={{
                   color: COLORS.red1Font,
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
@@ -431,10 +412,9 @@ const obj2={...obj,gender:'m',number:'ddvd'}
           transparent={true}
           visible={modalCallVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
+            Alert.alert('Modal has been closed.');
             setCallModalVisible(!modalCallVisible);
-          }}
-        >
+          }}>
           <View style={styles.centeredView}>
             <View style={styles.modalViewCall}>
               <Text
@@ -443,8 +423,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   // fontWeight: 1,
                   ...FONTS.h1,
                   fontSize: 23,
-                }}
-              >
+                }}>
                 Call to Driver
               </Text>
               <Text
@@ -453,33 +432,27 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                   // fontWeight: 1,
                   ...FONTS.h3,
                   fontSize: 15,
-                }}
-              >
+                }}>
                 Let make the call to driver
               </Text>
-
-            
 
               <View style={styles.Buttoncontainer}>
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
 
                     // alignItems: 'center',
                     // justifyContent: 'center',
-                  }}
-                >
+                  }}>
                   <Text style={styles.inputTitle}>Make a Call for this</Text>
                   <Text style={styles.inputTitle1}>(076 8510781)</Text>
                 </View>
-
-              
               </View>
 
               <TextIconButton
                 label="CALL"
                 customContainerStyle={{
-                  width: "90%",
+                  width: '90%',
                   height: 55,
                   backgroundColor: COLORS.green,
 
@@ -488,19 +461,19 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                 }}
                 customLabelStyle={{
                   color: COLORS.white,
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
                 onPress={() => {
-                  navigation.navigate("");
+                  navigation.navigate('');
                 }}
               />
 
               <TextIconButton
                 label="CANCEL"
                 customContainerStyle={{
-                  width: "90%",
+                  width: '90%',
                   height: 55,
                   backgroundColor: COLORS.white,
                   borderColor: COLORS.gray30,
@@ -510,7 +483,7 @@ const obj2={...obj,gender:'m',number:'ddvd'}
                 }}
                 customLabelStyle={{
                   color: COLORS.red1Font,
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
@@ -524,13 +497,12 @@ const obj2={...obj,gender:'m',number:'ddvd'}
   }
 
   return (
-    <View style={{ flex: 1,
-      }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderMap()}
-        {NoteToDriver()}
-        {CallToDriver()}
+      {NoteToDriver()}
+      {CallToDriver()}
       {SlidingUpPanel()}
     </View>
   );
@@ -544,7 +516,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
@@ -573,26 +545,26 @@ const styles = StyleSheet.create({
   modelBackground: {
     flex: 1,
     backgroundColor: COLORS.white,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
-    width: "90%",
-    height: "90%",
+    width: '90%',
+    height: '90%',
     margin: 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
+    shadowColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -602,16 +574,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalViewCall: {
-    width: "90%",
-    height: "50%",
+    width: '90%',
+    height: '50%',
     margin: 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
+    shadowColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -621,9 +593,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   namecontainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
   inputTitle: {
     ...FONTS.h3,
@@ -634,14 +606,12 @@ const styles = StyleSheet.create({
   },
 
   Buttoncontainer: {
-    width: "100%",
-    justifyContent: "center",
+    width: '100%',
+    justifyContent: 'center',
   },
 
   inputTitle1: {
     marginTop: 12,
     marginLeft: 10,
   },
-
-  
 });

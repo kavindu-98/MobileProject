@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {LoginComponent, SignupComponent} from '../components';
 import {
   View,
   Text,
@@ -30,20 +28,13 @@ const Tab = createMaterialTopTabNavigator();
 // this screen for profile data updates and shows
 
 const ProfileInfo = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [FirstName, setFirstName] = useState();
-  const [LastName, setLastName] = useState();
-  const [phone, setPhone] = useState();
-  const [NIC, setNIC] = useState();
-  const [employeeId, setEid] = useState();
-  const [gender, setGender] = useState();
   const [password, setPassword1] = useState();
   const [password2, setPassword2] = useState();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
 
-  const [data, setData] = useState([]);
-  const url = '';
+  const [userDetails, setUserDetails] = useState({});
+
   const [success, setSuccess] = useState({successMsg: ''});
   const [error, setError] = useState({
     errorMsg: '',
@@ -52,9 +43,15 @@ const ProfileInfo = ({navigation}) => {
   const {isError, isSuccess, message, action} = useSelector(
     state => state.userLogIn,
   );
+
   const [UserImg, setUserImg] = useState();
+  const [IsEdit, setIsEdit] = useState(false);
 
   const {user} = useSelector(state => state.userLogIn);
+
+  useEffect(() => {
+    setUserDetails(user);
+  }, [user]);
 
   // Validate the employee data in the front end
   const validate = () => {
@@ -93,29 +90,19 @@ const ProfileInfo = ({navigation}) => {
       return true;
     }
   };
-  const dispatch = useDispatch();
-  const handleEdit = user => {
-    console.log('hi');
-    dispatch(
-      updateUser({
-        FirstName,
-        LastName,
-        employeeId,
-        email,
-        NIC,
-        phone,
-        password,
-        gender: 'Male',
-      }),
-    );
 
-    // navigation.navigate('SignIn')
+  const dispatch = useDispatch();
+
+  const handleEdit = user => {
+    setIsEdit(true);
+    console.log('hi Edit');
   };
-  if (action === 'signUpUser' && isSuccess) {
-    console.log(message);
-    navigation.navigate('Login');
-    dispatch(resetUserLoginStatus());
-  }
+
+  const handleSave = () => {
+    setIsEdit(false);
+    console.log('hi');
+    dispatch(updateUser(userDetails));
+  };
 
   const Options = {
     title: 'Select Image',
@@ -231,7 +218,7 @@ const ProfileInfo = ({navigation}) => {
 
             <View style={styles.proname}>
               <Text style={styles.nameTitle}>
-                {user.FirstName} {user.LastName}
+                {userDetails.FirstName} {userDetails.LastName}
               </Text>
             </View>
 
@@ -244,8 +231,14 @@ const ProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your First Name"
                       // autoFocus
-                      value={user.FirstName}
-                      onChangeText={text => setFirstName(text)}
+                      value={userDetails.FirstName}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          FirstName: text,
+                        }))
+                      }
                     />
                   </View>
                   <View>
@@ -254,8 +247,14 @@ const ProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Last Name"
                       // autoFocus
-                      value={user.LastName}
-                      onChangeText={text => setLastName(text)}
+                      value={userDetails.LastName}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          LastName: text,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -265,8 +264,14 @@ const ProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your Email"
                   // secureTextEntry
-                  value={user.email}
-                  onChangeText={text => setEmail(text)}
+                  value={userDetails.email}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setUserDetails(prevState => ({
+                      ...prevState,
+                      email: text,
+                    }))
+                  }
                 />
 
                 <View style={styles.namecontainer}>
@@ -296,8 +301,14 @@ const ProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Phone Number"
                       // autoFocus
-                      value={user.phone}
-                      onChangeText={text => setPhone(text)}
+                      value={userDetails.phone}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          phone: text,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -306,8 +317,14 @@ const ProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Employee ID"
                   // secureTextEntry
-                  value={user.employeeId}
-                  onChangeText={text => setEid(text)}
+                  value={userDetails.employeeId}
+                  editable={false}
+                  onChangeText={text =>
+                    setUserDetails(prevState => ({
+                      ...prevState,
+                      employeeId: text,
+                    }))
+                  }
                 />
 
                 <View style={styles.namecontainer}>
@@ -317,8 +334,14 @@ const ProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your NIC Number"
                       // autoFocus
-                      value={user.NIC}
-                      onChangeText={text => setNIC(text)}
+                      value={userDetails.NIC}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          NIC: text,
+                        }))
+                      }
                     />
                   </View>
                   <View
@@ -350,7 +373,8 @@ const ProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your password"
                   secureTextEntry
-                  value={Employee.Password}
+                  value={user.Password}
+                  editable={IsEdit}
                   onChangeText={text => setPassword1(text)}
                 />
                 <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
@@ -359,6 +383,7 @@ const ProfileInfo = ({navigation}) => {
                   placeholder="Re-enter password"
                   secureTextEntry
                   value={password2}
+                  editable={IsEdit}
                   onChangeText={text => setPassword2(text)}
                 />
               </View>
@@ -369,22 +394,44 @@ const ProfileInfo = ({navigation}) => {
                 <Text style={styles.success}>{success.successMsg}</Text>
               )}
 
-              <TextIconButton
-                label="SAVE INFORMATION"
-                customContainerStyle={{
-                  width: '100%',
-                  height: 55,
-                  borderRadius: SIZES.radius_btn4,
-                  marginTop: SIZES.padding1,
-                }}
-                customLabelStyle={{
-                  color: COLORS.white,
-                  alignItems: 'center',
-                  marginLeft: -15,
-                  ...FONTS.h2,
-                }}
-                onPress={handleEdit}
-              />
+              <View style={styles.buttonView}>
+                <View style={styles.button}>
+                  <TextIconButton
+                    label="EDIT"
+                    customContainerStyle={{
+                      marginTop: SIZES.padding2,
+                      width: 164,
+                      height: 55,
+                      backgroundColor: COLORS.red1Font,
+                      marginLeft: SIZES.padding1,
+                      borderRadius: SIZES.radius_btn3,
+                    }}
+                    customLabelStyle={{
+                      color: COLORS.white,
+                      marginLeft: -15,
+                    }}
+                    onPress={handleEdit}
+                  />
+                </View>
+                <View style={styles.button}>
+                  <TextIconButton
+                    label="SAVE "
+                    customContainerStyle={{
+                      marginTop: SIZES.padding2,
+                      width: 164,
+                      height: 55,
+                      backgroundColor: COLORS.red1Font,
+                      marginLeft: SIZES.padding1,
+                      borderRadius: SIZES.radius_btn3,
+                    }}
+                    customLabelStyle={{
+                      color: COLORS.white,
+                      marginLeft: -15,
+                    }}
+                    onPress={handleSave}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -414,6 +461,10 @@ const styles = StyleSheet.create({
   },
   proname: {
     alignItems: 'center',
+  },
+  buttonView: {
+    width: '100%',
+    flexDirection: 'row',
   },
   Title: {
     justifyContent: 'flex-end',
@@ -461,9 +512,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   button: {
-    // marginLeft: 10,
-    alignItems: 'flex-end',
-    marginLeft: 130,
+    marginLeft: -25,
+    alignItems: 'center',
+    // marginLeft: 130,
     marginTop: 30,
   },
 

@@ -66,20 +66,18 @@ const MapComponent = ({}) => {
             />
           </Marker>
         )}
-        {/* {origin.latitude !== '' && destination.latitude !== '' &&
-                        <MapViewDirections 
-                          addOrigin={{latitude:origin.latitude,longitude:origin.longitude}}
-                          destination={{latitude:destination.latitude,longitude:destination.longitude}}
-                          // apikey={AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk}
-                          apikey={GOOGLE_MAPS_APIKEY}
-                          strokeWidth={4}
-                          strokeColor={COLORS.black}
-                          // query={{
-                          //   key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-                          //   language: "en",
-                          // }}
-                        />
-                    }  */}
+        {origin.latitude !== '' && destination.latitude !== '' && (
+          <MapViewDirections
+            origin={{latitude: origin.latitude, longitude: origin.longitude}}
+            destination={{
+              latitude: destination.latitude,
+              longitude: destination.longitude,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={4}
+            strokeColor={COLORS.black}
+          />
+        )}
       </MapView>
     </View>
   );

@@ -26,6 +26,7 @@
     "deprecated-react-native-prop-types": "^2.2.0",
     "env": "^0.0.2",
     "feather-icons": "^4.29.1",
+    "firebase": "^10.11.1",
     "node-modules": "^1.0.1",
     "react": "17.0.2",
     "react-native": "0.68.0",

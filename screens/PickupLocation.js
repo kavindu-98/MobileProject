@@ -52,10 +52,6 @@ const PickupLocation = ({route}) => {
 
   const snapPoints = ['20%', '40%', '70%'];
   useEffect(() => {
-    // dispatch (
-    //   addOrigin({latitude: "6.25555"})
-    // )
-    // setUserOrigin({ latitude: origin.latitude, longitude: origin.longitude });
     getLocation();
   }, [origin]);
 
@@ -148,15 +144,6 @@ const PickupLocation = ({route}) => {
               />
             </Marker>
           ))}
-          {/* {
-          <Marker coordinate = {origin} anchor = {{x:0.5,y:0.5}} >
-                            <Image 
-                                source ={require('../assets/images/pickupmarker.png')}
-                                style ={styles.markerOrigin2}
-                                resizeMode ="cover"
-                            />
-                        </Marker>
-          } */}
         </MapView>
 
         <HeaderBar

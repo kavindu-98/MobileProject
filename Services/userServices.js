@@ -27,12 +27,9 @@ const signUp = async object => {
 };
 const update = async updateObject => {
   console.log('before jwt');
-  const jwt = getUserCookie();
-  console.log(jwt);
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${jwt}`,
     },
   };
   const response = await axios.post(

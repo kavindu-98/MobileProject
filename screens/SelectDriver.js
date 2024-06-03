@@ -10,23 +10,23 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
-import { HeaderBar, MapComponent, DriverCard } from "../components";
+import {HeaderBar, MapComponent, DriverCard} from '../components';
 
 // this screen for select the driver according to the route
 
-const SelectDriver = ({ dropLocation, pickupLocation}) => {
+const SelectDriver = ({dropLocation, pickupLocation}) => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [Drivercards, setDrivercards] = useState([]);
 
-  const snapPoints = ["60%"];
+  const snapPoints = ['60%'];
 
   const navigation = useNavigation();
 
@@ -35,31 +35,27 @@ const SelectDriver = ({ dropLocation, pickupLocation}) => {
       <View
         style={{
           flex: 1,
-          height: "100%",
+          height: '100%',
           backgroundColor: COLORS.gray10,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
+        }}>
         {/* header */}
         {/* <TouchableOpacity onPress={() => {navigation.navigate('SetDesM')}}> */}
 
         {/* </TouchableOpacity> */}
 
         <MapComponent
-            pickupLocation={pickupLocation}
-            dropLocation={dropLocation}
-       
-          />
+          pickupLocation={pickupLocation}
+          dropLocation={dropLocation}
+        />
         <HeaderBar
           // title={selectedPlace?.name}
           icon={icons.left_arrow}
-          leftOnPressed={() => {
-            navigation.navigate("SetDesM");
-          }}
+          leftOnPressed={() => navigation.goBack()}
           right={false}
           containerStyle={{
-            position: "absolute",
+            position: 'absolute',
             top: SIZES.padding * 2,
             // height: "20%",
             // width: SIZES.width,
@@ -71,8 +67,7 @@ const SelectDriver = ({ dropLocation, pickupLocation}) => {
           snapPoints={snapPoints}
           // enablePanDownToClose={true}
           onClose={() => setIsOpen(false)}
-          backgroundStyle={{ borderRadius: 50 }}
-        >
+          backgroundStyle={{borderRadius: 50}}>
           <ScrollView>
             <BottomSheetView
               style={
@@ -80,23 +75,21 @@ const SelectDriver = ({ dropLocation, pickupLocation}) => {
                   // borderRadius: 5,
                   // backgroundColor: COLORS.gray10
                 }
-              }
-            >
+              }>
               <Text
                 style={{
                   color: COLORS.black,
                   // fontWeight: 1,
                   ...FONTS.h2,
 
-                  alignItems: "center",
+                  alignItems: 'center',
                   marginLeft: 25,
                   fontSize: 20,
-                }}
-              >
+                }}>
                 SELECT A DRIVER
               </Text>
-              {/* <TouchableOpacity onPress={() => {navigation.navigate('DriverDetails')}}> */}
- {/* maping to the driverCard */}
+
+              {/* maping to the driverCard */}
               <DriverCard />
             </BottomSheetView>
           </ScrollView>
@@ -105,10 +98,8 @@ const SelectDriver = ({ dropLocation, pickupLocation}) => {
     );
   }
 
-
-
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderMap()}
@@ -125,7 +116,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,

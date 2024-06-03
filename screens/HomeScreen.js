@@ -67,7 +67,12 @@ const HomeScreen = () => {
   ];
   var daysup = ['st', 'nd', 'rd', 'th'];
 
+  const [userDetails, setUserDetails] = useState({});
   const {user} = useSelector(state => state.userLogIn);
+
+  useEffect(() => {
+    setUserDetails(user);
+  }, [user]);
 
   const today = new Date();
   const month = months[today.getMonth()];
@@ -105,7 +110,7 @@ const HomeScreen = () => {
             flex: 1,
           }}>
           <Text style={{...FONTS.h2, fontWeight: 'bold', color: COLORS.black}}>
-            Hello, {user.FirstName}!
+            Hello, {userDetails.FirstName}!
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text

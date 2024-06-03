@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useRef} from 'react';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import {MapStyle} from '../styles';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
@@ -18,9 +18,12 @@ const MapComponentRoute = ({}) => {
   console.log(destination);
   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpPGnre332uNnud4OPqcSpvUSUTuAmWnc';
 
+  const mapRef = useRef();
+
   return (
     <View>
       <MapView
+        ref={mapRef}
         style={{
           width: '100%',
           height: '90%',
@@ -37,43 +40,59 @@ const MapComponentRoute = ({}) => {
         followsUserLocation={true}
         zoomEnabled={true}
         zoomControlEnabled={true}>
-        {data.latitude != null && (
-          <Marker coordinate={data} anchor={{x: 0.5, y: 0.5}}>
+        {origin.latitude !== '' && (
+          <Marker
+            coordinate={{
+              latitude: origin.latitude,
+              longitude: origin.longitude,
+            }}
+            anchor={{x: 0.5, y: 0.5}}>
             <Image
-              source={require('../assets/images/pickupIcon.png')}
+              source={require('../assets/images/pickupmarker.png')}
               style={styles.markerOrigin2}
               resizeMode="cover"
             />
           </Marker>
         )}
 
-        {/* {data.latitude != null && ( */}
-        {/* <Marker
-              coordinate={{latitude: 7.175549 ,longitude: 79.883291
-                }}
-              anchor={{ x: 0.5, y: 0.5 }}
-            >
-              <Image
-                source={require("../assets/images/pickupIcon.png")}
-                style={styles.markerDestination}
-                resizeMode="cover"
-              />
-            </Marker> */}
-        {/* )} */}
-        {/* {.latitude !== null && */}
-        {/* <MapViewDirections 
-                          // addOrigin={data}
-                          // destination={data}
-                          // apikey={AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk}
-                          // apikey={GOOGLE_MAPS_APIKEY}
-                          // strokeWidth={4}
-                          // strokeColor={COLORS.blue}
-                          // query={{
-                          //   key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-                          //   language: "en",
-                          // }}
-                        /> */}
-        {/* }  */}
+        {destination.latitude !== '' && (
+          <Marker
+            coordinate={{
+              latitude: destination.latitude,
+              longitude: destination.longitude,
+            }}
+            anchor={{x: 0.5, y: 0.5}}>
+            <Image
+              source={require('../assets/images/dropIcon.png')}
+              style={styles.markerDestination}
+              resizeMode="cover"
+            />
+          </Marker>
+        )}
+        {origin.latitude !== '' && destination.latitude !== '' && (
+          <MapViewDirections
+            origin={{latitude: origin.latitude, longitude: origin.longitude}}
+            destination={{
+              latitude: destination.latitude,
+              longitude: destination.longitude,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={4}
+            strokeColor={COLORS.black}
+            optimizeWaypoints={true}
+            onReady={result => {
+              mapRef.current.fitToCoordinates,
+                {
+                  edgePadding: {
+                    // right: 30,
+                    // bottom: 300,
+                    // left: 30,
+                    // top: 100,
+                  },
+                };
+            }}
+          />
+        )}
       </MapView>
     </View>
   );
