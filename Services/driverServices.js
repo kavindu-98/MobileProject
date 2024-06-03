@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {getDriverCookie} from '../utils/getCookie';
+import {getDriverCookie} from '../utils/storage';
 
 const logIn = async ({Did, password1}) => {
   const config = {headers: {'Content-Type': 'application/json'}};

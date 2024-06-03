@@ -28,8 +28,8 @@ const Tab = createMaterialTopTabNavigator();
 // this screen for profile data updates and shows
 
 const ProfileInfo = ({navigation}) => {
-  const [password, setPassword1] = useState();
-  const [password2, setPassword2] = useState();
+  // const [password, setPassword1] = useState();
+  // const [password2, setPassword2] = useState();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
 
@@ -368,7 +368,7 @@ const ProfileInfo = ({navigation}) => {
                   </View>
                 </View>
 
-                <Text style={styles.inputTitle}>PASSWORD</Text>
+                {/* <Text style={styles.inputTitle}>PASSWORD</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Create your password"
@@ -376,8 +376,8 @@ const ProfileInfo = ({navigation}) => {
                   value={user.Password}
                   editable={IsEdit}
                   onChangeText={text => setPassword1(text)}
-                />
-                <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
+                /> */}
+                {/* <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Re-enter password"
@@ -385,7 +385,7 @@ const ProfileInfo = ({navigation}) => {
                   value={password2}
                   editable={IsEdit}
                   onChangeText={text => setPassword2(text)}
-                />
+                /> */}
               </View>
               {error.errorMsg !== '' && (
                 <Text style={styles.error}>{error.errorMsg}</Text>

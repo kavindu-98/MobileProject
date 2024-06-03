@@ -33,8 +33,8 @@ const DRProfileInfo = ({navigation}) => {
   const [Did, setDid] = useState();
   const [DLN, setDLN] = useState();
   const [NIC, setNIC] = useState();
-  const [password1, setPassword1] = useState();
-  const [password2, setPassword2] = useState();
+  // const [password1, setPassword1] = useState();
+  // const [password2, setPassword2] = useState();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
 
@@ -427,7 +427,7 @@ const DRProfileInfo = ({navigation}) => {
                   <Text style={styles.inputTitle2}>Back View</Text>
                 </View>
 
-                <Text style={styles.inputTitle}>PASSWORD</Text>
+                {/* <Text style={styles.inputTitle}>PASSWORD</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Create your password"
@@ -442,7 +442,7 @@ const DRProfileInfo = ({navigation}) => {
                   secureTextEntry
                   value={password2}
                   onChangeText={text => setPassword2(text)}
-                />
+                /> */}
               </View>
 
               <TextIconButton

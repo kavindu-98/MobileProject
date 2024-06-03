@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {getDriverCookie} from '../utils/getCookie';
+import {getDriverCookie} from '../utils/storage';
 
 const AddVehicle = async object => {
   const config = {headers: {'Content-Type': 'multipart/form-data'}};

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getUserCookie} from '../utils/getCookie';
+import {getUserCookie} from '../utils/storage';
 
 // require('dotenv').config()
 // import {APIDOMAIN} from "@env"
@@ -13,6 +13,7 @@ const logIn = async ({employeeId, password}) => {
     config,
   );
   console.log(response);
+  console.log('login1');
   return response.data;
 };
 const signUp = async object => {
