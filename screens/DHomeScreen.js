@@ -42,7 +42,12 @@ const {width, height} = Dimensions.get('window');
 const data = DdummyData;
 
 const DHomeScreen = () => {
+  const [driverDetails, setDriverDetails] = useState({});
   const {driver} = useSelector(state => state.driverLogIn);
+  useEffect(() => {
+    console.log(driverDetails);
+    setDriverDetails(driver);
+  }, [driver]);
 
   var days = [
     'Sunday',
@@ -68,8 +73,6 @@ const DHomeScreen = () => {
     'December',
   ];
   var daysup = ['st', 'nd', 'rd', 'th'];
-
-  const {user} = useSelector(state => state.userLogIn);
 
   const today = new Date();
   const month = months[today.getMonth()];
@@ -106,7 +109,7 @@ const DHomeScreen = () => {
             flex: 1,
           }}>
           <Text style={{...FONTS.h2, fontWeight: 'bold', color: COLORS.black}}>
-            Hello, {driver.FirstName}!
+            Hello, {driverDetails.FirstName}!
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text

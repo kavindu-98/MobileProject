@@ -23,7 +23,7 @@ import {TextIconButton, PasswordIcon} from '../components';
 
 import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {resetUserLoginStatus} from '../reducers/driverSlice';
+import {resetDriverLoginStatus} from '../reducers/driverSlice';
 import {signUpDriver} from '../Actions/driverActions';
 
 const Tab = createMaterialTopTabNavigator();
@@ -93,27 +93,28 @@ const DRSignUpScreen = ({navigation}) => {
   };
   const dispatch = useDispatch();
   const handleSignup = () => {
-    const formData = new FormData();
-    formData.append('Name1', Name1);
-    formData.append('Name2', Name2);
-    formData.append('Did', Did);
-    formData.append('backLicence', backLicence);
-    formData.append('frontLicence', frontLicence);
-    formData.append('password1', password1);
-    formData.append('DLN', DLN);
-    formData.append('Phone', Phone);
-    formData.append('email', email);
-    formData.append('NIC', NIC);
-    formData.append('gender', 'Male');
     if (validate()) {
-      dispatch(signUpDriver(formData));
-      navigation.navigate('DHome');
+      dispatch(
+        signUpDriver({
+          Name1,
+          Name2,
+          Did,
+          backLicence,
+          frontLicence,
+          password1,
+          DLN,
+          Phone,
+          email,
+          NIC,
+          gender: 'Male',
+        }),
+      );
     }
   };
   if (action === 'signUpDriver' && isSuccess) {
     console.log(message);
     navigation.navigate('DLogin');
-    dispatch(resetUserLoginStatus());
+    dispatch(resetDriverLoginStatus());
   }
 
   const Options = {

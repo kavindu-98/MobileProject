@@ -284,7 +284,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your Email"
                   // secureTextEntry
-                  value={driver.email}
+                  value={driverDetails.email}
                   onChangeText={text => setEmail(text)}
                 />
 
@@ -315,7 +315,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Phone Number"
                       // autoFocus
-                      value={driver.phone}
+                      value={driverDetails.phone}
                       onChangeText={text => setPhone(text)}
                     />
                   </View>
@@ -325,7 +325,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
-                  value={driver.driverId}
+                  value={driverDetails.driverId}
                   onChangeText={text => setDid(text)}
                 />
 

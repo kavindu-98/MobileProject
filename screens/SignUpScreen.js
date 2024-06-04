@@ -99,7 +99,7 @@ const SignUpScreen = ({navigation}) => {
           NIC,
           phone,
           password,
-          gender: 'Female',
+          gender: 'Male',
         }),
       );
 

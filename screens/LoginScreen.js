@@ -43,7 +43,6 @@ const LoginScreen = ({navigation}) => {
     // navigation.navigate('OTP');
   };
 
-  const isLoggedIn = async () => {};
   useEffect(() => {
     if (action === 'logInUser' && isSuccess) {
       navigation.navigate('GetStartScreen');

@@ -26,10 +26,6 @@ import {
   // HorizontalCourseCard
 } from '../components';
 
-// import {
-
-//     P_cards
-// } from "../components/P_cards"
 import {COLORS, FONTS, SIZES, icons, images} from '../constants';
 
 import {dummyData} from '../Data/Data';
