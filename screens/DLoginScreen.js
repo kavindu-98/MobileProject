@@ -32,11 +32,11 @@ const Tab = createMaterialTopTabNavigator();
 
 const DLoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [name, setName] = useState('');
+  const [driverId, setDriverId] = useState('');
 
   const [password, setPassword] = useState('');
 
-  const {isSuccess, isError, isLoading, message, action} = useSelector(
+  const {driver, isSuccess, isError, isLoading, message, action} = useSelector(
     state => state.driverLogIn,
   );
 
@@ -51,14 +51,16 @@ const DLoginScreen = ({navigation}) => {
   });
 
   const onLogIn = () => {
-    dispatch(logInDriver({Did: name, password1: password}));
+    dispatch(logInDriver({Did: driverId, password1: password}));
     // navigation.navigate('DHome');
   };
-  if (action === 'logInDriver' && isSuccess) {
-    navigation.navigate('DHome');
-  }
-  if (action === 'logInDriver' && isError) {
-  }
+
+  useEffect(() => {
+    if (action === 'logInDriver' && isSuccess) {
+      navigation.navigate('DHome');
+    }
+  }, [driver]);
+
   console.log(action);
   console.log(isSuccess);
   console.log(isError);
@@ -132,8 +134,8 @@ const DLoginScreen = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Driver ID"
                   autoFocus
-                  value={name}
-                  onChangeText={text => setName(text)}
+                  value={driverId}
+                  onChangeText={text => setDriverId(text)}
                 />
                 <Text style={styles.inputTitle}>PASSWORD</Text>
                 <TextInput

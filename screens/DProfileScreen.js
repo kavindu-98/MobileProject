@@ -26,6 +26,7 @@ const DProfileScreen = () => {
   const snapPoints = ['50%'];
   const dispatch = useDispatch();
   const {driver} = useSelector(state => state.driverLogIn);
+  console.log(driver);
 
   const navigation = useNavigation();
   function renderHeader() {

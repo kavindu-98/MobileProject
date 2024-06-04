@@ -5,7 +5,6 @@ import {logInDriver, signUpDriver} from '../Actions/driverActions';
 
 const initialState = {
   driver: null,
-  data: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
