@@ -39,6 +39,8 @@ const DRProfileInfo = ({navigation}) => {
   const [selectedGender, setSelectedGender] = useState({});
 
   const [List, setList] = useState({});
+  const [IsEdit, setIsEdit] = useState(false);
+
   const [DriverImg, setDriverImg] = useState();
   const [frontLicence, setFrontLicence] = useState();
   const [backLicence, setBackLicence] = useState();
@@ -46,9 +48,16 @@ const DRProfileInfo = ({navigation}) => {
   const [error, setError] = useState({
     errorMsg: '',
   });
-  const {driver, isSuccess, isLoading, message, action} = useSelector(
+  const [driverDetails, setDriverDetails] = useState({});
+  const {isSuccess, isLoading, message, action} = useSelector(
     state => state.driverLogIn,
   );
+  const {driver} = useSelector(state => state.driverLogIn);
+
+  useEffect(() => {
+    console.log(driver);
+    setDriverDetails(driver);
+  }, [driver]);
 
   // Validate the employee data in the front end
   const validate = () => {
@@ -88,27 +97,18 @@ const DRProfileInfo = ({navigation}) => {
     }
   };
   const dispatch = useDispatch();
-  const handleUpdate = () => {
-    const formData = new FormData();
-    formData.append('Name1', Name1);
-    formData.append('Name2', Name2);
-    formData.append('Did', Did);
-    formData.append('backLicence', backLicence);
-    formData.append('frontLicence', frontLicence);
-    formData.append('password1', password1);
-    formData.append('DLN', DLN);
-    formData.append('Phone', Phone);
-    formData.append('email', email);
-    formData.append('NIC', NIC);
-    formData.append('gender', 'Male');
-    if (validate()) {
-      dispatch(updateDriver(formData));
-      navigation.navigate('DHome');
-    }
+
+  const handleEdit = user => {
+    setIsEdit(true);
+    console.log('hi Edit');
   };
-  if (action === 'updateDriver' && isSuccess) {
-    console.log(message);
-  }
+
+  const handleSave = () => {
+    setIsEdit(false);
+    console.log('hi');
+    dispatch(updateUser({...driverDetails, jwt: driver.userjwt}));
+    // navigation.navigate('ProfileScreen');
+  };
 
   const Options = {
     title: 'Select Image',
@@ -238,7 +238,7 @@ const DRProfileInfo = ({navigation}) => {
 
             <View style={styles.proname}>
               <Text style={styles.nameTitle}>
-                {driver.FirstName} {driver.LastName}
+                {driverDetails.FirstName} {driverDetails.LastName}
               </Text>
             </View>
 
@@ -251,8 +251,14 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your First Name"
                       // autoFocus
-                      value={driver.FirstName}
-                      onChangeText={text => setName1(text)}
+                      value={driverDetails.FirstName}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          FirstName: text,
+                        }))
+                      }
                     />
                   </View>
                   <View>
@@ -261,8 +267,14 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Last Name"
                       // autoFocus
-                      value={driver.LastName}
-                      onChangeText={text => setName2(text)}
+                      value={driverDetails.LastName}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setUserDetails(prevState => ({
+                          ...prevState,
+                          FirstName: text,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -459,7 +471,7 @@ const DRProfileInfo = ({navigation}) => {
                   marginLeft: -15,
                   ...FONTS.h2,
                 }}
-                onPress={handleUpdate}
+                // onPress={handleUpdate}
               />
             </View>
           </View>

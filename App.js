@@ -46,6 +46,7 @@ import {
   AddVehicle,
   VehicleDt1ScreenEdit,
   VehicleDt2ScreenEdit,
+  ProfileScreen,
 } from './screens';
 import Tabs from './navigation/tabs';
 import DTabs from './navigation/Dtabs';
@@ -86,7 +87,7 @@ const App = () => {
               <Stack.Screen name="AcceptDriver" component={AcceptDriver} />
               <Stack.Screen name="Finish" component={Finish} />
               <Stack.Screen name="NoteToDriver" component={NoteToDriver} />
-
+              <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
               <Stack.Screen name="RatingScreen" component={RatingScreen} />
               <Stack.Screen name="MyActivity" component={MyActivity} />
               <Stack.Screen name="MyDailyRides" component={MyDailyRides} />

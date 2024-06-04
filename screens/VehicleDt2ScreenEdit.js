@@ -55,6 +55,7 @@ const VehicleDt2ScreenEdit = ({route}) => {
   const {driver} = useSelector(state => state.driverLogIn);
   const vehicleCreate = () => {
     const formData = new FormData();
+    console.log('driverid :', driver.driverId);
     formData.append('DriverID', driver.driverId);
     formData.append('VNo', formData2._parts[0]);
     formData.append('VLNo', formData2._parts[1]);
@@ -72,8 +73,9 @@ const VehicleDt2ScreenEdit = ({route}) => {
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
     if (validate()) {
+      console.log(driver.driverId);
       dispatch(AddNewVehicle(formData));
-      navigation.navigate('DProfileScreen');
+      // navigation.navigate('DProfileScreen');
     }
   };
   if (action === 'AddVehicle' && isSuccess) {
@@ -256,11 +258,11 @@ const VehicleDt2ScreenEdit = ({route}) => {
                         width: '120%',
                       }}
                       onValueChange={(NoOfSeat, item) => setNoOfSeat(NoOfSeat)}>
-                      <Picker.Item label="30 Seats" value="30 Seats" />
-                      <Picker.Item label="20 Seats" value="20 Seats" />
                       <Picker.Item label="10 Seats" value="10 Seats" />
-                      <Picker.Item label="40 Seats" value="40 Seats" />
+                      <Picker.Item label="20 Seats" value="20 Seats" />
                       <Picker.Item label="25 Seats" value="25 Seats" />
+                      <Picker.Item label="30 Seats" value="30 Seats" />
+                      <Picker.Item label="40 Seats" value="40 Seats" />
                     </Picker>
                   </View>
                   <View>

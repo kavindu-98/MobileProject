@@ -50,6 +50,7 @@ const ProfileInfo = ({navigation}) => {
   const {user} = useSelector(state => state.userLogIn);
 
   useEffect(() => {
+    console.log(user);
     setUserDetails(user);
   }, [user]);
 
@@ -101,7 +102,8 @@ const ProfileInfo = ({navigation}) => {
   const handleSave = () => {
     setIsEdit(false);
     console.log('hi');
-    dispatch(updateUser(userDetails));
+    dispatch(updateUser({...userDetails, jwt: user.userjwt}));
+    navigation.navigate('ProfileScreen');
   };
 
   const Options = {

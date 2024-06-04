@@ -1,10 +1,6 @@
 import axios from 'axios';
 import {getUserCookie} from '../utils/storage';
 
-// require('dotenv').config()
-// import {APIDOMAIN} from "@env"
-// import { APIDOMAIN } from 'react-native-dotenv';
-
 const logIn = async ({employeeId, password}) => {
   const config = {headers: {'Content-Type': 'application/json'}};
   const response = await axios.post(
@@ -31,6 +27,7 @@ const update = async updateObject => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${updateObject.jwt}`,
     },
   };
   const response = await axios.post(

@@ -46,14 +46,22 @@ const VehicleDt2Screen = ({route}) => {
   const [VehicleP2, setVehicleP2] = useState();
   const [VehicleP3, setVehicleP3] = useState();
   const [VehicleP4, setVehicleP4] = useState();
+  const [driverDetails, setDriverDetails] = useState({});
 
   const {isSuccess, message, action} = useSelector(state => state.AddVehicle);
 
   const dispatch = useDispatch();
   const {driver} = useSelector(state => state.driverLogIn);
+
+  useEffect(() => {
+    console.log(driver);
+    setDriverDetails(driver);
+  }, [driver]);
+
   const vehicleCreate = () => {
     const formData = new FormData();
-    formData.append('DriverID', driver.driverId);
+    console.log('driverid :', driverDetails.email);
+    formData.append('DriverID', driverDetails.driverId);
     formData.append('VNo', formData2._parts[0]);
     formData.append('VLNo', formData2._parts[1]);
     formData.append('VINo', formData2._parts[2]);
@@ -71,7 +79,7 @@ const VehicleDt2Screen = ({route}) => {
     formData.append('VehicleP4', VehicleP4);
 
     dispatch(AddNewVehicle(formData));
-    navigation.navigate('DHome');
+    // navigation.navigate('DHome');
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);
@@ -253,11 +261,11 @@ const VehicleDt2Screen = ({route}) => {
                         width: '120%',
                       }}
                       onValueChange={(NoOfSeat, item) => setNoOfSeat(NoOfSeat)}>
-                      <Picker.Item label="30 Seats" value="30 Seats" />
-                      <Picker.Item label="20 Seats" value="20 Seats" />
                       <Picker.Item label="10 Seats" value="10 Seats" />
-                      <Picker.Item label="40 Seats" value="40 Seats" />
+                      <Picker.Item label="20 Seats" value="20 Seats" />
                       <Picker.Item label="25 Seats" value="25 Seats" />
+                      <Picker.Item label="30 Seats" value="30 Seats" />
+                      <Picker.Item label="40 Seats" value="40 Seats" />
                     </Picker>
                   </View>
                   <View>

@@ -25,11 +25,16 @@ const ProfileScreen = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [UserImg, setUserImg] = useState();
+  const [userDetails, setUserDetails] = useState({});
 
   const {user} = useSelector(state => state.userLogIn);
 
   const snapPoints = ['50%'];
   const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(user);
+    setUserDetails(user);
+  }, [user]);
 
   const navigation = useNavigation();
   function renderHeader() {
@@ -167,14 +172,14 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView>
-      <SafeAreaView
-        style={{
-          backgroundColor: COLORS.background,
-          height: '100%',
-          flex: 1,
-          opacity: modalVisible ? 0.1 : 1,
-        }}>
+    <ScrollView
+      style={{
+        backgroundColor: COLORS.background,
+        height: '100%',
+        flex: 1,
+        opacity: modalVisible ? 0.1 : 1,
+      }}>
+      <SafeAreaView>
         {/* header */}
         {renderHeader()}
         {LogSlideUp()}
@@ -192,7 +197,7 @@ const ProfileScreen = () => {
 
           <View style={styles.proname}>
             <Text style={styles.nameTitle}>
-              {user.FirstName} {user.LastName}
+              {userDetails.FirstName} {userDetails.LastName}
             </Text>
           </View>
 
@@ -395,8 +400,6 @@ const styles = StyleSheet.create({
 
   container: {
     backgroundColor: COLORS.background,
-    height: '100%',
-    flex: 1,
   },
   titlebar: {
     flexDirection: 'row',
