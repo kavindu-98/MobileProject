@@ -3,16 +3,16 @@ export const mapSliceDriver = createSlice({
   // to save the pickup and destination for driver
   name: 'map',
   initialState: {
-    origin: {latitude: '', longitude: '', address: '', name: ''},
-    destination: {latitude: '', longitude: '', address: '', name: ''},
+    Dorigin: {latitude: '', longitude: '', address: '', name: ''},
+    Ddestination: {latitude: '', longitude: '', address: '', name: ''},
   },
 
   reducers: {
     addOriginDriver: (state, action) => {
-      state.origin = action.payload;
+      state.Dorigin = action.payload;
     },
     destinationDriver: (state, action) => {
-      state.destination = action.payload;
+      state.Ddestination = action.payload;
     },
   },
 });

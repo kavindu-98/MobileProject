@@ -10,27 +10,27 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
-import { IconButton } from "../components";
+import {IconButton} from '../components';
 import {
   HeaderBar,
   TextIconButton,
   Rating,
   TextButton,
-  MapComponent,
-} from "../components";
+  MapComponentDriver,
+} from '../components';
 
-const DStartRide = ({ route }) => {
+const DStartRide = ({route}) => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
-  const snapPoints = ["23%"];
+  const snapPoints = ['23%'];
 
   const navigation = useNavigation();
 
@@ -39,24 +39,20 @@ const DStartRide = ({ route }) => {
       <View
         style={{
           flex: 3,
-          height: "100%",
+          height: '100%',
           backgroundColor: COLORS.background,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
-       
-   
-
-        <MapComponent></MapComponent>
-         {/* header */}
+        }}>
+        <MapComponentDriver></MapComponentDriver>
+        {/* header */}
         <HeaderBar
           // title={selectedPlace?.name}
           icon={icons.left_arrow}
           leftOnPressed={() => navigation.goBack()}
           right={false}
           containerStyle={{
-            position: "absolute",
+            position: 'absolute',
             top: SIZES.padding * 2,
             // height: "20%",
             // width: SIZES.width,
@@ -68,19 +64,17 @@ const DStartRide = ({ route }) => {
           snapPoints={snapPoints}
           // enablePanDownToClose={true}
           onClose={() => setIsOpen(false)}
-          backgroundStyle={{ borderRadius: 50 }}
-        >
+          backgroundStyle={{borderRadius: 50}}>
           <BottomSheetView
             style={{
               // borderRadius: 5,
               // backgroundColor: COLORS.gray10
-              alignItems: "center",
-            }}
-          >
+              alignItems: 'center',
+            }}>
             <TextIconButton
               label="START RIDE"
               customContainerStyle={{
-                width: "92%",
+                width: '92%',
                 height: 55,
                 // marginLeft: 16,
                 borderRadius: SIZES.radius_btn4,
@@ -88,17 +82,17 @@ const DStartRide = ({ route }) => {
               }}
               customLabelStyle={{
                 color: COLORS.white,
-                alignItems: "center",
+                alignItems: 'center',
                 ...FONTS.h2,
               }}
               onPress={() => {
-                navigation.navigate("AcceptEmpReq");
+                navigation.navigate('AcceptEmpReq');
               }}
             />
             <TextIconButton
               label="CANCEL"
               customContainerStyle={{
-                width: "92%",
+                width: '92%',
                 height: 55,
                 backgroundColor: COLORS.white,
                 borderColor: COLORS.gray30,
@@ -108,10 +102,10 @@ const DStartRide = ({ route }) => {
               }}
               customLabelStyle={{
                 color: COLORS.red1Font,
-                alignItems: "center",
+                alignItems: 'center',
                 ...FONTS.h2,
               }}
-              onPress={ () => navigation.goBack()}
+              onPress={() => navigation.goBack()}
             />
           </BottomSheetView>
         </BottomSheet>
@@ -119,14 +113,11 @@ const DStartRide = ({ route }) => {
     );
   }
 
-  
-
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderMap()}
-    
     </View>
   );
 };
@@ -139,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,

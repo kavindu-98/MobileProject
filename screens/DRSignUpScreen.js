@@ -38,7 +38,7 @@ const DRSignUpScreen = ({navigation}) => {
   const [Did, setDid] = useState();
   const [DLN, setDLN] = useState();
   const [NIC, setNIC] = useState();
-  const [password1, setPassword1] = useState();
+  const [password, setPassword1] = useState();
   const [password2, setPassword2] = useState();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedGender, setSelectedGender] = useState({});
@@ -59,7 +59,7 @@ const DRSignUpScreen = ({navigation}) => {
     if (
       Name1 === '' ||
       Name2 === '' ||
-      password1 === '' ||
+      password === '' ||
       password2 === '' ||
       Did === '' ||
       NIC === ''
@@ -68,7 +68,7 @@ const DRSignUpScreen = ({navigation}) => {
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password1.length < 8) {
+    if (password.length < 8) {
       setError({
         ...error,
         errorMsg: 'Password must be at least 8 characters long!',
@@ -76,12 +76,12 @@ const DRSignUpScreen = ({navigation}) => {
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (Phone.length <= 10) {
+    if (Phone.length < 9) {
       setError({...error, errorMsg: 'Phone number is wrong!'});
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password1 !== password2) {
+    if (password !== password2) {
       setError({...error, errorMsg: 'Passwords does not match!'});
       setSuccess({...success, successMsg: ''});
       return false;
@@ -101,7 +101,7 @@ const DRSignUpScreen = ({navigation}) => {
           Did,
           backLicence,
           frontLicence,
-          password1,
+          password,
           DLN,
           Phone,
           email,
@@ -385,7 +385,7 @@ const DRSignUpScreen = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your password"
                   secureTextEntry
-                  value={password1}
+                  value={password}
                   onChangeText={text => setPassword1(text)}
                 />
                 <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>

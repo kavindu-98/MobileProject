@@ -3,9 +3,9 @@ import driverService from '../Services/driverServices';
 
 export const logInDriver = createAsyncThunk(
   'driver/login',
-  async ({Did, password1}, thunkAPI) => {
+  async ({Did, password}, thunkAPI) => {
     try {
-      const data = await driverService.logIn({Did, password1});
+      const data = await driverService.logIn({Did, password});
       return data;
     } catch (error) {
       const message =

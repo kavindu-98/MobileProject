@@ -2,11 +2,11 @@ import axios from 'axios';
 
 import {getDriverCookie} from '../utils/storage';
 
-const logIn = async ({Did, password1}) => {
+const logIn = async ({Did, password}) => {
   const config = {headers: {'Content-Type': 'application/json'}};
   const response = await axios.post(
     `http://10.0.2.2:5000/api/driver/login`,
-    {Did, password1},
+    {Did, password},
     config,
   );
   console.log(response);

@@ -51,7 +51,7 @@ const DLoginScreen = ({navigation}) => {
   });
 
   const onLogIn = () => {
-    dispatch(logInDriver({Did: driverId, password1: password}));
+    dispatch(logInDriver({Did: driverId, password: password}));
     // navigation.navigate('DHome');
   };
 

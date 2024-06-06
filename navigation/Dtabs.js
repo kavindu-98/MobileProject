@@ -104,7 +104,7 @@ const DTabs = () => {
       />
       <Tab.Screen
         name="Location"
-        component={DStartLocation}
+        component={SelectVehicle}
         options={{headerShown: false, tabBarStyle: {display: 'none'}}}
 
         // tabBarStyle: {display: 'none'}

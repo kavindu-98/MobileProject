@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,15 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
-} from "react-native";
-import TextIconButton from "./TextIconButton";
+} from 'react-native';
+import TextIconButton from './TextIconButton';
+import {useNavigation} from '@react-navigation/native';
 
-import { COLORS, FONTS, SIZES, icons, images, dummyData } from "../constants";
-const { width, height } = Dimensions.get("window");
+import {COLORS, FONTS, SIZES, icons, images, dummyData} from '../constants';
+const {width, height} = Dimensions.get('window');
 
-const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
+const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -28,16 +30,15 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
         borderWidth: 1,
         borderRadius: 10,
         shadowColor: COLORS.black,
-        flexDirection: "row",
-      }}
-    >
-      <View style={{ flexDirection: "column" }}>
+        flexDirection: 'row',
+      }}>
+      <View style={{flexDirection: 'column'}}>
         <View style={styles.Circle}>
           <Image source={ImageUri} style={styles.profileimage} />
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{flexDirection: 'row'}}>
           <Image
-            source={require("../assets/icons/call.png")}
+            source={require('../assets/icons/call.png')}
             resizeMode="contain"
             style={{
               width: 35,
@@ -49,7 +50,7 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
             }}
           />
           <Image
-            source={require("../assets/icons/mesg.png")}
+            source={require('../assets/icons/mesg.png')}
             resizeMode="contain"
             style={{
               width: 35,
@@ -62,15 +63,14 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
           />
         </View>
       </View>
-      <View style={{ marginLeft: -20 }}>
+      <View style={{marginLeft: -20}}>
         <Text
           style={{
             ...FONTS.h2,
             marginLeft: 60,
             marginTop: 2,
             color: COLORS.black,
-          }}
-        >
+          }}>
           {Name}
         </Text>
         <Text
@@ -78,12 +78,11 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
             ...FONTS.h3,
             marginLeft: 60,
             marginTop: 5,
-          }}
-        >
+          }}>
           {PhoneNo}
         </Text>
         <Image
-          source={require("../assets/images/Line1.png")}
+          source={require('../assets/images/Line1.png')}
           resizeMode="contain"
           style={{
             width: 230,
@@ -95,12 +94,11 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
         />
         <View
           style={{
-            flexDirection: "row",
-          }}
-        >
+            flexDirection: 'row',
+          }}>
           <View>
             <Image
-              source={require("../assets/icons/StartL.png")}
+              source={require('../assets/icons/StartL.png')}
               resizeMode="contain"
               style={{
                 width: 18,
@@ -115,18 +113,16 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
                 ...FONTS.h4,
                 marginLeft: 84,
                 marginTop: -21,
-              }}
-            >
+              }}>
               Peliyagoda
             </Text>
           </View>
           <View
             style={{
               marginLeft: -45,
-            }}
-          >
+            }}>
             <Image
-              source={require("../assets/icons/Des.png")}
+              source={require('../assets/icons/Des.png')}
               resizeMode="contain"
               style={{
                 width: 18,
@@ -141,8 +137,7 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
                 ...FONTS.h4,
                 marginLeft: 84,
                 marginTop: -21,
-              }}
-            >
+              }}>
               Katunayake
             </Text>
           </View>
@@ -150,13 +145,12 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
 
         <View
           style={{
-            flexDirection: "row",
-          }}
-        >
+            flexDirection: 'row',
+          }}>
           <TextIconButton
             label="ACCEPT"
             customContainerStyle={{
-              width: "32%",
+              width: '32%',
               height: 25,
               backgroundColor: COLORS.red1Font,
               borderWidth: 1,
@@ -167,18 +161,18 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
             }}
             customLabelStyle={{
               color: COLORS.white,
-              alignItems: "center",
+              alignItems: 'center',
               marginLeft: -15,
               ...FONTS.h4,
             }}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate('');
             }}
           />
           <TextIconButton
             label="CANCEL"
             customContainerStyle={{
-              width: "32%",
+              width: '32%',
               height: 25,
               backgroundColor: COLORS.gray20,
               borderWidth: 1,
@@ -189,12 +183,12 @@ const EmployeeCard = ({ ImageUri, Name, PhoneNo }) => {
             }}
             customLabelStyle={{
               color: COLORS.white,
-              alignItems: "center",
+              alignItems: 'center',
               marginLeft: -15,
               ...FONTS.h4,
             }}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate('');
             }}
           />
         </View>
@@ -223,7 +217,7 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
   },
   Rating: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: -5,
     marginLeft: -5,
   },

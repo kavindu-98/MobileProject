@@ -12,6 +12,7 @@ import {
   BackHandler,
   TextInput,
 } from 'react-native';
+
 import React, {
   useEffect,
   useState,
@@ -24,32 +25,27 @@ import {useNavigation} from '@react-navigation/native';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
 import {MapStyle} from '../styles';
 import {addOriginDriver} from '../reducers/mapSliceDriver';
-import {OriginContext} from '../contexts/contexts';
+import {OriginDriverContext} from '../contexts/contextsDriver';
 import {useDispatch, useSelector} from 'react-redux';
 import {IconButton, MapComponentDriver} from '../components';
 import {Marker} from 'react-native-maps';
+import {BusAround} from '../Data/Data';
 
-import {
-  HeaderBar,
-  TextIconButton,
-  Rating,
-  TextButton,
-  MapComponent,
-} from '../components';
+import {HeaderBar} from '../components';
 
 const DStartLocation = ({route}) => {
   const data = useSelector(state => state.mapData);
   console.log(data);
   const dispatch = useDispatch();
   const vehicle = route.params;
-
+  console.log(vehicle);
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [location, setLocation] = useState(false);
-  const {origin, dispatchOrigin} = useContext(OriginContext);
+  const {Dorigin, dispatchOrigin} = useContext(OriginDriverContext);
 
   const snapPoints = ['20%', '40%', '70%'];
   useEffect(() => {
@@ -58,7 +54,7 @@ const DStartLocation = ({route}) => {
     // )
     // setUserOrigin({ latitude: origin.latitude, longitude: origin.longitude });
     getLocation();
-  }, [origin]);
+  }, [Dorigin]);
 
   const navigation = useNavigation();
   const textInput3 = useRef(4);
@@ -94,7 +90,7 @@ const DStartLocation = ({route}) => {
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
-            console.log(position);
+            console.log('possition.........', position);
             setLocation(position);
           },
           error => {
@@ -106,7 +102,7 @@ const DStartLocation = ({route}) => {
         );
       }
     });
-    console.log(location);
+    // console.log('Location: ', location);
   };
 
   function renderMap() {
@@ -128,7 +124,7 @@ const DStartLocation = ({route}) => {
           customMapStyle={MapStyle}
           provider={PROVIDER_GOOGLE}
           initialRegion={{
-            // ...BusAround[0],
+            ...BusAround[0],
             latitudeDelta: 0.2,
             longitudeDelta: 0.2,
           }}
@@ -197,7 +193,7 @@ const DStartLocation = ({route}) => {
                 placeholder="Enter Start Location"
                 listViewDisplayed="auto"
                 debounce={400}
-                currentLocation={true}
+                currentLocation={false}
                 currentLocationLabel="Current Location"
                 ref={textInput3}
                 minLength={2}

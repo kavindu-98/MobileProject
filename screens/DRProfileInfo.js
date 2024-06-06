@@ -64,7 +64,7 @@ const DRProfileInfo = ({navigation}) => {
     if (
       Name1 === '' ||
       Name2 === '' ||
-      password1 === '' ||
+      password === '' ||
       password2 === '' ||
       Did === '' ||
       NIC === ''
@@ -73,7 +73,7 @@ const DRProfileInfo = ({navigation}) => {
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password1.length < 8) {
+    if (password.length < 8) {
       setError({
         ...error,
         errorMsg: 'Password must be at least 8 characters long!',
@@ -86,7 +86,7 @@ const DRProfileInfo = ({navigation}) => {
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password1 !== password2) {
+    if (password !== password2) {
       setError({...error, errorMsg: 'Passwords does not match!'});
       setSuccess({...success, successMsg: ''});
       return false;
@@ -106,7 +106,7 @@ const DRProfileInfo = ({navigation}) => {
   const handleSave = () => {
     setIsEdit(false);
     console.log('hi');
-    dispatch(updateUser({...driverDetails, jwt: driver.userjwt}));
+    dispatch(updateDriver({...driverDetails, jwt: driver.userjwt}));
     // navigation.navigate('ProfileScreen');
   };
 
@@ -254,7 +254,7 @@ const DRProfileInfo = ({navigation}) => {
                       value={driverDetails.FirstName}
                       editable={IsEdit}
                       onChangeText={text =>
-                        setUserDetails(prevState => ({
+                        setDriverDetails(prevState => ({
                           ...prevState,
                           FirstName: text,
                         }))
@@ -270,7 +270,7 @@ const DRProfileInfo = ({navigation}) => {
                       value={driverDetails.LastName}
                       editable={IsEdit}
                       onChangeText={text =>
-                        setUserDetails(prevState => ({
+                        setDriverDetails(prevState => ({
                           ...prevState,
                           FirstName: text,
                         }))
@@ -285,7 +285,13 @@ const DRProfileInfo = ({navigation}) => {
                   placeholder="Create your Email"
                   // secureTextEntry
                   value={driverDetails.email}
-                  onChangeText={text => setEmail(text)}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setDriverDetails(prevState => ({
+                      ...prevState,
+                      email: text,
+                    }))
+                  }
                 />
 
                 <View style={styles.namecontainer}>
@@ -316,7 +322,13 @@ const DRProfileInfo = ({navigation}) => {
                       placeholder="Enter your Phone Number"
                       // autoFocus
                       value={driverDetails.phone}
-                      onChangeText={text => setPhone(text)}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setDriverDetails(prevState => ({
+                          ...prevState,
+                          phone: text,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -326,7 +338,13 @@ const DRProfileInfo = ({navigation}) => {
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
                   value={driverDetails.driverId}
-                  onChangeText={text => setDid(text)}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setDriverDetails(prevState => ({
+                      ...prevState,
+                      Did: text,
+                    }))
+                  }
                 />
 
                 <View style={styles.namecontainer}>
@@ -337,7 +355,13 @@ const DRProfileInfo = ({navigation}) => {
                       placeholder="Enter your NIC Number"
                       // autoFocus
                       value={driver.NIC}
-                      onChangeText={text => setNIC(text)}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setDriverDetails(prevState => ({
+                          ...prevState,
+                          NIC: text,
+                        }))
+                      }
                     />
                   </View>
                   <View
@@ -370,7 +394,13 @@ const DRProfileInfo = ({navigation}) => {
                   placeholder="Enter your Driver License Number"
                   // secureTextEntry
                   value={driver.licenceId}
-                  onChangeText={text => setDLN(text)}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setDriverDetails(prevState => ({
+                      ...prevState,
+                      licenceId: text,
+                    }))
+                  }
                 />
 
                 <Text style={styles.inputTitle1}>
@@ -382,50 +412,28 @@ const DRProfileInfo = ({navigation}) => {
                     padding: 10,
                     justifyContent: 'space-between',
                   }}>
-                  <View style={styles.profileimage}>
-                    <TouchableOpacity>
+                  <View style={styles.profileimage1}>
+                    <TouchableOpacity onPress={() => openGallery('front')}>
                       <Image
                         source={
                           frontLicence
                             ? {uri: frontLicence.uri}
                             : require('../assets/images/PhotoInput.png')
                         }
-                        style={styles.profileimage}
+                        style={styles.profileimage1}
                       />
-                      <IconButton
-                        icon={icons.add}
-                        onPress={() => openGallery('front')}
-                        iconStyle={{
-                          marginLeft: 10,
-                          marginTop: -38,
-                          borderRadius: 50,
-                          width: 40,
-                          height: 40,
-                          tintColor: COLORS.white,
-                        }}></IconButton>
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.profileimage}>
-                    <TouchableOpacity>
+                  <View style={styles.profileimage1}>
+                    <TouchableOpacity onPress={() => openGallery('back')}>
                       <Image
                         source={
                           backLicence
                             ? {uri: backLicence.uri}
                             : require('../assets/images/PhotoInput.png')
                         }
-                        style={styles.profileimage}
+                        style={styles.profileimage1}
                       />
-                      <IconButton
-                        icon={icons.add}
-                        onPress={() => openGallery('back')}
-                        iconStyle={{
-                          marginLeft: 10,
-                          marginTop: -38,
-                          borderRadius: 50,
-                          width: 40,
-                          height: 40,
-                          tintColor: COLORS.white,
-                        }}></IconButton>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -444,7 +452,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Create your password"
                   secureTextEntry
-                  value={password1}
+                  value={password}
                   onChangeText={text => setPassword1(text)}
                 />
                 <Text style={styles.inputTitle}>CONFIRM PASSWORD</Text>
@@ -456,23 +464,51 @@ const DRProfileInfo = ({navigation}) => {
                   onChangeText={text => setPassword2(text)}
                 /> */}
               </View>
+              {error.errorMsg !== '' && (
+                <Text style={styles.error}>{error.errorMsg}</Text>
+              )}
+              {success.successMsg !== '' && (
+                <Text style={styles.success}>{success.successMsg}</Text>
+              )}
 
-              <TextIconButton
-                label="SAVE INFORMATION"
-                customContainerStyle={{
-                  width: '100%',
-                  height: 55,
-                  borderRadius: SIZES.radius_btn4,
-                  marginTop: SIZES.padding1,
-                }}
-                customLabelStyle={{
-                  color: COLORS.white,
-                  alignItems: 'center',
-                  marginLeft: -15,
-                  ...FONTS.h2,
-                }}
-                // onPress={handleUpdate}
-              />
+              <View style={styles.buttonView}>
+                <View style={styles.button}>
+                  <TextIconButton
+                    label="EDIT"
+                    customContainerStyle={{
+                      marginTop: SIZES.padding2,
+                      width: 164,
+                      height: 55,
+                      backgroundColor: COLORS.red1Font,
+                      marginLeft: SIZES.padding1,
+                      borderRadius: SIZES.radius_btn3,
+                    }}
+                    customLabelStyle={{
+                      color: COLORS.white,
+                      marginLeft: -15,
+                    }}
+                    onPress={handleEdit}
+                  />
+                </View>
+                <View style={styles.button}>
+                  <TextIconButton
+                    label="SAVE "
+                    customContainerStyle={{
+                      marginTop: SIZES.padding2,
+                      width: 164,
+                      height: 55,
+                      backgroundColor: COLORS.red1Font,
+                      marginLeft: SIZES.padding1,
+                      borderRadius: SIZES.radius_btn3,
+                    }}
+                    customLabelStyle={{
+                      color: COLORS.white,
+                      marginLeft: -15,
+                    }}
+                    onPress={handleSave}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -503,6 +539,10 @@ const styles = StyleSheet.create({
   proname: {
     alignItems: 'center',
   },
+  buttonView: {
+    width: '100%',
+    flexDirection: 'row',
+  },
   Title: {
     justifyContent: 'flex-end',
     color: COLORS.black,
@@ -528,7 +568,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
   },
-
+  profileimage1: {
+    width: 130,
+    height: 130,
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
   inputTitle1: {
     ...FONTS.h3,
     marginTop: SIZES.padding3,
@@ -550,9 +595,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   button: {
-    // marginLeft: 10,
-    alignItems: 'flex-end',
-    marginLeft: 130,
+    marginLeft: -25,
+    alignItems: 'center',
+    // marginLeft: 130,
     marginTop: 30,
   },
 

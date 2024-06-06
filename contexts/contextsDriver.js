@@ -1,39 +1,40 @@
-import React,{createContext,useReducer} from 'react';
-import {OriginReducer,DestinationReducer} from  '../reducers/reducers'
+import React, {createContext, useReducer} from 'react';
+import {
+  OriginDriverReducer,
+  DestinationDriverReducer,
+} from '../reducers/Dreducers';
 
-export const OriginContext = createContext()
-export const DestinationContext = createContext()
+export const OriginDriverContext = createContext();
+export const DestinationDriverContext = createContext();
 
+export const OriginDriverContextProvider = props => {
+  const [Dorigin, dispatchOrigin] = useReducer(OriginDriverReducer, {
+    latitude: null,
+    longitude: null,
+    address: '',
+    name: '',
+  });
+  return (
+    <OriginDriverContext.Provider value={{Dorigin, dispatchOrigin}}>
+      {props.children}
+    </OriginDriverContext.Provider>
+  );
+};
 
-export const OriginContextProvider = (props)=>{
-    const[origin,dispatchOrigin] =useReducer(OriginReducer,{
-                latitude:null,
-                longitude:null,
-                address:"",
-                name:""
-    })
-    return(
-        <OriginContext.Provider
-                value ={{origin,dispatchOrigin}}
-            >
-            {props.children}
-        </OriginContext.Provider>
-    )
-}
-
-
-export const DestinationContextProvider = (props)=>{
-    const[destination,dispatchDestination] =useReducer(DestinationReducer,{
-                latitude:null,
-                longitude:null,
-                address:"",
-                name:""
-    })
-    return(
-        <DestinationContext.Provider
-                value ={{destination,dispatchDestination}}
-            >
-            {props.children}
-        </DestinationContext.Provider>
-    )
-}
+export const DestinationDriverContextProvider = props => {
+  const [Ddestination, dispatchDestination] = useReducer(
+    DestinationDriverReducer,
+    {
+      latitude: null,
+      longitude: null,
+      address: '',
+      name: '',
+    },
+  );
+  return (
+    <DestinationDriverContext.Provider
+      value={{Ddestination, dispatchDestination}}>
+      {props.children}
+    </DestinationDriverContext.Provider>
+  );
+};

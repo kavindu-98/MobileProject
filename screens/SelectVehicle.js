@@ -80,7 +80,7 @@ const SelectVehicle = ({route}) => {
         <ScrollView>
           <View
             style={{
-              alignItems: 'center',
+              // alignItems: 'center',
               backgroundColor: COLORS.gray10,
             }}>
             <VehicleCard />

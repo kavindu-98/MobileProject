@@ -25,19 +25,14 @@ import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 navigator.geolocation = require('react-native-geolocation-service');
-import {OriginContext, DestinationContext} from '../contexts/contexts';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {IconButton} from '../components';
 import {
-  HeaderBar,
-  TextIconButton,
-  Rating,
-  TextButton,
-  MapComponent,
-  SavedLocation,
-} from '../components';
-import {destination} from '../reducers/mapSlice';
+  OriginDriverContext,
+  DestinationDriverContext,
+} from '../contexts/contextsDriver';
+import {useDispatch, useSelector} from 'react-redux';
+import {TextIconButton, IconButton, MapComponentDriver} from '../components';
+
+import {addOriginDriver, destinationDriver} from '../reducers/mapSliceDriver';
 
 // this screen for get the destination location of employee
 
@@ -51,25 +46,25 @@ const DestinationDriver = ({route}) => {
   const pickupLocation = route.params;
 
   const [dropLocation, setDropLocation] = useState();
-  const dispatchOrigin = useContext(OriginContext);
+  const dispatchOrigin = useContext(OriginDriverContext);
   console.log(pickupLocation);
   console.log(dispatchOrigin.latitude);
 
   // const { destination, dispatchDestination } = useContext(DestinationContext);
 
   const [userDestination, setUserDestination] = useState({
-    latitude: destination.latitude,
-    longitude: destination.longitude,
+    latitude: destinationDriver.latitude,
+    longitude: destinationDriver.longitude,
   });
 
   const snapPoints = ['100%'];
 
   useEffect(() => {
     setUserDestination({
-      latitude: destination.latitude,
-      longitude: destination.longitude,
+      latitude: destinationDriver.latitude,
+      longitude: destinationDriver.longitude,
     });
-  }, [destination]);
+  }, [destinationDriver]);
 
   let AnimatedHeaderValue = new Animated.Value(0);
   const Header_Max_Height = 180;
@@ -123,7 +118,7 @@ const DestinationDriver = ({route}) => {
             <IconButton
               icon={icons.map}
               onPress={() => {
-                navigation.navigate('SetDesM');
+                navigation.navigate('');
               }}
               iconStyle={{
                 marginLeft: 35,
@@ -138,7 +133,7 @@ const DestinationDriver = ({route}) => {
               placeholder="Enter Destination"
               listViewDisplayed="auto"
               debounce={400}
-              currentLocation={true}
+              currentLocation={false}
               currentLocationLabel="Current Location"
               // ref={textInput1}
               minLength={2}
@@ -146,7 +141,7 @@ const DestinationDriver = ({route}) => {
               fetchDetails={true}
               onPress={(data, details = null) => {
                 dispatch(
-                  destination({
+                  destinationDriver({
                     latitude: details.geometry.location.lat,
                     longitude: details.geometry.location.lng,
                     address: details.formatted_address,
@@ -156,7 +151,7 @@ const DestinationDriver = ({route}) => {
                 // console.log(data.description);
                 // console.log(details.formatted_address);
 
-                navigation.navigate('SeleDriver', details);
+                navigation.navigate('DStartRide', details);
 
                 // console.log(details.geometry.location.lng);
 
@@ -193,34 +188,8 @@ const DestinationDriver = ({route}) => {
         </Animated.View>
 
         <View>
-          {/* <MapComponent
-          /> */}
+          <MapComponentDriver />
         </View>
-      </View>
-    );
-  }
-
-  function BodyPanel() {
-    return (
-      <View
-        style={{
-          flex: 1,
-
-          backgroundColor: COLORS.gray10,
-          width: '100%',
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('');
-          }}>
-          <SavedLocation></SavedLocation>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('');
-          }}>
-          <SavedLocation></SavedLocation>
-        </TouchableOpacity>
       </View>
     );
   }

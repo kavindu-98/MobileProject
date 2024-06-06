@@ -11,11 +11,11 @@ import {useDispatch, useSelector} from 'react-redux';
 // const data = useSelector((state) => state.mapData);
 
 const MapComponentDriver = ({}) => {
-  const {origin, destination} = useSelector(state => state.mapData);
-  console.log('origin');
-  console.log(origin);
-  console.log('destination');
-  console.log(destination);
+  const {Dorigin, Ddestination} = useSelector(state => state.DmapData);
+  console.log('Dorigin');
+  console.log(Dorigin);
+  console.log('Ddestination');
+  console.log(Ddestination);
   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpPGnre332uNnud4OPqcSpvUSUTuAmWnc';
 
   return (
@@ -28,8 +28,8 @@ const MapComponentDriver = ({}) => {
         customMapStyle={MapStyle}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
+          latitude: Dorigin.latitude,
+          longitude: Dorigin.longitude,
           latitudeDelta: 0.2,
           longitudeDelta: 0.2,
         }}
@@ -37,48 +37,47 @@ const MapComponentDriver = ({}) => {
         followsUserLocation={true}
         zoomEnabled={true}
         zoomControlEnabled={true}>
-        {origin.latitude !== '' && (
+        {Dorigin.latitude !== '' && (
           <Marker
             coordinate={{
-              latitude: origin.latitude,
-              longitude: origin.longitude,
+              latitude: Dorigin.latitude,
+              longitude: Dorigin.longitude,
             }}
             anchor={{x: 0.5, y: 0.5}}>
             <Image
-              source={require('../assets/images/pickupmarker.png')}
-              style={styles.markerOrigin2}
+              source={require('../assets/images/busIcon.png')}
+              style={styles.carsAround}
               resizeMode="cover"
             />
           </Marker>
         )}
 
-        {/* {data.latitude != null && ( */}
-        {/* <Marker
-              coordinate={{showsUserLocation
-                }}
-              anchor={{ x: 0.5, y: 0.5 }}
-            >
-              <Image
-                source={require("../assets/images/pickupmarker.png")}
-                style={styles.markerDestination}
-                resizeMode="cover"
-              />
-            </Marker> */}
-        {/* )} */}
-        {/* {.latitude !== null && */}
-        {/* <MapViewDirections 
-                          addOrigin={data}
-                          destination={{latitude: 7.175549 ,longitude: 79.883291}}
-                          // apikey={AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk}
-                          apikey={GOOGLE_MAPS_APIKEY}
-                          strokeWidth={4}
-                          strokeColor={COLORS.black}
-                          // query={{
-                          //   key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-                          //   language: "en",
-                          // }}
-                        /> */}
-        {/* }  */}
+        {Ddestination.latitude !== '' && (
+          <Marker
+            coordinate={{
+              latitude: Ddestination.latitude,
+              longitude: Ddestination.longitude,
+            }}
+            anchor={{x: 0.5, y: 0.5}}>
+            <Image
+              source={require('../assets/images/dropIcon.png')}
+              style={styles.markerDestination}
+              resizeMode="cover"
+            />
+          </Marker>
+        )}
+        {Dorigin.latitude !== '' && Ddestination.latitude !== '' && (
+          <MapViewDirections
+            Dorigin={{latitude: Dorigin.latitude, longitude: Dorigin.longitude}}
+            Ddestination={{
+              latitude: Ddestination.latitude,
+              longitude: Ddestination.longitude,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={4}
+            strokeColor={COLORS.black}
+          />
+        )}
       </MapView>
     </View>
   );
@@ -94,5 +93,9 @@ const styles = StyleSheet.create({
   markerOrigin2: {
     width: 42,
     height: 32,
+  },
+  carsAround: {
+    width: 60,
+    height: 30,
   },
 });

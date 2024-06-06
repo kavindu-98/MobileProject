@@ -19,9 +19,8 @@ import {VehicleDetails} from '../Data/Data';
 import {DStartLocation} from '../screens';
 import {useNavigation} from '@react-navigation/native';
 
-const navigation = useNavigation();
-
 const VehicleCard = ({}) => {
+  const navigation = useNavigation();
   return (
     <ScrollView>
       {VehicleDetails.map((item, index) => {
@@ -56,7 +55,7 @@ const VehicleCard = ({}) => {
                 <Text
                   style={{
                     ...FONTS.h2,
-                    marginLeft: 60,
+                    marginLeft: 50,
                     marginTop: 20,
                     color: COLORS.black,
                   }}>
@@ -65,7 +64,7 @@ const VehicleCard = ({}) => {
                 <Text
                   style={{
                     ...FONTS.h3,
-                    marginLeft: 60,
+                    marginLeft: 50,
                     marginTop: 5,
                   }}>
                   {item.VType} * {item.Conditon}
@@ -97,7 +96,7 @@ const VehicleCard = ({}) => {
                   style={{
                     width: 30,
                     height: 30,
-                    marginLeft: 5,
+                    marginLeft: -15,
                     marginTop: 45,
                     tintColor: COLORS.gray30,
                   }}
