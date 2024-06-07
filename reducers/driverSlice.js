@@ -30,9 +30,9 @@ export const driverLogInDataSlice = createSlice({
       state.message = '';
       state.action = '';
     },
-    signupProcess: (state, action) => {
-      state.data = action.payload;
-    },
+    // signupProcess: (state, action) => {
+    //   state.data = action.payload;
+    // },
   },
   extraReducers: builder => {
     builder
@@ -44,7 +44,6 @@ export const driverLogInDataSlice = createSlice({
         state.message = '';
       })
       .addCase(logInDriver.fulfilled, (state, action) => {
-        console.log(action);
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;

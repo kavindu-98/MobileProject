@@ -3,7 +3,10 @@ import axios from 'axios';
 import {getDriverCookie} from '../utils/storage';
 
 const AddVehicle = async object => {
-  const config = {headers: {'Content-Type': 'multipart/form-data'}};
+  const config = {
+    headers: {'Content-Type': 'multipart/form-data'},
+    // Authorization: `Bearer ${object.jwt}`,
+  };
   console.log(object);
   const response = await axios.post(
     `http://10.0.2.2:5000/api/vehicle/AddVehicle`,

@@ -5,7 +5,6 @@ import {AddNewVehicle} from '../Actions/VehicleInfo';
 
 const initialState = {
   vehicle: null,
-  data: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -16,8 +15,20 @@ export const vehicleDataSlice = createSlice({
   name: 'AddVehicle',
   initialState,
   reducers: {
-    signupProcess: (state, action) => {
-      state.data = action.payload;
+    resetVehicleData: state => {
+      state.vehicle = null;
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+      state.message = '';
+      state.action = '';
+    },
+    resetVehicleDataStatus: state => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+      state.message = '';
+      state.action = '';
     },
   },
   extraReducers: builder => {
@@ -33,8 +44,9 @@ export const vehicleDataSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.vehicle = action.payload;
         state.action = 'AddNewVehicle';
-        state.message = action.payload;
+        state.message = '';
       })
       .addCase(AddNewVehicle.rejected, (state, action) => {
         state.isLoading = false;

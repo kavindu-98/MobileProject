@@ -39,11 +39,15 @@ const VehicleDt1Screen = ({navigation}) => {
   const [backVLicence, setBackVLicence] = useState();
   const [frontVInsurance, setFrontVInsurance] = useState();
   const [backVInsurance, setBackVInsurance] = useState();
+  const [driverDetails, setDriverDetails] = useState({});
 
   const {driver, isError, isSuccess, isLoading, message, action} = useSelector(
     state => state.driverLogIn,
   );
-
+  useEffect(() => {
+    setDriverDetails(driver._doc);
+    // setFrontLicence(driver.$__.activePaths.paths);
+  }, [driver._doc]);
   // Validate the Vehicle information in the frontend
   const validate = () => {
     if (VNo === '' || VType === '' || VLNo === '' || VINo === '') {
@@ -69,7 +73,6 @@ const VehicleDt1Screen = ({navigation}) => {
   const Handlevehicle = () => {
     console.log('hi');
     const formData = new FormData();
-    formData.append('DId', driver.driverId);
     formData.append('VNo', VNo);
     formData.append('VLNo', VLNo);
     formData.append('VINo', VINo);
@@ -81,9 +84,10 @@ const VehicleDt1Screen = ({navigation}) => {
 
     console.log(formData);
     // console.log(errorMsg);
-
-    dispatch(AddNewVehicle(formData));
-    navigation.navigate('VehicleDt2Screen', formData);
+    if (validate()) {
+      // dispatch(AddNewVehicle(formData));
+      navigation.navigate('VehicleDt2Screen', formData);
+    }
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);
@@ -300,6 +304,12 @@ const VehicleDt1Screen = ({navigation}) => {
                   <Text style={styles.inputTitle2}>Back View</Text>
                 </View>
               </View>
+              {error.errorMsg !== '' && (
+                <Text style={styles.error}>{error.errorMsg}</Text>
+              )}
+              {success.successMsg !== '' && (
+                <Text style={styles.success}>{success.successMsg}</Text>
+              )}
 
               <TextIconButton
                 label="CONTINUE"

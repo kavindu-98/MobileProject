@@ -69,7 +69,7 @@ const HomeScreen = () => {
   useEffect(() => {
     setUserDetails(user);
   }, [user]);
-
+  console.log('user', userDetails);
   const today = new Date();
   const month = months[today.getMonth()];
   const year = today.getFullYear();

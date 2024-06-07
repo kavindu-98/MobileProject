@@ -108,8 +108,8 @@ const SignUpScreen = ({navigation}) => {
   };
   if (action === 'signUpUser' && isSuccess) {
     console.log(message);
-    navigation.navigate('Login');
     dispatch(resetUserLoginStatus());
+    navigation.navigate('Login');
   }
 
   let AnimatedHeaderValue = new Animated.Value(0);

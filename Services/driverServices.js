@@ -23,11 +23,13 @@ const signUp = async object => {
   return response.data;
 };
 const update = async updateObject => {
-  // const jwt = getCookie(userjwt);
-  // const config={headers:{
-  //     'Content-Type':'application/json',
-  //     Authorization:Bearer ${jwt}
-  // }}
+  console.log('before jwt');
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${updateObject.jwt}`,
+    },
+  };
   const response = await axios.post(
     'http://10.0.2.2:5000/api/driver/update',
     updateObject,

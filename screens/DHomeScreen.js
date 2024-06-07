@@ -45,10 +45,9 @@ const DHomeScreen = () => {
   const [driverDetails, setDriverDetails] = useState({});
   const {driver} = useSelector(state => state.driverLogIn);
   useEffect(() => {
-    console.log(driverDetails);
-    setDriverDetails(driver);
-  }, [driver]);
-
+    setDriverDetails(driver._doc);
+  }, [driver._doc]);
+  console.log('driverdetail', driverDetails);
   var days = [
     'Sunday',
     'Monday',

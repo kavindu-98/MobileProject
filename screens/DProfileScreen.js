@@ -18,6 +18,7 @@ import {resetDriverLogIn} from '../reducers/driverSlice';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const DProfileScreen = () => {
+  const [driverDetails, setDriverDetails] = useState({});
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,7 +27,12 @@ const DProfileScreen = () => {
   const snapPoints = ['50%'];
   const dispatch = useDispatch();
   const {driver} = useSelector(state => state.driverLogIn);
-  console.log(driver);
+
+  useEffect(() => {
+    // console.log(driver);
+    setDriverDetails(driver._doc);
+    // console.log('details: ', driverDetails);
+  }, [driver._doc]);
 
   const navigation = useNavigation();
   function renderHeader() {
@@ -163,7 +169,13 @@ const DProfileScreen = () => {
     );
   }
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        backgroundColor: COLORS.background,
+        height: '100%',
+        flex: 1,
+        opacity: modalVisible ? 0.1 : 1,
+      }}>
       <SafeAreaView style={styles.container}>
         {/* header */}
         {renderHeader()}
@@ -182,7 +194,7 @@ const DProfileScreen = () => {
 
           <View style={styles.proname}>
             <Text style={styles.nameTitle}>
-              {driver.FirstName} {driver.LastName}
+              {driverDetails.FirstName} {driverDetails.LastName}
             </Text>
           </View>
 

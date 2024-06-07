@@ -113,8 +113,8 @@ const DRSignUpScreen = ({navigation}) => {
   };
   if (action === 'signUpDriver' && isSuccess) {
     console.log(message);
-    navigation.navigate('DLogin');
     dispatch(resetDriverLoginStatus());
+    navigation.navigate('DLogin');
   }
 
   const Options = {

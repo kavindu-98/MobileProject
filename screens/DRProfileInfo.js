@@ -22,17 +22,11 @@ import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
+import {signUpDriver, updateDriver} from '../Actions/driverActions';
 
 const Tab = createMaterialTopTabNavigator();
 
 const DRProfileInfo = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [Name1, setName1] = useState();
-  const [Name2, setName2] = useState();
-  const [Phone, setPhone] = useState();
-  const [Did, setDid] = useState();
-  const [DLN, setDLN] = useState();
-  const [NIC, setNIC] = useState();
   // const [password1, setPassword1] = useState();
   // const [password2, setPassword2] = useState();
   const [selectedItem, setSelectedItem] = useState({});
@@ -55,42 +49,42 @@ const DRProfileInfo = ({navigation}) => {
   const {driver} = useSelector(state => state.driverLogIn);
 
   useEffect(() => {
-    console.log(driver);
-    setDriverDetails(driver);
-  }, [driver]);
-
+    setDriverDetails(driver._doc);
+    // setFrontLicence(driver.$__.activePaths.paths);
+  }, [driver._doc]);
+  // console.log(driver.$__.activePaths.paths);
   // Validate the employee data in the front end
   const validate = () => {
     if (
-      Name1 === '' ||
-      Name2 === '' ||
-      password === '' ||
-      password2 === '' ||
-      Did === '' ||
-      NIC === ''
+      driverDetails.Name1 === '' ||
+      driverDetails.Name2 === '' ||
+      // password === '' ||
+      // password2 === '' ||
+      driverDetails.Did === '' ||
+      driverDetails.NIC === ''
     ) {
       setError({...error, errorMsg: 'All Fields are required!'});
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password.length < 8) {
-      setError({
-        ...error,
-        errorMsg: 'Password must be at least 8 characters long!',
-      });
-      setSuccess({...success, successMsg: ''});
-      return false;
-    }
-    if (Phone.length <= 10) {
+    // if (password.length < 8) {
+    //   setError({
+    //     ...error,
+    //     errorMsg: 'Password must be at least 8 characters long!',
+    //   });
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    // }
+    if (driverDetails.Phone.length <= 10) {
       setError({...error, errorMsg: 'Phone number is wrong!'});
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password !== password2) {
-      setError({...error, errorMsg: 'Passwords does not match!'});
-      setSuccess({...success, successMsg: ''});
-      return false;
-    } else {
+    // if (password !== password2) {
+    //   setError({...error, errorMsg: 'Passwords does not match!'});
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    else {
       setError({...error, errorMsg: ''});
       setSuccess({...success, successMsg: 'Successfully Account Created.'});
       return true;
@@ -338,7 +332,7 @@ const DRProfileInfo = ({navigation}) => {
                   placeholder="Enter your Driver ID"
                   // secureTextEntry
                   value={driverDetails.driverId}
-                  editable={IsEdit}
+                  editable={false}
                   onChangeText={text =>
                     setDriverDetails(prevState => ({
                       ...prevState,
@@ -354,7 +348,7 @@ const DRProfileInfo = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your NIC Number"
                       // autoFocus
-                      value={driver.NIC}
+                      value={driverDetails.NIC}
                       editable={IsEdit}
                       onChangeText={text =>
                         setDriverDetails(prevState => ({
@@ -372,6 +366,7 @@ const DRProfileInfo = ({navigation}) => {
 
                     <Picker
                       selectedValue={selectedGender}
+                      editable={IsEdit}
                       style={{
                         // borderWidth: 1,
                         // backgroundColor:COLORS.transparentBlack,
@@ -393,7 +388,7 @@ const DRProfileInfo = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Driver License Number"
                   // secureTextEntry
-                  value={driver.licenceId}
+                  value={driverDetails.licenceId}
                   editable={IsEdit}
                   onChangeText={text =>
                     setDriverDetails(prevState => ({
@@ -583,7 +578,6 @@ const styles = StyleSheet.create({
     marginTop: -10,
     marginHorizontal: 30,
   },
-
   textInput: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
@@ -615,6 +609,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: COLORS.transparentWhite,
     borderColor: COLORS.outLine,
+    color: COLORS.black,
     borderRadius: 8,
     borderWidth: 1,
     width: '100%',

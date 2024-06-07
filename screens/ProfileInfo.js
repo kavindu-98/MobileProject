@@ -57,35 +57,36 @@ const ProfileInfo = ({navigation}) => {
   // Validate the employee data in the front end
   const validate = () => {
     if (
-      FirstName === '' ||
-      LastName === '' ||
-      password === '' ||
-      password2 === '' ||
-      employeeId === '' ||
-      NIC === ''
+      userDetails.FirstName === '' ||
+      userDetails.LastName === '' ||
+      // userDetails.password === '' ||
+      // userDetails.password2 === '' ||
+      userDetails.employeeId === '' ||
+      userDetails.NIC === ''
     ) {
       setError({...error, errorMsg: 'All Fields are required!'});
       setSuccess({...success, successMsg: ''});
       return false;
     }
-    if (password.length < 8) {
-      setError({
-        ...error,
-        errorMsg: 'Password must be at least 8 characters long!',
-      });
-      setSuccess({...success, successMsg: ''});
-      return false;
-    }
-    if (phone.length < 9) {
-      setError({...error, errorMsg: 'Phone number is wrong!'});
-      setSuccess({...success, successMsg: ''});
-      return false;
-    }
-    if (password !== password2) {
-      setError({...error, errorMsg: 'Passwords does not match!'});
-      setSuccess({...success, successMsg: ''});
-      return false;
-    } else {
+    // if (userDetails.password.length < 8) {
+    //   setError({
+    //     ...error,
+    //     errorMsg: 'Password must be at least 8 characters long!',
+    //   });
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    // }
+    // if (Number.length < 9) {
+    //   console.log(Number);
+    //   setError({...error, errorMsg: 'Phone number is wrong!'});
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    // }
+    // if (password !== password2) {
+    //   setError({...error, errorMsg: 'Passwords does not match!'});
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    else {
       setError({...error, errorMsg: ''});
       setSuccess({...success, successMsg: 'Successfully Account Created.'});
       return true;
@@ -102,8 +103,10 @@ const ProfileInfo = ({navigation}) => {
   const handleSave = () => {
     setIsEdit(false);
     console.log('hi');
-    dispatch(updateUser({...userDetails, jwt: user.userjwt}));
-    navigation.navigate('ProfileScreen');
+    if (validate()) {
+      dispatch(updateUser({...userDetails, jwt: user.userjwt}));
+      navigation.navigate('ProfileScreen');
+    }
   };
 
   const Options = {
@@ -305,10 +308,10 @@ const ProfileInfo = ({navigation}) => {
                       // autoFocus
                       value={userDetails.phone}
                       editable={IsEdit}
-                      onChangeText={text =>
+                      onChangeText={Number =>
                         setUserDetails(prevState => ({
                           ...prevState,
-                          phone: text,
+                          phone: Number,
                         }))
                       }
                     />
@@ -509,7 +512,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: '#05375a',
   },
-  errorMsg: {
+  error: {
     color: '#FF0000',
     fontSize: 14,
   },

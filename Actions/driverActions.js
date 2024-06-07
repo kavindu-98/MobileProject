@@ -39,6 +39,7 @@ export const updateDriver = createAsyncThunk(
   'driver/update',
   async (object, thunkAPI) => {
     try {
+      console.log('update driver');
       const data = await driverService.update(object);
       return data;
     } catch (error) {

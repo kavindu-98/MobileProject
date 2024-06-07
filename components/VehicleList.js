@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -18,10 +18,20 @@ const {width, height} = Dimensions.get('window');
 import {VehicleDetails} from '../Data/Data';
 import {DStartLocation} from '../screens';
 import {useNavigation} from '@react-navigation/native';
-
-const navigation = useNavigation();
+import {useDispatch, useSelector} from 'react-redux';
 
 const VehicleList = ({}) => {
+  const navigation = useNavigation();
+  const [VehicleDetails1, setVehicleDetails] = useState({});
+  const {vehicle} = useSelector(state => state.AddVehicle);
+
+  useEffect(() => {
+    if (vehicle) {
+      setVehicleDetails(vehicle);
+      console.log('vehicle:', vehicle);
+    }
+  }, [vehicle]);
+
   return (
     <ScrollView>
       {VehicleDetails.map((item, index) => {

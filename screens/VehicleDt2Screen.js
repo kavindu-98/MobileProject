@@ -38,6 +38,7 @@ const VehicleDt2Screen = ({route}) => {
     usb: false,
   });
   const formData2 = route.params;
+  // console.log('drivervo :', formData2._parts[0]);
   const [error, setError] = useState({
     errorMsg: '',
   });
@@ -54,22 +55,21 @@ const VehicleDt2Screen = ({route}) => {
   const {driver} = useSelector(state => state.driverLogIn);
 
   useEffect(() => {
-    console.log(driver);
-    setDriverDetails(driver);
-  }, [driver]);
-
+    setDriverDetails(driver._doc);
+  }, [driver._doc]);
+  // console.log('driverjwt', driver);
   const vehicleCreate = () => {
     const formData = new FormData();
-    console.log('driverid :', driverDetails.email);
+    // console.log('driverid :', driverDetails.email);
     formData.append('DriverID', driverDetails.driverId);
-    formData.append('VNo', formData2._parts[0]);
-    formData.append('VLNo', formData2._parts[1]);
-    formData.append('VINo', formData2._parts[2]);
-    formData.append('VType', formData2._parts[3]);
-    formData.append('frontVLicence', formData2._parts[4]);
-    formData.append('backVLicence', formData2._parts[5]);
-    formData.append('frontVInsurance', formData2._parts[6]);
-    formData.append('backVInsurance', formData2._parts[7]);
+    formData.append('VNo', JSON.stringify(formData2._parts[0][1]));
+    formData.append('VLNo', JSON.stringify(formData2._parts[1][1]));
+    formData.append('VINo', JSON.stringify(formData2._parts[2][1]));
+    formData.append('VType', JSON.stringify(formData2._parts[3][1]));
+    formData.append('frontVLicence', formData2._parts[4][1]);
+    formData.append('backVLicence', formData2._parts[5][1]);
+    formData.append('frontVInsurance', formData2._parts[6][1]);
+    formData.append('backVInsurance', formData2._parts[7][1]);
     formData.append('PermitNo', PermitNo);
     formData.append('Conditon', Conditon);
     formData.append('NoOfSeat', NoOfSeat);
@@ -78,12 +78,13 @@ const VehicleDt2Screen = ({route}) => {
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
 
+    console.log('driverDetails :', formData);
     dispatch(AddNewVehicle(formData));
-    // navigation.navigate('DHome');
   };
   if (action === 'AddVehicle' && isSuccess) {
     console.log(message);
-    dispatch(resetUserLoginStatus());
+    dispatch(resetVehicleDataStatus());
+    navigation.navigate('DHome');
   }
 
   const Options = {
