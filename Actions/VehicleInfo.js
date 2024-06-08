@@ -42,3 +42,22 @@ export const EditVehicle = createAsyncThunk(
     }
   },
 );
+
+export const UpdateVehicle = createAsyncThunk(
+  'vehicle/UpdateVehicle',
+  async (object, thunkAPI) => {
+    try {
+      console.log('update vehicle');
+      const data = await vehicleService.UpdateVehicle(object);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);

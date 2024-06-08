@@ -32,5 +32,21 @@ const EditVehicle = async DriverID => {
   console.log(response);
   return response.data;
 };
-const vehicleService = {AddVehicle, EditVehicle};
+const UpdateVehicle = async updateObject => {
+  console.log('before jwt');
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${updateObject.jwt}`,
+    },
+  };
+  const response = await axios.post(
+    'http://10.0.2.2:5000/api/vehicle/UpdateVehicle',
+    updateObject,
+    config,
+  );
+  console.log(response);
+  return response.data;
+};
+const vehicleService = {AddVehicle, EditVehicle, UpdateVehicle};
 export default vehicleService;

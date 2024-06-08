@@ -45,8 +45,8 @@ const VehicleList = ({}) => {
   }, [vehicle]);
   return (
     <ScrollView>
-      {VehicleDetails1.map((item, index) => {
-        return (
+      {VehicleDetails1 && VehicleDetails1.length > 0 ? (
+        VehicleDetails1.map((item, index) => (
           <TouchableOpacity>
             <View
               style={{
@@ -127,8 +127,10 @@ const VehicleList = ({}) => {
               </View>
             </View>
           </TouchableOpacity>
-        );
-      })}
+        ))
+      ) : (
+        <Text>No vehicles available</Text>
+      )}
     </ScrollView>
   );
 };

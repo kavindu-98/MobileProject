@@ -49,9 +49,11 @@ const DRProfileInfo = ({navigation}) => {
   const {driver} = useSelector(state => state.driverLogIn);
 
   useEffect(() => {
-    setDriverDetails(driver._doc);
+    if (driver) {
+      setDriverDetails(driver._doc);
+    }
     // setFrontLicence(driver.$__.activePaths.paths);
-  }, [driver._doc]);
+  }, []);
   // console.log(driver.$__.activePaths.paths);
   // Validate the employee data in the front end
   const validate = () => {
@@ -100,8 +102,8 @@ const DRProfileInfo = ({navigation}) => {
   const handleSave = () => {
     setIsEdit(false);
     console.log('hi');
-    dispatch(updateDriver({...driverDetails, jwt: driver.userjwt}));
-    // navigation.navigate('ProfileScreen');
+    dispatch(updateDriver({...driverDetails, jwt: driver.driverjwt}));
+    navigation.navigate('ProfileScreen');
   };
 
   const Options = {

@@ -24,12 +24,12 @@ import {Picker} from '@react-native-picker/picker';
 import {AddNewVehicle} from '../Actions/VehicleInfo';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import CheckBox from 'react-native-check-box';
+import {UpdateVehicle} from '../Actions/VehicleInfo';
 
 const Tab = createMaterialTopTabNavigator();
 
 const VehicleDt2ScreenEdit = ({route}) => {
   const navigation = useNavigation();
-  const [PermitNo, setPermitNo] = useState();
   const [Conditon, setCondition] = useState();
   const [NoOfSeat, setNoOfSeat] = useState();
   const [isChecked, setIsChecked] = useState({
@@ -48,40 +48,43 @@ const VehicleDt2ScreenEdit = ({route}) => {
   const [VehicleP2, setVehicleP2] = useState();
   const [VehicleP3, setVehicleP3] = useState();
   const [VehicleP4, setVehicleP4] = useState();
+  const [IsEdit, setIsEdit] = useState(false);
+  const [vehicleDetails, setVehicleDetails] = useState({});
+  const [driverDetails, setDriverDetails] = useState({});
 
   const {isSuccess, message, action} = useSelector(state => state.AddVehicle);
+  const {driver} = useSelector(state => state.driverLogIn);
+
+  useEffect(() => {
+    if (formData2._parts[0][0] && driver) {
+      // setDriverDetails(driver._doc);
+      setDriverDetails(driver._doc);
+      console.log('details', driver);
+      setIsEdit(true);
+      setVehicleDetails(formData2._parts[0][0]);
+      console.log('data: ', formData2._parts[0][0]);
+    }
+  }, []);
 
   const dispatch = useDispatch();
-  const {driver} = useSelector(state => state.driverLogIn);
+
   const vehicleCreate = () => {
     const formData = new FormData();
-    console.log('driverid :', driver.driverId);
-    formData.append('DriverID', driver.driverId);
-    formData.append('VNo', formData2._parts[0]);
-    formData.append('VLNo', formData2._parts[1]);
-    formData.append('VINo', formData2._parts[2]);
-    formData.append('VType', formData2._parts[3]);
-    formData.append('frontVLicence', formData2._parts[4]);
-    formData.append('backVLicence', formData2._parts[5]);
-    formData.append('frontVInsurance', formData2._parts[6]);
-    formData.append('backVInsurance', formData2._parts[7]);
-    formData.append('PermitNo', PermitNo);
-    formData.append('Conditon', Conditon);
-    formData.append('NoOfSeat', NoOfSeat);
+    formData.append(vehicleDetails);
     formData.append('VehicleP1', VehicleP1);
     formData.append('VehicleP2', VehicleP2);
     formData.append('VehicleP3', VehicleP3);
     formData.append('VehicleP4', VehicleP4);
-    if (validate()) {
-      console.log(driver.driverId);
-      dispatch(AddNewVehicle(formData));
-      // navigation.navigate('DProfileScreen');
+    setIsEdit(false);
+    if (formData._parts[0][0]) {
+      console.log('send data:', formData._parts[0][0]);
+      dispatch(
+        UpdateVehicle({...formData._parts[0][0], jwt: driver.driverjwt}),
+      );
+      navigation.navigate('AddVehicle');
     }
+    // navigation.navigate('DProfileScreen');
   };
-  if (action === 'AddVehicle' && isSuccess) {
-    console.log(message);
-    dispatch(resetUserLoginStatus());
-  }
 
   const Options = {
     title: 'Select Image',
@@ -241,8 +244,14 @@ const VehicleDt2ScreenEdit = ({route}) => {
                   style={styles.input}
                   placeholder="Enter your Route Permit Number"
                   // secureTextEntry
-                  value={PermitNo}
-                  onChangeText={text => setPermitNo(text)}
+                  value={vehicleDetails.VehiclePNo}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setVehicleDetails(prevState => ({
+                      ...prevState,
+                      VehiclePNo: text,
+                    }))
+                  }
                 />
 
                 <View style={styles.namecontainer}>
@@ -250,14 +259,20 @@ const VehicleDt2ScreenEdit = ({route}) => {
                     <Text style={styles.inputTitle}>NUMBER OF SEATS</Text>
 
                     <Picker
-                      selectedValue={NoOfSeat}
+                      selectedValue={vehicleDetails.VehicleNoS}
                       style={{
                         borderWidth: 1,
                         // backgroundColor:COLORS.transparentBlack,
                         marginTop: 8,
                         width: '120%',
                       }}
-                      onValueChange={(NoOfSeat, item) => setNoOfSeat(NoOfSeat)}>
+                      // onValueChange={(NoOfSeat, item) => setNoOfSeat(NoOfSeat)}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setVehicleDetails(prevState => ({
+                          ...prevState,
+                          VehicleNoS: itemValue,
+                        }))
+                      }>
                       <Picker.Item label="10 Seats" value="10 Seats" />
                       <Picker.Item label="20 Seats" value="20 Seats" />
                       <Picker.Item label="25 Seats" value="25 Seats" />
@@ -268,7 +283,7 @@ const VehicleDt2ScreenEdit = ({route}) => {
                   <View>
                     <Text style={styles.inputTitle}>CONDITION</Text>
                     <Picker
-                      selectedValue={Conditon}
+                      selectedValue={vehicleDetails.VehicleCon}
                       style={{
                         // borderWidth: 1,
                         // backgroundColor:COLORS.transparentBlack,
@@ -276,8 +291,11 @@ const VehicleDt2ScreenEdit = ({route}) => {
                         width: '180%',
                         marginLeft: -60,
                       }}
-                      onValueChange={(Conditon, item) =>
-                        setCondition(Conditon)
+                      onValueChange={(itemValue, itemIndex) =>
+                        setVehicleDetails(prevState => ({
+                          ...prevState,
+                          VehicleCon: itemValue,
+                        }))
                       }>
                       <Picker.Item label="A/C" value="A/C" />
                       <Picker.Item label=" Non A/C" value=" Non A/C" />

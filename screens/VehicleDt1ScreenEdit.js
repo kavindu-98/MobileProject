@@ -24,11 +24,8 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Tab = createMaterialTopTabNavigator();
 
-const VehicleDt1ScreenEdit = ({navigation}) => {
-  const [VNo, setVNo] = useState();
-  const [VType, setVType] = useState();
-  const [VLNo, setVLNo] = useState();
-  const [VINo, setVINo] = useState();
+const VehicleDt1ScreenEdit = ({navigation, route}) => {
+  const vehicle = route.params;
   const [success, setSuccess] = useState({successMsg: ''});
   const [error, setError] = useState({
     errorMsg: '',
@@ -38,40 +35,48 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
   const [backVLicence, setBackVLicence] = useState();
   const [frontVInsurance, setFrontVInsurance] = useState();
   const [backVInsurance, setBackVInsurance] = useState();
+  const [vehicleDetails, setVehicleDetails] = useState({});
+  const [IsEdit, setIsEdit] = useState(false);
 
   const {isError, isSuccess, isLoading, message, action} = useSelector(
-    state => state.userLogIn,
+    state => state.driverLogIn,
   );
+  useEffect(() => {
+    if (vehicle) {
+      setIsEdit(true);
+      setVehicleDetails(vehicle);
+    }
+    console.log(vehicle);
+    // setFrontLicence(driver.$__.activePaths.paths);
+  }, []);
 
   // Validate the Vehicle information in the frontend
   const validate = () => {
-    if (VNo === '' || VType === '' || VLNo === '' || VINo === '') {
-      setError({...error, errorMsg: 'All Fields are required!'});
-      setSuccess({...success, successMsg: ''});
-      return false;
-    }
+    // if (VNo === '' || VType === '' || VLNo === '' || VINo === '') {
+    //   setError({...error, errorMsg: 'All Fields are required!'});
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    // }
 
-    if (VLNo.length < 10) {
-      setError({...error, errorMsg: 'Vehicle number is wrong!'});
-      setSuccess({...success, successMsg: ''});
-      return false;
-    } else {
-      setError({...error, errorMsg: ''});
-      setSuccess({
-        ...success,
-        successMsg: 'Successfully added vehicle details.',
-      });
-      return true;
-    }
+    // if (VLNo.length < 10) {
+    //   setError({...error, errorMsg: 'Vehicle number is wrong!'});
+    //   setSuccess({...success, successMsg: ''});
+    //   return false;
+    // } else {
+    //   setError({...error, errorMsg: ''});
+    //   setSuccess({
+    //     ...success,
+    //     successMsg: 'Successfully added vehicle details.',
+    //   });
+    return true;
+    // }
   };
   const dispatch = useDispatch();
   const Handlevehicle = () => {
     console.log('hi');
     const formData = new FormData();
-    formData.append('VNo', VNo);
-    formData.append('VLNo', VLNo);
-    formData.append('VINo', VINo);
-    formData.append('VType', VType);
+    console.log('details', vehicleDetails);
+    formData.append(vehicleDetails);
     formData.append('frontVLicence', frontVLicence);
     formData.append('backVLicence', backVLicence);
     formData.append('frontVInsurance', frontVInsurance);
@@ -79,7 +84,7 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
 
     console.log(formData);
     if (validate()) {
-      dispatch(AddNewVehicle(formData));
+      // dispatch(AddNewVehicle(formData));
       navigation.navigate('VehicleDt2ScreenEdit', formData);
     }
   };
@@ -176,8 +181,14 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Vehicle No"
                       // autoFocus
-                      value={VNo}
-                      onChangeText={text => setVNo(text)}
+                      value={vehicleDetails.VehicleNo}
+                      editable={false}
+                      onChangeText={text =>
+                        setVehicleDetails(prevState => ({
+                          ...prevState,
+                          VehicleNo: text,
+                        }))
+                      }
                     />
                   </View>
                   <View>
@@ -186,8 +197,14 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
                       style={styles.input}
                       placeholder="Enter your Vehicle Type"
                       // autoFocus
-                      value={VType}
-                      onChangeText={text => setVType(text)}
+                      value={vehicleDetails.VehicleType}
+                      editable={IsEdit}
+                      onChangeText={text =>
+                        setVehicleDetails(prevState => ({
+                          ...prevState,
+                          VehicleType: text,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -197,8 +214,14 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Vehicle License Number"
                   // secureTextEntry
-                  value={VLNo}
-                  onChangeText={text => setVLNo(text)}
+                  value={vehicleDetails.VehicleLNo}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setVehicleDetails(prevState => ({
+                      ...prevState,
+                      VehicleLNo: text,
+                    }))
+                  }
                 />
 
                 <Text style={styles.inputTitle1}>
@@ -250,8 +273,14 @@ const VehicleDt1ScreenEdit = ({navigation}) => {
                   style={styles.input}
                   placeholder="Enter your Vehicle Insurance Number"
                   // secureTextEntry
-                  value={VINo}
-                  onChangeText={text => setVINo(text)}
+                  value={vehicleDetails.VehicleINo}
+                  editable={IsEdit}
+                  onChangeText={text =>
+                    setVehicleDetails(prevState => ({
+                      ...prevState,
+                      VehiclVehicleINoeNo: text,
+                    }))
+                  }
                 />
 
                 <Text style={styles.inputTitle1}>
@@ -400,6 +429,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: COLORS.transparentWhite,
     borderColor: COLORS.outLine,
+    color: COLORS.black,
     borderRadius: 8,
     borderWidth: 1,
     width: '100%',
