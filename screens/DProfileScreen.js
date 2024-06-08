@@ -29,10 +29,11 @@ const DProfileScreen = () => {
   const {driver} = useSelector(state => state.driverLogIn);
 
   useEffect(() => {
-    // console.log(driver);
-    setDriverDetails(driver._doc);
-    // console.log('details: ', driverDetails);
-  }, [driver._doc]);
+    if (driver) {
+      setDriverDetails(driver._doc);
+      // console.log('details: ', driverDetails);
+    }
+  }, []);
 
   const navigation = useNavigation();
   function renderHeader() {

@@ -17,5 +17,20 @@ const AddVehicle = async object => {
   console.log(response);
   return response.data;
 };
-const vehicleService = {AddVehicle};
+const EditVehicle = async DriverID => {
+  const config = {
+    headers: {'Content-Type': 'multipart/form-data'},
+    // Authorization: `Bearer ${object.jwt}`,
+  };
+  console.log(DriverID);
+  const response = await axios.get(
+    `http://10.0.2.2:5000/api/vehicle/EditVehicle/${DriverID}`,
+    DriverID,
+    config,
+  );
+  console.log('awaaa');
+  console.log(response);
+  return response.data;
+};
+const vehicleService = {AddVehicle, EditVehicle};
 export default vehicleService;

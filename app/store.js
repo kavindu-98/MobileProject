@@ -5,6 +5,7 @@ import DmapSlice from '../reducers/mapSliceDriver';
 import userLogInDataReducer from '../reducers/userSlice';
 import driverLogInDataReducer from '../reducers/driverSlice';
 import vehicleAddDataReducer from '../reducers/vehicleSlice';
+import vehicleEditDataReducer from '../reducers/editVehicleSlice';
 
 export default configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default configureStore({
     userLogIn: userLogInDataReducer,
     driverLogIn: driverLogInDataReducer,
     AddVehicle: vehicleAddDataReducer,
+    EditVehicle: vehicleEditDataReducer,
   },
 });

@@ -19,22 +19,33 @@ import {VehicleDetails} from '../Data/Data';
 import {DStartLocation} from '../screens';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import {EditVehicle} from '../Actions/VehicleInfo';
 
 const VehicleList = ({}) => {
   const navigation = useNavigation();
   const [VehicleDetails1, setVehicleDetails] = useState({});
-  const {vehicle} = useSelector(state => state.AddVehicle);
+  const [driverDetails, setDriverDetails] = useState({});
+  const {driver} = useSelector(state => state.driverLogIn);
+  const {vehicle} = useSelector(state => state.EditVehicle);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (vehicle) {
-      setVehicleDetails(vehicle);
+    if (driver) {
+      setDriverDetails(driver._doc);
+      dispatch(EditVehicle(driverDetails.driverId));
       console.log('vehicle:', vehicle);
     }
-  }, [vehicle]);
+  }, [dispatch, driverDetails.driverId]);
 
+  useEffect(() => {
+    if (Array.isArray(vehicle)) {
+      setVehicleDetails(vehicle);
+      console.log('Vehicle details:', vehicle);
+    }
+  }, [vehicle]);
   return (
     <ScrollView>
-      {VehicleDetails.map((item, index) => {
+      {VehicleDetails1.map((item, index) => {
         return (
           <TouchableOpacity>
             <View
@@ -48,11 +59,11 @@ const VehicleList = ({}) => {
                 shadowColor: COLORS.black,
                 flexDirection: 'row',
               }}
-              key={item.id}>
+              key={item._id}>
               <View style={{flexDirection: 'column'}}>
                 <View style={styles.Circle}>
                   <Image
-                    source={item.VehicleP1}
+                    source={require('../assets/images/Bus.png')}
                     style={styles.profileimage}
                     resizeMode="center"
                   />
@@ -66,7 +77,7 @@ const VehicleList = ({}) => {
                     marginTop: 20,
                     color: COLORS.black,
                   }}>
-                  {item.VNo}
+                  {item.VehicleNo}
                 </Text>
                 <Text
                   style={{
@@ -74,7 +85,7 @@ const VehicleList = ({}) => {
                     marginLeft: 20,
                     marginTop: 5,
                   }}>
-                  {item.VType} * {item.Conditon}
+                  {item.VehicleType} * {item.VehicleCon}
                 </Text>
                 <Image
                   source={require('../assets/icons/Seats.png')}
@@ -93,7 +104,7 @@ const VehicleList = ({}) => {
                     marginLeft: 60,
                     marginTop: -25,
                   }}>
-                  {item.NoOfSeat} Seats Available
+                  {item.VehicleNoS} Seats Available
                 </Text>
               </View>
               <View>
@@ -107,7 +118,7 @@ const VehicleList = ({}) => {
                     style={{
                       width: 30,
                       height: 30,
-                      marginLeft: 5,
+                      marginLeft: -15,
                       marginTop: 45,
                       tintColor: COLORS.gray30,
                     }}

@@ -44,9 +44,9 @@ export const vehicleDataSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.vehicle = action.payload;
         state.action = 'AddNewVehicle';
-        state.message = '';
+        state.vehicle = action.payload; // Update state.vehicle with the returned data
+        state.message = 'Vehicle added successfully';
       })
       .addCase(AddNewVehicle.rejected, (state, action) => {
         state.isLoading = false;
