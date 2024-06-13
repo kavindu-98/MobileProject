@@ -4,24 +4,18 @@ import {COLORS, SIZES, FONTS, icons} from '../constants';
 import {MapStyle} from '../styles';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-// import { PickupLocation } from "../screens";
 import {useDispatch, useSelector} from 'react-redux';
 
 // const data = useSelector((state) => state.mapData);
 
-const MapComponent = ({}) => {
-  const {origin, destination} = useSelector(state => state.mapData);
-  // console.log('origin');
+const MapComponentDriverstart = ({pickupLocation, dropLocation}) => {
+  const {Dorigin, Ddestination} = useSelector(state => state.DmapData);
+  // console.log(Dorigin);
   const [travelTime, setTravelTime] = useState(null);
-  console.log(origin);
-  // console.log('destination');
-  console.log(destination);
   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpPGnre332uNnud4OPqcSpvUSUTuAmWnc';
-
-  // Calculate the midpoint between origin and destination
   const midpoint = {
-    latitude: (origin.latitude + destination.latitude) / 2,
-    longitude: (origin.longitude + destination.longitude) / 2,
+    latitude: (Dorigin.latitude + Ddestination.latitude) / 2,
+    longitude: (Dorigin.longitude + Ddestination.longitude) / 2,
   };
 
   return (
@@ -34,8 +28,8 @@ const MapComponent = ({}) => {
         customMapStyle={MapStyle}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
+          latitude: Dorigin.latitude,
+          longitude: Dorigin.longitude,
           latitudeDelta: 0.2,
           longitudeDelta: 0.2,
         }}
@@ -43,26 +37,26 @@ const MapComponent = ({}) => {
         followsUserLocation={true}
         zoomEnabled={true}
         zoomControlEnabled={true}>
-        {origin.latitude !== '' && (
+        {Dorigin.latitude !== '' && (
           <Marker
             coordinate={{
-              latitude: origin.latitude,
-              longitude: origin.longitude,
+              latitude: Dorigin.latitude,
+              longitude: Dorigin.longitude,
             }}
             anchor={{x: 0.5, y: 0.5}}>
             <Image
-              source={require('../assets/images/pickupmarker.png')}
-              style={styles.markerOrigin2}
+              source={require('../assets/images/busIcon.png')}
+              style={styles.carsAround}
               resizeMode="cover"
             />
           </Marker>
         )}
 
-        {destination.latitude !== '' && (
+        {Ddestination.latitude !== '' && (
           <Marker
             coordinate={{
-              latitude: destination.latitude,
-              longitude: destination.longitude,
+              latitude: Ddestination.latitude,
+              longitude: Ddestination.longitude,
             }}
             anchor={{x: 0.5, y: 0.5}}>
             <Image
@@ -72,12 +66,12 @@ const MapComponent = ({}) => {
             />
           </Marker>
         )}
-        {origin.latitude !== '' && destination.latitude !== '' && (
+        {Dorigin.latitude !== '' && Ddestination.latitude !== '' && (
           <MapViewDirections
-            origin={{latitude: origin.latitude, longitude: origin.longitude}}
+            origin={{latitude: Dorigin.latitude, longitude: Dorigin.longitude}}
             destination={{
-              latitude: destination.latitude,
-              longitude: destination.longitude,
+              latitude: Ddestination.latitude,
+              longitude: Ddestination.longitude,
             }}
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={4}
@@ -96,12 +90,44 @@ const MapComponent = ({}) => {
             </View>
           </Marker>
         )}
+        {pickupLocation.latitude !== '' && (
+          <Marker
+            coordinate={{
+              latitude: pickupLocation.latitude,
+              longitude: pickupLocation.longitude,
+            }}
+            anchor={{x: 0.5, y: 0.5}}>
+            <Image
+              source={require('../assets/images/pickupmarker.png')}
+              style={styles.markerOrigin2}
+              resizeMode="cover"
+            />
+          </Marker>
+        )}
+        {pickupLocation.latitude !== '' && dropLocation.latitude !== '' && (
+          <MapViewDirections
+            origin={{
+              latitude: pickupLocation.latitude,
+              longitude: pickupLocation.longitude,
+            }}
+            destination={{
+              latitude: dropLocation.latitude,
+              longitude: dropLocation.longitude,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={4}
+            strokeColor={COLORS.blue}
+            onReady={result => {
+              setTravelTime(result.duration);
+            }}
+          />
+        )}
       </MapView>
     </View>
   );
 };
 
-export default MapComponent;
+export default MapComponentDriverstart;
 
 const styles = StyleSheet.create({
   markerDestination: {
@@ -111,6 +137,10 @@ const styles = StyleSheet.create({
   markerOrigin2: {
     width: 42,
     height: 32,
+  },
+  carsAround: {
+    width: 60,
+    height: 30,
   },
   timeContainer: {
     backgroundColor: 'white',

@@ -187,7 +187,7 @@ const DProfileScreen = () => {
           <View style={{alignSelf: 'center', marginTop: 5}}>
             <View style={styles.profileimage}>
               <Image
-                source={require('../assets/images/Profile2.jpg')}
+                source={require('../assets/images/pro.jpg')}
                 style={styles.profileimage}
               />
             </View>

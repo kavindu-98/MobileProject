@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "361231889253",
+    "project_id": "dufry-map",
+    "storage_bucket": "dufry-map.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361231889253:android:1e24de08a3f56cd51ea78c",
+        "android_client_info": {
+          "package_name": "com.awesomepro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTUDAdYOzI9plYsNVnvocj2QqJwo0womM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

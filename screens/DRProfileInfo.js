@@ -22,7 +22,8 @@ import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpDriver, updateDriver} from '../Actions/driverActions';
+import {signUpDriver, updateDriver, GetDriver} from '../Actions/driverActions';
+import {resetDriverLogIn} from '../reducers/driverSlice';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,22 +37,43 @@ const DRProfileInfo = ({navigation}) => {
   const [IsEdit, setIsEdit] = useState(false);
 
   const [DriverImg, setDriverImg] = useState();
-  const [frontLicence, setFrontLicence] = useState();
-  const [backLicence, setBackLicence] = useState();
+  // const [frontLicence, setFrontLicence] = useState();
+  // const [backLicence, setBackLicence] = useState();
   const [success, setSuccess] = useState({successMsg: ''});
   const [error, setError] = useState({
     errorMsg: '',
   });
   const [driverDetails, setDriverDetails] = useState({});
+  const [driverDetails1, setDriverDetails1] = useState({});
   const {isSuccess, isLoading, message, action} = useSelector(
     state => state.driverLogIn,
   );
   const {driver} = useSelector(state => state.driverLogIn);
+  // const {driver1} = useSelector(state => state.GetDriver);
 
   useEffect(() => {
     if (driver) {
       setDriverDetails(driver._doc);
+      // dispatch(
+      //   GetDriver({
+      //     _id: driverDetails._id,
+      //     FirstName: driverDetails.FirstName,
+      //     LastName: driverDetails.LastName,
+      //     driverId: driverDetails.driverId,
+      //     email: driverDetails.email,
+      //     NIC: driverDetails.NIC,
+      //     phone: driverDetails.phone,
+      //     licenceId: driverDetails.licenceId,
+      //     gender: driverDetails.gender,
+      //   }),
+      // );
     }
+    // console.log('kkk', driverDetails.driverId);
+    // console.log('ggg', driver1);
+    // if (driver1) {
+
+    //   console.log(driver1);
+    // }
     // setFrontLicence(driver.$__.activePaths.paths);
   }, []);
   // console.log(driver.$__.activePaths.paths);
@@ -103,7 +125,8 @@ const DRProfileInfo = ({navigation}) => {
     setIsEdit(false);
     console.log('hi');
     dispatch(updateDriver({...driverDetails, jwt: driver.driverjwt}));
-    navigation.navigate('ProfileScreen');
+    dispatch(resetDriverLogIn());
+    navigation.navigate('Role');
   };
 
   const Options = {
@@ -146,15 +169,6 @@ const DRProfileInfo = ({navigation}) => {
     extrapolate: 'clamp',
   });
 
-  const getList = () => {
-    axios({
-      url: '',
-      method: 'GET',
-    }).then(res => {
-      var response = res.data;
-      setList(response.data);
-    });
-  };
   function renderHeader() {
     return (
       <View
@@ -214,7 +228,7 @@ const DRProfileInfo = ({navigation}) => {
                   source={
                     DriverImg
                       ? {uri: DriverImg.uri}
-                      : require('../assets/images/PhotoInput.png')
+                      : require('../assets/images/pro.jpg')
                   }
                   style={styles.profileimage}
                 />
@@ -400,10 +414,10 @@ const DRProfileInfo = ({navigation}) => {
                   }
                 />
 
-                <Text style={styles.inputTitle1}>
+                {/* <Text style={styles.inputTitle1}>
                   Please Upload Driving license
-                </Text>
-                <View
+                </Text> */}
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     padding: 10,
@@ -433,8 +447,8 @@ const DRProfileInfo = ({navigation}) => {
                       />
                     </TouchableOpacity>
                   </View>
-                </View>
-                <View
+                </View> */}
+                {/* <View
                   style={{
                     flexDirection: 'row',
                     padding: 10,
@@ -442,7 +456,7 @@ const DRProfileInfo = ({navigation}) => {
                   }}>
                   <Text style={styles.inputTitle2}>Front View</Text>
                   <Text style={styles.inputTitle2}>Back View</Text>
-                </View>
+                </View> */}
 
                 {/* <Text style={styles.inputTitle}>PASSWORD</Text>
                 <TextInput

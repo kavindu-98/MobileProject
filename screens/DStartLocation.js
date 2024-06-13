@@ -33,6 +33,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {IconButton, MapComponentDriver} from '../components';
 import {Marker} from 'react-native-maps';
 import {BusAround} from '../Data/Data';
+import {SelectVehicleData} from '../reducers/selectVehicleSlice';
 
 import {HeaderBar} from '../components';
 
@@ -41,20 +42,33 @@ const DStartLocation = ({route}) => {
   console.log(data);
   const dispatch = useDispatch();
   const vehicle = route.params;
-  console.log(vehicle);
+  // console.log(vehicle);
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
+  const [driverDetails, setDriverDetails] = useState({});
   const [location, setLocation] = useState(false);
   const {Dorigin, dispatchOrigin} = useContext(OriginDriverContext);
 
   const snapPoints = ['20%', '40%', '70%'];
   useEffect(() => {
-    // dispatch (
-    //   addOrigin({latitude: "6.25555"})
-    // )
-    // setUserOrigin({ latitude: origin.latitude, longitude: origin.longitude });
+    // console.log('vehicle:', driverDetails);
+    // if (vehicle) {
+    //   setDriverDetails(vehicle);
+    //   dispatch(resetVehicleData(vehicle));
+    //   console.log('vehicle:', driverDetails);
+    // }
+    SelectVehicle(vehicle);
     getLocation();
   }, [Dorigin]);
+
+  const SelectVehicle = async item => {
+    // console.log('vehicle:', item);
+    if (item) {
+      dispatch(SelectVehicleData(item));
+      console.log('vehicle:', item);
+    }
+    // navigation.navigate('DStartLocation');
+  };
 
   const navigation = useNavigation();
   const textInput3 = useRef(4);

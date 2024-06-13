@@ -16,6 +16,11 @@ import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import firebase from '@react-native-firebase/app';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {FIREBASE_APP, database} from '../firebase';
+import {ref, set} from 'firebase/database';
 
 import {IconButton} from '../components';
 import {
@@ -27,12 +32,44 @@ import {
 } from '../components';
 
 const DStartRide = ({route}) => {
+  const {Dorigin, Ddestination} = useSelector(state => state.DmapData);
+  const [driverDetails, setDriverDetails] = useState({});
+
+  const {vehicle} = useSelector(state => state.SelectVehicle);
+
+  useEffect(() => {
+    console.log('details: ', driverDetails);
+    // if (Array.isArray(vehicle)) {
+    //   // console.log('details: ', driver);
+    setDriverDetails(vehicle);
+    //   console.log('details: ', driverDetails);
+    // }
+  }, []);
+
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
   const snapPoints = ['23%'];
 
   const navigation = useNavigation();
+
+  const StartRide = async () => {
+    set(ref(database, 'routes/', vehicle.DriverID), {
+      vehicleID: vehicle._id,
+      driverID: vehicle.DriverID,
+      origin: Dorigin,
+      destination: Ddestination,
+      vehicleNo: vehicle.VehicleNo,
+    })
+      .then(() => {
+        alert('Route added successfully!');
+        navigation.navigate('AcceptEmpReq');
+      })
+      .catch(error => {
+        console.error('Error adding Route: ', error);
+        alert('Failed to add Route. Please try again.');
+      });
+  };
 
   function renderMap() {
     return (
@@ -85,9 +122,7 @@ const DStartRide = ({route}) => {
                 alignItems: 'center',
                 ...FONTS.h2,
               }}
-              onPress={() => {
-                navigation.navigate('AcceptEmpReq');
-              }}
+              onPress={StartRide}
             />
             <TextIconButton
               label="CANCEL"
@@ -136,44 +171,4 @@ const styles = StyleSheet.create({
     marginTop: SIZES.padding3,
     padding: SIZES.padding2,
   },
-
-  //   header: {
-  //     flex: 1,
-  //     // justifyContent: 'center',
-  //     // alignItems: 'center',
-
-  // },
-
-  // container: {
-  //   backgroundColor: COLORS.background,
-  //   height: "100%",
-  //   flex: 1
-  // },
-  // titlebar: {
-  //   flexDirection: 'row',
-
-  // },
-
-  // nameTitle : {
-  //    color: COLORS.black,
-  //    marginTop: 15,
-  //    fontSize: SIZES.h3,
-
-  // },
-  // proname : {
-  //   alignItems: 'center'
-  // },
-  // nametag : {
-  //   color: COLORS.dark_grey,
-  //   marginTop: 3,
-  //   fontSize: SIZES.h3,
-
-  // },
-  // prodes : {
-  //   color: COLORS.grey,
-  //   marginTop: -5,
-  //   padding: 35,
-  //   fontSize: SIZES.body5,
-
-  // },
 });

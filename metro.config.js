@@ -4,8 +4,11 @@
  *
  * @format
  */
-
+const blacklist = require('metro-config/src/defaults/exclusionList');
 module.exports = {
+  resolver: {
+    blacklistRE: blacklist([/node_modules\/.*\/idb\/.*/]),
+  },
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -14,4 +17,13 @@ module.exports = {
       },
     }),
   },
+  resolver: {
+    sourceExts: ['jsx', 'js', 'ts', 'tsx', 'cjs'],
+  },
+};
+const {getDefaultConfig} = require('metro-config');
+const {resolver: defaultResolver} = getDefaultConfig.getDefaultValues();
+exports.resolver = {
+  ...defaultResolver,
+  sourceExts: [...defaultResolver.sourceExts, 'cjs'],
 };

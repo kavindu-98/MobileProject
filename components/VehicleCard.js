@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -18,94 +18,136 @@ const {width, height} = Dimensions.get('window');
 import {VehicleDetails} from '../Data/Data';
 import {DStartLocation} from '../screens';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {EditVehicle} from '../Actions/VehicleInfo';
+import {SelectVehicleData} from '../reducers/selectVehicleSlice';
 
 const VehicleCard = ({}) => {
   const navigation = useNavigation();
+  const [VehicleDetails1, setVehicleDetails] = useState({});
+  const [driverDetails, setDriverDetails] = useState({});
+  const {driver} = useSelector(state => state.driverLogIn);
+  const {vehicle} = useSelector(state => state.EditVehicle);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (driver) {
+      setDriverDetails(driver._doc);
+      dispatch(EditVehicle(driverDetails.driverId));
+      console.log('vehicle:', vehicle);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Array.isArray(vehicle)) {
+      setVehicleDetails(vehicle);
+      console.log('Vehicle details:', vehicle);
+    }
+  }, []);
+
+  // const SelectVehicle = async item => {
+  //   // console.log('vehicle:', item);
+  //   if (item) {
+  //     dispatch(SelectVehicleData(item));
+  //     console.log('vehicle:', item);
+  //   }
+  //   navigation.navigate('DStartLocation');
+  // };
   return (
     <ScrollView>
-      {VehicleDetails.map((item, index) => {
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('DStartLocation', item);
-            }}>
-            <View
-              style={{
-                height: 125,
-                width: width * 0.9,
-                marginLeft: 20,
-                marginTop: 15,
-                borderColor: COLORS.black,
-                borderWidth: 1,
-                borderRadius: 10,
-                shadowColor: COLORS.black,
-                flexDirection: 'row',
-              }}
-              key={item.id}>
-              <View style={{flexDirection: 'column'}}>
-                <View style={styles.Circle}>
+      <View
+        style={{
+          alignItems: 'center',
+          backgroundColor: COLORS.gray10,
+        }}>
+        {VehicleDetails1 && VehicleDetails1.length > 0 ? (
+          VehicleDetails1.map((item, index) => (
+            <TouchableOpacity>
+              <View
+                style={{
+                  height: 125,
+                  width: width * 0.9,
+                  marginTop: 15,
+                  borderColor: COLORS.black,
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  shadowColor: COLORS.black,
+                  flexDirection: 'row',
+                }}
+                key={item._id}>
+                <View style={{flexDirection: 'column'}}>
+                  <View style={styles.Circle}>
+                    <Image
+                      source={require('../assets/images/Bus.png')}
+                      style={styles.profileimage}
+                      resizeMode="center"
+                    />
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      ...FONTS.h2,
+                      marginLeft: 20,
+                      marginTop: 20,
+                      color: COLORS.black,
+                    }}>
+                    {item.VehicleNo}
+                  </Text>
+                  <Text
+                    style={{
+                      ...FONTS.h3,
+                      marginLeft: 20,
+                      marginTop: 5,
+                    }}>
+                    {item.VehicleType} * {item.VehicleCon}
+                  </Text>
                   <Image
-                    source={item.VehicleP1}
-                    style={styles.profileimage}
-                    resizeMode="center"
+                    source={require('../assets/icons/Seats.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: 30,
+                      height: 30,
+                      marginLeft: 20,
+                      marginTop: 10,
+                      // tintColor: COLORS.red1Font
+                    }}
                   />
+                  <Text
+                    style={{
+                      ...FONTS.h3,
+                      marginLeft: 60,
+                      marginTop: -25,
+                    }}>
+                    {item.VehicleNoS} Seats Available
+                  </Text>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    // onPress={SelectVehicle(item)}
+                    onPress={() => {
+                      navigation.navigate('DStartLocation', item);
+                    }}>
+                    <Image
+                      source={require('../assets/icons/right_arrow.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 30,
+                        height: 30,
+                        marginLeft: -15,
+                        marginTop: 45,
+                        tintColor: COLORS.gray30,
+                      }}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View>
-                <Text
-                  style={{
-                    ...FONTS.h2,
-                    marginLeft: 50,
-                    marginTop: 20,
-                    color: COLORS.black,
-                  }}>
-                  {item.VNo}
-                </Text>
-                <Text
-                  style={{
-                    ...FONTS.h3,
-                    marginLeft: 50,
-                    marginTop: 5,
-                  }}>
-                  {item.VType} * {item.Conditon}
-                </Text>
-                <Image
-                  source={require('../assets/icons/Seats.png')}
-                  resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: 56,
-                    marginTop: 10,
-                    // tintColor: COLORS.red1Font
-                  }}
-                />
-                <Text
-                  style={{
-                    ...FONTS.h3,
-                    marginLeft: 100,
-                    marginTop: -25,
-                  }}>
-                  {item.NoOfSeat} Seats Available
-                </Text>
-              </View>
-              <View>
-                <Image
-                  source={require('../assets/icons/right_arrow.png')}
-                  resizeMode="contain"
-                  style={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: -15,
-                    marginTop: 45,
-                    tintColor: COLORS.gray30,
-                  }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text>No vehicles available</Text>
+        )}
+      </View>
     </ScrollView>
   );
 };

@@ -26,8 +26,28 @@ export const EditVehicle = createAsyncThunk(
   'vehicle/EditVehicle',
   async (DriverID, thunkAPI) => {
     try {
-      console.log('palaweni eka athule');
+      // console.log('palaweni eka athule');
       const data = await vehicleService.EditVehicle(DriverID);
+      console.log('palaweni eka athule', data);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log('error:', message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+export const GetVehicle = createAsyncThunk(
+  'vehicle/GetVehicle',
+  async (VehicleNo, thunkAPI) => {
+    try {
+      // console.log('palaweni eka athule');
+      const data = await vehicleService.GetVehicle(VehicleNo);
       console.log('palaweni eka athule', data);
       return data;
     } catch (error) {

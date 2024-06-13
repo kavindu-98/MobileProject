@@ -90,18 +90,7 @@ const AcceptEmpReq = ({route}) => {
               ACCEPT EMPLOYEE REQUEST
             </Text>
 
-            <EmployeeCard
-              ImageUri={require('../assets/images/EProfile2.jpg')}
-              Name="Nishi Silva"
-              PhoneNo="071 2345678"></EmployeeCard>
-            <EmployeeCard
-              ImageUri={require('../assets/images/EProfile1.jpg')}
-              Name="Shani Fernando"
-              PhoneNo="071 5454581"></EmployeeCard>
-            <EmployeeCard
-              ImageUri={require('../assets/images/EProfile.jpg')}
-              Name="Nishadi Adhikari"
-              PhoneNo="071 2757584"></EmployeeCard>
+            <EmployeeCard />
 
             {/* <TextInput
                             style={styles.input}

@@ -32,6 +32,21 @@ const EditVehicle = async DriverID => {
   console.log(response);
   return response.data;
 };
+const GetVehicle = async VehicleNo => {
+  const config = {
+    headers: {'Content-Type': 'multipart/form-data'},
+    // Authorization: `Bearer ${object.jwt}`,
+  };
+  console.log(VehicleNo);
+  const response = await axios.get(
+    `http://10.0.2.2:5000/api/vehicle/GetVehicle/${VehicleNo}`,
+    VehicleNo,
+    config,
+  );
+  console.log('awaaa');
+  console.log(response);
+  return response.data;
+};
 const UpdateVehicle = async updateObject => {
   console.log('before jwt');
   const config = {
@@ -48,5 +63,5 @@ const UpdateVehicle = async updateObject => {
   console.log(response);
   return response.data;
 };
-const vehicleService = {AddVehicle, EditVehicle, UpdateVehicle};
+const vehicleService = {AddVehicle, EditVehicle, UpdateVehicle, GetVehicle};
 export default vehicleService;

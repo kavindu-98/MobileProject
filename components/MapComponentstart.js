@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 // const data = useSelector((state) => state.mapData);
 
-const MapComponent = ({}) => {
+const MapComponentstart = ({pickupLocation, dropLocation}) => {
   const {origin, destination} = useSelector(state => state.mapData);
   // console.log('origin');
   const [travelTime, setTravelTime] = useState(null);
@@ -96,12 +96,44 @@ const MapComponent = ({}) => {
             </View>
           </Marker>
         )}
+        {pickupLocation.latitude !== '' && (
+          <Marker
+            coordinate={{
+              latitude: pickupLocation.latitude,
+              longitude: pickupLocation.longitude,
+            }}
+            anchor={{x: 0.5, y: 0.5}}>
+            <Image
+              source={require('../assets/images/busIcon.png')}
+              style={styles.carsAround}
+              resizeMode="cover"
+            />
+          </Marker>
+        )}
+        {pickupLocation.latitude !== '' && dropLocation.latitude !== '' && (
+          <MapViewDirections
+            origin={{
+              latitude: pickupLocation.latitude,
+              longitude: pickupLocation.longitude,
+            }}
+            destination={{
+              latitude: dropLocation.latitude,
+              longitude: dropLocation.longitude,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={4}
+            strokeColor={COLORS.blue}
+            onReady={result => {
+              setTravelTime(result.duration);
+            }}
+          />
+        )}
       </MapView>
     </View>
   );
 };
 
-export default MapComponent;
+export default MapComponentstart;
 
 const styles = StyleSheet.create({
   markerDestination: {
@@ -122,5 +154,9 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 12,
     color: 'black',
+  },
+  carsAround: {
+    width: 60,
+    height: 30,
   },
 });

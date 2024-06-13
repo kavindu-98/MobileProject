@@ -34,7 +34,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     console.log(user);
     setUserDetails(user);
-  }, [user]);
+  }, []);
 
   const navigation = useNavigation();
   function renderHeader() {

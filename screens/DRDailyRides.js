@@ -10,12 +10,13 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+} from 'react-native';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {
   HeaderBar,
@@ -25,31 +26,38 @@ import {
   TextButton,
   MapComponent,
   DriverCard,
-} from "../components";
+} from '../components';
 
-import * as Animatable from "react-native-animatable";
+import * as Animatable from 'react-native-animatable';
 
-import { ImageBackground } from "react-native";
-import HomeScreen from "./HomeScreen";
+import {ImageBackground} from 'react-native';
+import HomeScreen from './HomeScreen';
 
-import { Employee, EmployeeShortCuts } from "../Data/Data";
+import {Employee, DriverShortCuts} from '../Data/Data';
 
-const DRDailyRides = ({ route }) => {
+const DRDailyRides = ({route}) => {
+  const {driver} = useSelector(state => state.driverLogIn);
+  const [driverDetails, setDriverDetails] = useState({});
   const navigation = useNavigation();
   const daily = route.params;
+
+  useEffect(() => {
+    if (driver) {
+      setDriverDetails(driver._doc);
+    }
+  }, []);
 
   function renderContainer() {
     return (
       <View
         style={{
           flex: 1,
-          height: "100%",
-          flexDirection: "column",
+          height: '100%',
+          flexDirection: 'column',
           backgroundColor: COLORS.darkb_blue,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         {/* header */}
         <HeaderBar
           // title={selectedPlace?.name}
@@ -63,7 +71,7 @@ const DRDailyRides = ({ route }) => {
           right={false}
           title="Daily Rides"
           containerStyle={{
-            position: "absolute",
+            position: 'absolute',
             top: SIZES.padding * 2,
             // height: "20%",
             // width: SIZES.width,
@@ -79,75 +87,65 @@ const DRDailyRides = ({ route }) => {
         <View
           style={{
             //  flex: 1,
-            width: "100%",
-            alignItems: "center",
+            width: '100%',
+            alignItems: 'center',
             // justifyContent: "center",
-          }}
-        >
-          {Employee.map((item, index) => {
-            return (
-              <View style={styles.Card}>
-                <View
-                  style={{
-                    marginTop: 18,
-                    flexDirection: "column",
-                    alignItems: "center",
-                    // justifyContent: 'center',
-                  }}
-                >
-                  <View style={styles.Circle}>
-                    <Image
-                      source={item.Image}
-                      style={styles.profileimage}
-                      resizeMode="center"
-                    />
-                  </View>
-
-                  <Text
-                    style={{
-                      color: COLORS.black,
-                      fontWeight: "bold",
-                      ...FONTS.h3,
-                      fontSize: 18,
-                      marginTop: 5,
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-
-                  <Text
-                    style={{
-                      color: COLORS.black,
-                      // fontWeight: 1,
-                      ...FONTS.h3,
-                      fontSize: 12,
-                    }}
-                  >
-                    {item.EmployeeId}
-                  </Text>
-                </View>
+          }}>
+          <View style={styles.Card}>
+            <View
+              style={{
+                marginTop: 18,
+                flexDirection: 'column',
+                alignItems: 'center',
+                // justifyContent: 'center',
+              }}>
+              <View style={styles.Circle}>
+                <Image
+                  source={require('../assets/images/pro.jpg')}
+                  style={styles.profileimage}
+                  resizeMode="center"
+                />
               </View>
-            );
-          })}
+
+              <Text
+                style={{
+                  color: COLORS.black,
+                  fontWeight: 'bold',
+                  ...FONTS.h3,
+                  fontSize: 18,
+                  marginTop: 5,
+                }}>
+                {driverDetails.FirstName} {driverDetails.LastName}
+              </Text>
+
+              <Text
+                style={{
+                  color: COLORS.black,
+                  // fontWeight: 1,
+                  ...FONTS.h3,
+                  fontSize: 12,
+                }}>
+                {driverDetails.driverId}
+              </Text>
+            </View>
+          </View>
 
           <View style={styles.Card2}>
             <View
               style={{
                 marginTop: 10,
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
+                  flexDirection: 'row',
+                  alignItems: 'center',
                   // justifyContent: "center"
-                }}
-              >
+                }}>
                 <Image
-                  source={require("../assets/images/DayIcon.png")}
+                  source={require('../assets/images/DayIcon.png')}
                   style={{
                     width: 45,
                     height: 45,
@@ -159,39 +157,35 @@ const DRDailyRides = ({ route }) => {
                     marginTop: 0,
                     marginLeft: 7,
                     ...FONTS.h2,
-                  }}
-                >
+                  }}>
                   {daily.name}
                 </Text>
               </View>
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {EmployeeShortCuts.map((Lcard, index) => {
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {DriverShortCuts.map((Lcard, index) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        navigation.navigate("");
+                        navigation.navigate('');
                       }}
-                      key={Lcard.id}
-                    >
+                      key={Lcard.id}>
                       <View
                         style={{
                           height: 80,
-                          width: "85%",
+                          width: '85%',
                           marginTop: 15,
                           borderColor: COLORS.black,
                           borderWidth: 1,
                           borderRadius: 10,
                           shadowColor: COLORS.black,
-                          flexDirection: "row",
-                          justifyContent: "space-around",
-                          alignItems: "center",
-                        }}
-                      >
+                          flexDirection: 'row',
+                          justifyContent: 'space-around',
+                          alignItems: 'center',
+                        }}>
                         <View style={{}}>
                           <Image
                             source={Lcard.Image}
@@ -211,8 +205,7 @@ const DRDailyRides = ({ route }) => {
                               marginLeft: 10,
                               marginTop: 5,
                               color: COLORS.black,
-                            }}
-                          >
+                            }}>
                             {Lcard.type}
                           </Text>
                           <Text
@@ -220,19 +213,19 @@ const DRDailyRides = ({ route }) => {
                               ...FONTS.h3,
                               marginLeft: 10,
                               marginTop: 5,
-                            }}
-                          >
+                            }}>
                             {Lcard.title}
                           </Text>
                         </View>
                         <View>
                           <TouchableOpacity
                             onPress={() => {
-                              navigation.navigate('DestinationEdit',Lcard, {state:0});
-                            }}
-                          >
+                              navigation.navigate('DestinationEdit', Lcard, {
+                                state: 0,
+                              });
+                            }}>
                             <Image
-                              source={require("../assets/images/edit.png")}
+                              source={require('../assets/images/edit.png')}
                               resizeMode="contain"
                               style={{
                                 width: 30,
@@ -250,10 +243,10 @@ const DRDailyRides = ({ route }) => {
               </View>
             </View>
 
-            <TextIconButton
+            {/* <TextIconButton
               label="SAVE"
               customContainerStyle={{
-                width: "90%",
+                width: '90%',
                 height: 55,
                 marginLeft: 16,
 
@@ -262,12 +255,12 @@ const DRDailyRides = ({ route }) => {
               }}
               customLabelStyle={{
                 color: COLORS.white,
-                alignItems: "center",
+                alignItems: 'center',
                 marginLeft: -15,
                 ...FONTS.h2,
               }}
               // onPress={HomeScreen}
-            />
+            /> */}
           </View>
         </View>
       </View>
@@ -275,7 +268,7 @@ const DRDailyRides = ({ route }) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderContainer()}
@@ -292,7 +285,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
@@ -314,19 +307,19 @@ const styles = StyleSheet.create({
   },
 
   Card: {
-    width: "75%",
+    width: '75%',
     height: 200,
     borderRadius: 30,
     backgroundColor: COLORS.white,
     marginTop: 100,
   },
   Card2: {
-    width: "85%",
+    width: '85%',
     height: 370,
     borderRadius: 30,
     backgroundColor: COLORS.white,
     marginTop: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   Star: {
     width: 24,

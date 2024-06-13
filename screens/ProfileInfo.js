@@ -22,6 +22,7 @@ import {Employee} from '../Data/Data';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {signUpUser, updateUser} from '../Actions/userActions';
 import {useDispatch, useSelector} from 'react-redux';
+import {resetUserLogIn} from '../reducers/userSlice';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -105,7 +106,8 @@ const ProfileInfo = ({navigation}) => {
     console.log('hi');
     if (validate()) {
       dispatch(updateUser({...userDetails, jwt: user.userjwt}));
-      navigation.navigate('ProfileScreen');
+      dispatch(resetUserLogIn());
+      navigation.navigate('Role');
     }
   };
 

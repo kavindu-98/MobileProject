@@ -53,3 +53,24 @@ export const updateUser = createAsyncThunk(
     }
   },
 );
+
+export const GetUser = createAsyncThunk(
+  'user/GetUser',
+  async (employeeId, thunkAPI) => {
+    try {
+      // console.log('palaweni eka athule');
+      const data = await userService.GetUser(employeeId);
+      console.log('palaweni eka athule', data);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log('error:', message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);

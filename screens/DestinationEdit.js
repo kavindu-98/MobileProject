@@ -10,7 +10,7 @@ import {
   Animated,
   BackHandler,
   TextInput,
-} from "react-native";
+} from 'react-native';
 import React, {
   useEffect,
   useState,
@@ -18,19 +18,19 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-} from "react";
-import { Header, Icon, ListItem, SearchBar } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
-import { COLORS, SIZES, FONTS, icons } from "../constants";
+} from 'react';
+import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
+import {COLORS, SIZES, FONTS, icons} from '../constants';
 import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetSectionList,
-} from "@gorhom/bottom-sheet";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-navigator.geolocation = require("react-native-geolocation-service");
-import { OriginContext, DestinationContext } from "../contexts/contexts";
-import { rideData } from "../Data/Data";
-import { IconButton } from "../components";
+} from '@gorhom/bottom-sheet';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+navigator.geolocation = require('react-native-geolocation-service');
+import {OriginContext, DestinationContext} from '../contexts/contexts';
+import {rideData} from '../Data/Data';
+import {IconButton} from '../components';
 import {
   HeaderBar,
   TextIconButton,
@@ -38,23 +38,24 @@ import {
   TextButton,
   MapComponent,
   SavedLocation,
-} from "../components";
+} from '../components';
+import {firestore} from '../firebase';
 
-const DestinationEdit = ({ route }) => {
+const DestinationEdit = ({route}) => {
   const textInput2 = useRef(5);
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [destination1, setDestination] = useState(false);
 
-  const { destination, dispatchDestination } = useContext(DestinationContext);
+  const {destination, dispatchDestination} = useContext(DestinationContext);
   const [userDestination, setUserDestination] = useState({
     latitude: destination.latitude,
     longitude: destination.longitude,
   });
 
-  const snapPoints1 = useMemo(() => ["5%", "70%"], []);
+  const snapPoints1 = useMemo(() => ['5%', '70%'], []);
   const bottomsheet1 = useRef(1);
-  const handleSheetChange1 = useCallback((index) => {}, []);
+  const handleSheetChange1 = useCallback(index => {}, []);
 
   useEffect(() => {
     setUserDestination({
@@ -63,7 +64,22 @@ const DestinationEdit = ({ route }) => {
     });
   }, [destination]);
 
-  
+  const AccMyride = async ({}) => {
+    // setIsAccept(true);
+    // console.log(IsAccept);
+    firestore()
+      .collection('DriverDay')
+      .add({
+        Request: IsAccept,
+      })
+      .then(res => {
+        Alert.alert('My ride added successfully!');
+      })
+      .catch(error => {
+        console.error('Error My ride: ', error);
+        alert('Failed to My ride Please try again.');
+      });
+  };
 
   let AnimatedHeaderValue = new Animated.Value(0);
   const Header_Max_Height = 101;
@@ -72,47 +88,22 @@ const DestinationEdit = ({ route }) => {
   const animateHeaderHeight = AnimatedHeaderValue.interpolate({
     inputRange: [0, Header_Max_Height - Header_Min_Height],
     outputRange: [Header_Max_Height, Header_Min_Height],
-    extrapolate: "clamp",
+    extrapolate: 'clamp',
   });
 
   const navigation = useNavigation();
   const EditL = route.params;
-
-  const renderFlatListItems = useCallback(
-    ({ item }) => (
-      <View style={styles.view10}>
-        <View style={styles.view11}>
-          <IconButton
-            icon={icons.call}
-            iconStyle={{
-              // marginLeft: 35,
-              // marginTop: 10,
-              // borderRadius: 50,
-  
-              tintColor: COLORS.white,
-            }}
-          ></IconButton>
-        </View>
-        <View>
-          <Text style={{fontSize:15, color: COLORS.gray10}}>{item.street}</Text>
-          <Text style={{color: COLORS.gray40}}>{item.area}</Text>
-        </View>
-      </View>
-    ),
-    []
-  );
 
   function renderMap() {
     return (
       <View
         style={{
           flex: 1,
-          height: "100%",
+          height: '100%',
           backgroundColor: COLORS.gray10,
           // alignItems: 'center',
           // justifyContent: 'center',
-        }}
-      >
+        }}>
         {/* header */}
         <Animated.View
           style={[
@@ -120,8 +111,7 @@ const DestinationEdit = ({ route }) => {
             {
               height: animateHeaderHeight,
             },
-          ]}
-        >
+          ]}>
           <TextIconButton
             icon={icons.close}
             customContainerStyle={{
@@ -147,28 +137,24 @@ const DestinationEdit = ({ route }) => {
             placeholder="Enter Destination"
             listViewDisplayed="auto"
             debounce={400}
-            currentLocation={true}
+            currentLocation={false}
             currentLocationLabel="Current Location"
             // ref={textInput1}
             minLength={2}
             enablePoweredByContainer={false}
             fetchDetails={true}
             onPress={(data, details = null) => {
-              dispatchDestination({
-                type: "ADD_DESTINATION",
-                payload: {
-                  latitude: details.geometry.location.lat,
-                  longitude: details.geometry.location.lng,
-                  address: details.formatted_address,
-                  name: details.name,
-                },
-              });
-
-              setDestination(true);
+              dispatch();
+              // addOriginDriver({
+              //   latitude: details.geometry.location.lat,
+              //   longitude: details.geometry.location.lng,
+              //   address: details.formatted_address,
+              //   name: details.name,
+              // }),
             }}
             query={{
-              key: "AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk",
-              language: "en",
+              key: 'AIzaSyA90qiuk4qHsW30DrC_8krLEhGBn3wWnFk',
+              language: 'en',
             }}
             styles={{
               textInputContainer: {
@@ -178,24 +164,23 @@ const DestinationEdit = ({ route }) => {
                 height: 38,
                 color: COLORS.gray70,
                 fontSize: 16,
-                maxWidth: "90%",
+                maxWidth: '90%',
               },
               predefinedPlacesDescription: {
-                color: "#1faadb",
+                color: '#1faadb',
               },
             }}
           />
         </View>
-        <BottomSheet
+        {/* <BottomSheet
           ref={bottomsheet1}
           index={route.params.state}
           snapPoints={snapPoints1}
-          onChange={handleSheetChange1}
-        >
+          onChange={handleSheetChange1}>
           <BottomSheetFlatList
             keyboardShouldPersistTaps="always"
             data={rideData}
-            keyExtractor={(item) => item.id}
+            keyExtractor={item => item.id}
             renderItem={renderFlatListItems}
             contentContainerStyle={styles.contentContainer}
             ListHeaderComponent={
@@ -209,8 +194,7 @@ const DestinationEdit = ({ route }) => {
                       // borderRadius: 50,
 
                       tintColor: COLORS.white,
-                    }}
-                  ></IconButton>
+                    }}></IconButton>
                 </View>
                 <View>
                   <Text style={styles.text9}>Saved Places</Text>
@@ -229,8 +213,7 @@ const DestinationEdit = ({ route }) => {
                         // borderRadius: 50,
 
                         tintColor: COLORS.white,
-                      }}
-                    ></IconButton>
+                      }}></IconButton>
                   </View>
                   <View>
                     <Text style={styles.text9}>Set location on map</Text>
@@ -246,8 +229,7 @@ const DestinationEdit = ({ route }) => {
                         // borderRadius: 50,
 
                         tintColor: COLORS.white,
-                      }}
-                    ></IconButton>
+                      }}></IconButton>
                   </View>
                   <View>
                     <Text style={styles.text9}>Enter destination later</Text>
@@ -256,7 +238,7 @@ const DestinationEdit = ({ route }) => {
               </View>
             }
           />
-        </BottomSheet>
+        </BottomSheet> */}
       </View>
     );
   }
@@ -290,7 +272,7 @@ const DestinationEdit = ({ route }) => {
   // }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar style="auto" />
 
       {renderMap()}
@@ -303,15 +285,13 @@ const DestinationEdit = ({ route }) => {
 
 export default DestinationEdit;
 
-
-
 const styles = StyleSheet.create({
   input: {
     backgroundColor: COLORS.transparentWhite,
     borderColor: COLORS.outLine,
     borderRadius: 8,
     borderWidth: 1,
-    width: "85%",
+    width: '85%',
     height: 50,
     marginLeft: 17,
     marginTop: SIZES.padding3,
@@ -319,36 +299,36 @@ const styles = StyleSheet.create({
   },
   autoComplete: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -12,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    color: '#05375a',
   },
   header: {
     // flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: COLORS.white,
   },
   Title: {
     // justifyContent: 'flex-end',
     color: COLORS.black,
     ...FONTS.h3,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 60,
     marginLeft: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
     // marginLeft: 10,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
 
     marginTop: 35,
   },
   searchBox: {
     top: 100,
-    position: "absolute",
+    position: 'absolute',
     flex: 1,
-    width: "90%",
+    width: '90%',
     marginLeft: 20,
     // justifyContent: 'center',
     borderWidth: 1,
@@ -356,9 +336,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   view10: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 5,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 10,
     borderBottomColor: COLORS.gray10,
     borderBottomWidth: 1,
@@ -369,10 +349,10 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 15,
     marginTop: 15,
   },
-  text9: { fontSize: 15, color: COLORS.gray10 },
+  text9: {fontSize: 15, color: COLORS.gray10},
 });

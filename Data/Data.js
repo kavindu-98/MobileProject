@@ -184,16 +184,30 @@ export const Employee = [
   // },
 ];
 
-export const EmployeeShortCuts = [
+export const DriverShortCuts = [
   {
     id: 1,
-    type: 'Pick-Up',
+    type: 'Start',
     Image: require('../assets/images/Pickup.png'),
     title: 'Home',
   },
   {
     id: 2,
-    type: 'Drop',
+    type: 'Destination',
+    Image: require('../assets/images/Drop.png'),
+    title: 'Office',
+  },
+];
+export const EmployeeShortCuts = [
+  {
+    id: 1,
+    type: 'Pick-up',
+    Image: require('../assets/images/Pickup.png'),
+    title: 'Home',
+  },
+  {
+    id: 2,
+    type: 'Destination',
     Image: require('../assets/images/Drop.png'),
     title: 'Office',
   },
@@ -223,11 +237,11 @@ export const DailyRideCards = [
     Image: require('../assets/images/NightOffLong.png'),
     Icon: require('../assets/images/NightIcon.png'),
   },
-  {
-    id: 5,
-    name: 'Favorite Places',
-    Image: require('../assets/images/FPlace.png'),
-  },
+  // {
+  //   id: 5,
+  //   name: 'Favorite Places',
+  //   Image: require('../assets/images/FPlace.png'),
+  // },
 ];
 
 export const BusAround = [
@@ -314,5 +328,23 @@ export const VehicleDetails = [
     VehicleNoS: '40',
     VehicleCon: 'AC',
     VehicleP1: require('../assets/images/Bus.png'),
+  },
+];
+export const RouteMaps = [
+  {
+    // id: 0,
+    // Location: "Katunayake",
+    origin: {
+      latitude: 7.20944,
+      longitude: 79.834303,
+      address: '',
+      name: 'Negombo',
+    },
+    destination: {
+      latitude: 7.175549,
+      longitude: 79.883291,
+      address: '',
+      name: 'Katunayake',
+    },
   },
 ];

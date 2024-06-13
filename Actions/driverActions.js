@@ -53,3 +53,23 @@ export const updateDriver = createAsyncThunk(
     }
   },
 );
+export const GetDriver = createAsyncThunk(
+  'driver/GetDriver',
+  async (driverId, thunkAPI) => {
+    try {
+      // console.log('palaweni eka athule');
+      const data = await driverService.GetDriver(driverId);
+      console.log('palaweni eka athule get driver', data);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log('error:', message);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);

@@ -13,9 +13,12 @@ import {
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {Header, Icon, ListItem, SearchBar} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {COLORS, SIZES, FONTS, icons} from '../constants';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import {useDispatch, useSelector} from 'react-redux';
+import {FIREBASE_APP, database} from '../firebase';
+import {ref, set} from 'firebase/database';
 
 import {
   HeaderBar,
@@ -28,10 +31,39 @@ import {
 
 // this screen for driver details for selected driver
 
-const DriverDetails = ({route, dropLocation, pickupLocation}) => {
+const DriverDetails = () => {
   const navigation = useNavigation();
+  const [userDetails, setUserDetails] = useState({});
+  const route = useRoute();
+  const {origin, destination} = useSelector(state => state.mapData);
+  const {user} = useSelector(state => state.userLogIn);
 
-  const driver = route.params;
+  useEffect(() => {
+    console.log(user);
+    setUserDetails(user);
+  }, [user]);
+
+  const {item, rideDetails} = route.params;
+  console.log(item);
+  console.log(rideDetails);
+
+  const StartRide = async () => {
+    set(ref(database, 'request/', user.employeeId), {
+      EmpName1: user.FirstName,
+      EmpName2: user.LastName,
+      EmpNo: user.phone,
+      pickupLocation: origin,
+      droplocation: destination,
+    })
+      .then(() => {
+        alert('request send successfully!');
+        navigation.navigate('PendingDriver', rideDetails);
+      })
+      .catch(error => {
+        console.error('Error sending request: ', error);
+        alert('Failed to send request. Please try again.');
+      });
+  };
 
   function renderMap() {
     return (
@@ -47,7 +79,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
         {/* header */}
         <HeaderBar
           leftOnPressed={() => {
-            navigation.navigate('SeleDriver');
+            navigation.goBack();
           }}
           icon={icons.left_arrow}
           iconStyle3={{
@@ -94,7 +126,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
               }}>
               <View style={styles.Circle}>
                 <Image
-                  source={driver.Image}
+                  source={require('../assets/images/pro.jpg')}
                   style={styles.profileimage}
                   resizeMode="center"
                 />
@@ -113,7 +145,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                     fontSize: 23,
                     marginLeft: 20,
                   }}>
-                  {driver.name}
+                  {item.DriverID}
                 </Text>
                 <Text
                   style={{
@@ -123,7 +155,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                     fontSize: 15,
                     marginLeft: 20,
                   }}>
-                  {driver.vehicleNo}
+                  {item.vehicleNo}
                 </Text>
                 <Text
                   style={{
@@ -131,7 +163,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                     marginLeft: 20,
                     marginTop: 5,
                   }}>
-                  {driver.vehicleType} * {driver.condition}
+                  {item.VehicleType} * {item.VehicleCon}
                 </Text>
                 <Image
                   source={require('../assets/icons/Seats.png')}
@@ -150,22 +182,22 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                     marginLeft: 60,
                     marginTop: -25,
                   }}>
-                  {driver.sheetcount} Seats Available
+                  {item.VehicleNoS} Available
                 </Text>
 
-                <Image
+                {/* <Image
                   source={require('../assets/images/Star.png')}
                   style={styles.Star}
                   resizeMode="center"
-                />
-                <Text
+                /> */}
+                {/* <Text
                   style={{
                     marginTop: -27,
                     marginLeft: -55,
                     ...FONTS.h2,
                   }}>
                   {driver.ratings}
-                </Text>
+                </Text> */}
               </View>
             </View>
 
@@ -176,8 +208,8 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                 alignItems: 'center',
                 marginTop: 20,
               }}>
-              <Image source={driver.vehiclePhoto1} style={styles.Star1} />
-              <Image source={driver.vehiclePhoto2} style={styles.Star1} />
+              {/* <Image source={driver.vehiclePhoto1} style={styles.Star1} />
+              <Image source={driver.vehiclePhoto2} style={styles.Star1} /> */}
             </View>
             <View
               style={{
@@ -186,8 +218,8 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
                 alignItems: 'center',
                 marginTop: 20,
               }}>
-              <Image source={driver.vehiclePhoto3} style={styles.Star1} />
-              <Image source={driver.vehiclePhoto4} style={styles.Star1} />
+              {/* <Image source={driver.vehiclePhoto3} style={styles.Star1} />
+              <Image source={driver.vehiclePhoto4} style={styles.Star1} /> */}
             </View>
           </View>
         </View>
@@ -212,8 +244,8 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
         <View style={styles.Star2}>
           <MapComponentRoute
             style={styles.map}
-            pickupLocation={pickupLocation}
-            dropLocation={dropLocation}></MapComponentRoute>
+            pickupLocation={rideDetails.origin}
+            dropLocation={rideDetails.destination}></MapComponentRoute>
         </View>
 
         <TextIconButton
@@ -232,9 +264,7 @@ const DriverDetails = ({route, dropLocation, pickupLocation}) => {
             marginLeft: -15,
             ...FONTS.h2,
           }}
-          onPress={() => {
-            navigation.navigate('PendingDriver');
-          }}
+          onPress={StartRide}
         />
       </View>
     );
@@ -317,12 +347,13 @@ const styles = StyleSheet.create({
   Star2: {
     width: SIZES.width * 0.8,
     height: 170,
-    borderRadius: 30,
+    borderRadius: 40,
     marginHorizontal: 20,
   },
 
   map: {
     marginTop: 20,
+    borderRadius: 40,
   },
   //   header: {
   //     flex: 1,

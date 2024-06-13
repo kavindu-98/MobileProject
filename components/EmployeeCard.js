@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,76 @@ import {
 } from 'react-native';
 import TextIconButton from './TextIconButton';
 import {useNavigation} from '@react-navigation/native';
+import {onValue, ref, set} from 'firebase/database';
+import {database} from '../firebase';
 
 import {COLORS, FONTS, SIZES, icons, images, dummyData} from '../constants';
 const {width, height} = Dimensions.get('window');
 
 const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
+  const [ReqDetails, setReqDetails] = useState({});
+  const [IsAccept, setIsAccept] = useState('');
+  const [showRequest, setShowRequest] = useState(true);
+  useEffect(() => {
+    ReadRide();
+
+    // console.log('vehicle:', vehicle);
+  }, []);
+
+  const ReadRide = async () => {
+    const startCountRef = ref(database, 'request/');
+    onValue(
+      startCountRef,
+      snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          setReqDetails(data);
+          console.log('vehicle:', ReqDetails);
+          alert('Req read successfully!');
+        } else {
+          console.error('No data available');
+          alert('Failed to read Request. Please try again.');
+        }
+      },
+      error => {
+        console.error('Error reading Request: ', error);
+        alert('Failed to read Request. Please try again.');
+      },
+    );
+  };
+  const AccReq = async () => {
+    setIsAccept(true);
+    console.log(IsAccept);
+    set(ref(database, 'AccReq/'), {
+      Request: IsAccept,
+    })
+      .then(() => {
+        alert('Accept req added successfully!');
+        navigation.navigate('DFinishRide', ReqDetails);
+      })
+      .catch(error => {
+        console.error('Error Accept req: ', error);
+        alert('Failed to Accept req. Please try again.');
+      });
+  };
+  const RejReq = async () => {
+    setIsAccept(false);
+    setShowRequest(false);
+    console.log(IsAccept);
+    set(ref(database, 'AccReq/'), {
+      Request: IsAccept,
+    })
+      .then(() => {
+        alert('reject req added successfully!');
+        // navigation.navigate('DFinishRide');
+      })
+      .catch(error => {
+        console.error('Error reject req: ', error);
+        alert('Failed to reject req. Please try again.');
+      });
+  };
   const navigation = useNavigation();
-  return (
+  const renderItem = item => (
     <View
       style={{
         height: 145,
@@ -34,7 +97,10 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
       }}>
       <View style={{flexDirection: 'column'}}>
         <View style={styles.Circle}>
-          <Image source={ImageUri} style={styles.profileimage} />
+          <Image
+            source={require('../assets/images/pro.jpg')}
+            style={styles.profileimage}
+          />
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image
@@ -71,7 +137,7 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
             marginTop: 2,
             color: COLORS.black,
           }}>
-          {Name}
+          {item.EmpName1}
         </Text>
         <Text
           style={{
@@ -79,7 +145,7 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
             marginLeft: 60,
             marginTop: 5,
           }}>
-          {PhoneNo}
+          {item.EmpNo}
         </Text>
         <Image
           source={require('../assets/images/Line1.png')}
@@ -92,11 +158,11 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
             tintColor: COLORS.gray20,
           }}
         />
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
-          }}>
-          <View>
+          }}> */}
+        {/* <View>
             <Image
               source={require('../assets/icons/StartL.png')}
               resizeMode="contain"
@@ -114,10 +180,10 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
                 marginLeft: 84,
                 marginTop: -21,
               }}>
-              Peliyagoda
+              {item.name}
             </Text>
-          </View>
-          <View
+          </View> */}
+        {/* <View
             style={{
               marginLeft: -45,
             }}>
@@ -138,10 +204,10 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
                 marginLeft: 84,
                 marginTop: -21,
               }}>
-              Katunayake
+             
             </Text>
-          </View>
-        </View>
+          </View> */}
+        {/* // </View> */}
 
         <View
           style={{
@@ -165,9 +231,7 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
               marginLeft: -15,
               ...FONTS.h4,
             }}
-            onPress={() => {
-              navigation.navigate('');
-            }}
+            onPress={AccReq}
           />
           <TextIconButton
             label="CANCEL"
@@ -187,12 +251,25 @@ const EmployeeCard = ({ImageUri, Name, PhoneNo}) => {
               marginLeft: -15,
               ...FONTS.h4,
             }}
-            onPress={() => {
-              navigation.navigate('');
-            }}
+            onPress={RejReq}
           />
         </View>
       </View>
+    </View>
+  );
+  return (
+    <View>
+      {showRequest ? (
+        <ScrollView>
+          {ReqDetails ? (
+            renderItem(ReqDetails)
+          ) : (
+            <Text>No Request available</Text>
+          )}
+        </ScrollView>
+      ) : (
+        <Text>No Request available</Text>
+      )}
     </View>
   );
 };

@@ -49,7 +49,7 @@ const DHomeScreen = () => {
       setDriverDetails(driver._doc);
     }
   }, []);
-  console.log('driverdetail', driverDetails);
+  console.log('driverdetail', driver);
   var days = [
     'Sunday',
     'Monday',

@@ -17,7 +17,9 @@ import VehicleCard from './VehicleCard';
 import SavedLocation from './SavedLocation';
 import MapComponentRoute from './MapComponentRoute';
 import MapComponentDriver from './MapComponentDriver';
+import MapComponentDriverstart from './MapComponentDriverstart';
 import VehicleList from './VehicleList';
+import MapComponentstart from './MapComponentstart';
 
 export {
   LoginComponent,
@@ -40,4 +42,6 @@ export {
   MapComponentDriver,
   VehicleCard,
   VehicleList,
+  MapComponentDriverstart,
+  MapComponentstart,
 };

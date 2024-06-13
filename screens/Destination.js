@@ -123,7 +123,7 @@ const Destination = ({route}) => {
             <IconButton
               icon={icons.map}
               onPress={() => {
-                navigation.navigate('SetDesM');
+                navigation.navigate('');
               }}
               iconStyle={{
                 marginLeft: 35,
@@ -138,7 +138,7 @@ const Destination = ({route}) => {
               placeholder="Enter Destination"
               listViewDisplayed="auto"
               debounce={400}
-              currentLocation={true}
+              currentLocation={false}
               currentLocationLabel="Current Location"
               // ref={textInput1}
               minLength={2}
